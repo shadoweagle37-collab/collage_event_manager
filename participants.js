@@ -413,3 +413,306 @@ document.addEventListener(
     renderTable(participants);
 
 });
+/* ==========================================================
+   PARTICIPANT EDIT
+========================================================== */
+
+function editParticipant(id){
+
+    participants = getParticipants();
+
+    const participant = participants.find(p => p.id === id);
+
+    if(!participant){
+
+        showToast("Participant not found.","#EF4444");
+
+        return;
+
+    }
+
+    const newName = prompt(
+        "Edit Name",
+        participant.name
+    );
+
+    if(newName === null) return;
+
+    const newPhone = prompt(
+        "Edit Phone",
+        participant.phone
+    );
+
+    if(newPhone === null) return;
+
+    participant.name = newName.trim();
+
+    participant.phone = newPhone.trim();
+
+    saveParticipants(participants);
+
+    showToast("Participant Updated");
+
+    filterParticipants();
+
+}
+
+/* ==========================================================
+   DELETE MODAL
+========================================================== */
+
+function openDeleteModal(id){
+
+    deleteId = id;
+
+    confirmModal.style.display = "flex";
+
+}
+
+cancelDelete.addEventListener(
+
+"click",
+
+()=>{
+
+    confirmModal.style.display="none";
+
+    deleteId = null;
+
+});
+
+window.addEventListener(
+
+"click",
+
+(e)=>{
+
+    if(e.target===confirmModal){
+
+        confirmModal.style.display="none";
+
+        deleteId=null;
+
+    }
+
+});
+
+/* ==========================================================
+   DELETE PARTICIPANT
+========================================================== */
+
+confirmDelete.addEventListener(
+
+"click",
+
+()=>{
+
+    if(deleteId===null) return;
+
+const participant = participants.find(
+    p => p.id === deleteId
+);
+
+if(participant){
+
+    const events = getEvents();
+
+    const event = events.find(
+        e => e.id === participant.eventId
+    );
+
+    if(event){
+
+        if(event.availableSeats < event.maxSeats){
+
+            event.availableSeats++;
+
+            updateEvent(event);
+
+        }
+
+    }
+
+}
+
+participants = participants.filter(
+    p => p.id !== deleteId
+);
+
+saveParticipants(participants);
+
+    showToast(
+
+        "Participant Deleted",
+
+        "#EF4444"
+
+    );
+
+    confirmModal.style.display="none";
+
+    deleteId=null;
+
+    filterParticipants();
+
+});
+
+/* ==========================================================
+   CSV EXPORT
+========================================================== */
+
+downloadCSV.addEventListener(
+
+"click",
+
+()=>{
+
+    participants = getParticipants();
+
+    if(participants.length===0){
+
+        showToast(
+
+            "No Participants Found",
+
+            "#EF4444"
+
+        );
+
+        return;
+
+    }
+
+    let csv =
+
+`ID,Name,Email,Phone,Department,Year,Gender,Event,Registration Date\n`;
+
+    participants.forEach(item=>{
+
+        csv +=
+
+`${item.id},"${item.name}","${item.email}","${item.phone}","${item.department}","${item.year}","${item.gender}","${getEventName(item.eventId)}","${item.registrationDate}"\n`;
+
+    });
+
+    const blob =
+
+    new Blob(
+
+        [csv],
+
+        {
+
+            type:"text/csv"
+
+        }
+
+    );
+
+    const url =
+
+    URL.createObjectURL(blob);
+
+    const link =
+
+    document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+
+    "participants.csv";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    showToast(
+
+        "CSV Downloaded"
+
+    );
+
+});
+
+/* ==========================================================
+   STORAGE REFRESH
+========================================================== */
+
+window.addEventListener(
+
+"storage",
+
+()=>{
+
+    participants=getParticipants();
+
+    events=getEvents();
+
+    filterParticipants();
+
+});
+
+/* ==========================================================
+   OPTIONAL REFRESH
+========================================================== */
+
+function refreshParticipants(){
+
+    participants=getParticipants();
+
+    events=getEvents();
+
+    filterParticipants();
+
+}
+
+/* ==========================================================
+   INITIALIZE
+========================================================== */
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+    refreshParticipants();
+
+});
+
+/* ==========================================================
+   KEYBOARD SHORTCUT
+========================================================== */
+
+document.addEventListener(
+
+"keydown",
+
+e=>{
+
+    if(
+
+        e.key==="Escape"
+
+        &&
+
+        confirmModal.style.display==="flex"
+
+    ){
+
+        confirmModal.style.display="none";
+
+        deleteId=null;
+
+    }
+
+});
+
+/* ==========================================================
+   END OF FILE
+========================================================== */

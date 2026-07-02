@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>College Event Management System</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>College Events</span>
+        </div>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li><a href="index.html" class="active">Home</a></li>
+
+                <li><a href="events.html">Events</a></li>
+
+                <li><a href="register.html">Register</a></li>
+
+                <li><a href="dashboard.html">Dashboard</a></li>
+
+                <li><a href="participants.html">Participants</a></li>
+
+                <li><a href="#contact">Contact</a></li>
+
+            </ul>
+
+        </nav>
+
+        <button id="darkModeBtn" aria-label="Dark Mode">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+
+    </header>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                College Event
+                <span>Management System</span>
+            </h1>
+
+            <p>
+                Register, Explore and Participate in exciting college events
+                through one modern portal.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="events.html" class="btn primary-btn">
+                    Explore Events
+                </a>
+
+                <a href="register.html" class="btn secondary-btn">
+                    Register Now
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+            <h2 id="totalEvents">0</h2>
+
+            <p>Total Events</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h2 id="totalParticipants">0</h2>
+
+            <p>Participants</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-chair"></i>
+
+            <h2 id="availableSeats">0</h2>
+
+            <p>Available Seats</p>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FEATURED EVENTS ================= -->
+
+    <section class="featured">
+
+        <h2>Upcoming Events</h2>
+
+        <div id="featuredEvents" class="event-grid">
+
+            <!-- Event Cards will be loaded using JavaScript -->
+
+        </div>
+
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+
+    <section class="about">
+
+        <h2>Why Choose Our Platform?</h2>
+
+        <div class="about-grid">
+
+            <div class="about-card">
+
+                <i class="fa-solid fa-bolt"></i>
+
+                <h3>Fast Registration</h3>
+
+                <p>
+                    Register for college events within seconds.
+                </p>
+
+            </div>
+
+            <div class="about-card">
+
+                <i class="fa-solid fa-layer-group"></i>
+
+                <h3>Organized Events</h3>
+
+                <p>
+                    Easily browse all technical, sports and cultural events.
+                </p>
+
+            </div>
+
+            <div class="about-card">
+
+                <i class="fa-solid fa-shield-heart"></i>
+
+                <h3>Secure Storage</h3>
+
+                <p>
+                    Data is stored locally for frontend simulation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+
+    <section id="contact" class="contact">
+
+        <h2>Contact</h2>
+
+        <p>ABC College of Technology</p>
+
+        <p>Email : events@college.edu</p>
+
+        <p>Phone : +91 9876543210</p>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="social-icons">
+
+            <a href="#"><i class="fab fa-facebook"></i></a>
+
+            <a href="#"><i class="fab fa-instagram"></i></a>
+
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+
+            <a href="#"><i class="fab fa-github"></i></a>
+
+        </div>
+
+        <p>
+            © 2026 College Event Management System.
+            All Rights Reserved.
+        </p>
+
+    </footer>
+
+    <!-- ================= BACK TO TOP ================= -->
+
+    <button id="backToTop" aria-label="Back To Top">
+
+        <i class="fa-solid fa-arrow-up"></i>
+
+    </button>
+
+    <!-- Main JavaScript -->
+
+    <script src="storage.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>

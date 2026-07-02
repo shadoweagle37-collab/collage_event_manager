@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Participants | College Event Management System</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="stylesheet"
+href="style.css">
+
+<link rel="stylesheet"
+href="dashboard.css">
+
+<link rel="stylesheet"
+href="responsive.css">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+<div class="logo">
+
+<i class="fa-solid fa-graduation-cap"></i>
+
+<span>College Events</span>
+
+</div>
+
+<nav>
+
+<ul class="nav-links">
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="events.html">Events</a></li>
+
+<li><a href="register.html">Register</a></li>
+
+<li><a href="dashboard.html">Dashboard</a></li>
+
+<li><a href="participants.html" class="active">
+
+Participants
+
+</a></li>
+
+</ul>
+
+</nav>
+
+<button id="darkModeBtn">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
+
+</header>
+
+<!-- ========================= -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+
+Participant Management
+
+</h1>
+
+<p>
+
+View, Edit, Search and Export
+registered students.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+
+<section>
+
+<h2>
+
+Participants
+
+</h2>
+
+<div class="filter-container">
+
+<input
+type="text"
+id="searchName"
+placeholder="Search by Name">
+
+<input
+type="text"
+id="searchDepartment"
+placeholder="Search by Department">
+
+<input
+type="text"
+id="searchEvent"
+placeholder="Search by Event">
+
+<select id="sortParticipant">
+
+<option value="default">
+
+Sort By
+
+</option>
+
+<option value="name">
+
+Name
+
+</option>
+
+<option value="department">
+
+Department
+
+</option>
+
+<option value="event">
+
+Event
+
+</option>
+
+<option value="date">
+
+Registration Date
+
+</option>
+
+</select>
+
+<button
+id="downloadCSV"
+class="btn primary-btn">
+
+<i class="fa-solid fa-download"></i>
+
+Export CSV
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+
+<section>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Phone</th>
+
+<th>Department</th>
+
+<th>Year</th>
+
+<th>Gender</th>
+
+<th>Event</th>
+
+<th>Date</th>
+
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="participantTable">
+
+<!-- JavaScript -->
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+
+<div
+id="confirmModal"
+class="modal">
+
+<div class="modal-content">
+
+<h2>
+
+Delete Participant?
+
+</h2>
+
+<p>
+
+This action cannot be undone.
+
+</p>
+
+<div class="modal-buttons">
+
+<button
+id="cancelDelete"
+class="btn secondary-btn">
+
+Cancel
+
+</button>
+
+<button
+id="confirmDelete"
+class="btn primary-btn">
+
+Delete
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+
+<footer>
+
+<div class="social-icons">
+
+<a href="#">
+
+<i class="fab fa-facebook"></i>
+
+</a>
+
+<a href="#">
+
+<i class="fab fa-instagram"></i>
+
+</a>
+
+<a href="#">
+
+<i class="fab fa-linkedin"></i>
+
+</a>
+
+<a href="#">
+
+<i class="fab fa-github"></i>
+
+</a>
+
+</div>
+
+<p>
+
+© 2026 College Event Management System
+
+</p>
+
+</footer>
+
+<button
+id="backToTop">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+<script src="storage.js"></script>
+
+<script src="app.js"></script>
+
+<script src="participants.js"></script>
+
+</body>
+
+</html>

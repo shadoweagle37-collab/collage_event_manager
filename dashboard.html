@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Organizer Dashboard | College Event Management System</title>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="style.css">
+
+    <link rel="stylesheet"
+          href="dashboard.css">
+
+    <link rel="stylesheet"
+          href="responsive.css">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+
+        <i class="fa-solid fa-graduation-cap"></i>
+
+        <span>College Events</span>
+
+    </div>
+
+    <nav>
+
+        <ul class="nav-links">
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="events.html">Events</a></li>
+
+            <li><a href="register.html">Register</a></li>
+
+            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+
+            <li><a href="participants.html">Participants</a></li>
+
+        </ul>
+
+    </nav>
+
+    <button id="darkModeBtn">
+
+        <i class="fa-solid fa-moon"></i>
+
+    </button>
+
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+
+            Organizer Dashboard
+
+        </h1>
+
+        <p>
+
+            Monitor events, participants and registrations
+            from one professional dashboard.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ================= STATISTICS ================= -->
+
+<section>
+
+<h2>Dashboard Overview</h2>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card">
+
+<i class="fa-solid fa-calendar-days"></i>
+
+<h3 id="totalEventsCard">0</h3>
+
+<p>Total Events</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<i class="fa-solid fa-users"></i>
+
+<h3 id="totalParticipantsCard">0</h3>
+
+<p>Total Participants</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<i class="fa-solid fa-calendar-check"></i>
+
+<h3 id="todayEventsCard">0</h3>
+
+<p>Today's Events</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<i class="fa-solid fa-clock"></i>
+
+<h3 id="upcomingEventsCard">0</h3>
+
+<p>Upcoming Events</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<i class="fa-solid fa-chair"></i>
+
+<h3 id="availableSeatsCard">0</h3>
+
+<p>Available Seats</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<i class="fa-solid fa-chart-line"></i>
+
+<h3 id="filledSeatsCard">0</h3>
+
+<p>Seats Filled</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= PROGRESS ================= -->
+
+<section>
+
+<h2>Registration Progress</h2>
+
+<div class="progress-wrapper">
+
+<div class="progress-box">
+
+<div class="progress-title">
+
+<span>Seat Occupancy</span>
+
+<span id="seatPercentage">
+
+0%
+
+</span>
+
+</div>
+
+<div class="progress-bar">
+
+<div
+id="seatProgress"
+class="progress-fill">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= CHART ================= -->
+
+<section>
+
+<h2>Participants Chart</h2>
+
+<div class="chart-container">
+
+<canvas
+id="participantsChart"
+width="800"
+height="350">
+
+</canvas>
+
+</div>
+
+</section>
+
+<!-- ================= RECENT EVENTS ================= -->
+
+<section>
+
+<h2>Recent Events</h2>
+
+<div
+id="recentEvents"
+class="dashboard-list">
+
+<!-- JavaScript -->
+
+</div>
+
+</section>
+
+<!-- ================= RECENT REGISTRATIONS ================= -->
+
+<section>
+
+<h2>Recent Registrations</h2>
+
+<div
+id="recentParticipants"
+class="dashboard-list">
+
+<!-- JavaScript -->
+
+</div>
+
+</section>
+
+<!-- ================= QUICK ACTIONS ================= -->
+
+<section>
+
+<h2>Quick Actions</h2>
+
+<div class="action-grid">
+
+<a
+href="events.html"
+class="btn primary-btn">
+
+<i class="fa-solid fa-calendar-plus"></i>
+
+View Events
+
+</a>
+
+<a
+href="register.html"
+class="btn secondary-btn">
+
+<i class="fa-solid fa-user-plus"></i>
+
+New Registration
+
+</a>
+
+<a
+href="participants.html"
+class="btn primary-btn">
+
+<i class="fa-solid fa-users"></i>
+
+Manage Participants
+
+</a>
+
+</div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<div class="social-icons">
+
+<a href="#">
+
+<i class="fab fa-facebook"></i>
+
+</a>
+
+<a href="#">
+
+<i class="fab fa-instagram"></i>
+
+</a>
+
+<a href="#">
+
+<i class="fab fa-linkedin"></i>
+
+</a>
+
+<a href="#">
+
+<i class="fab fa-github"></i>
+
+</a>
+
+</div>
+
+<p>
+
+© 2026 College Event Management System
+
+</p>
+
+</footer>
+
+<button
+id="backToTop">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+<!-- Scripts -->
+
+<script src="storage.js"></script>
+
+<script src="app.js"></script>
+
+<script src="dashboard.js"></script>
+
+</body>
+
+</html>
