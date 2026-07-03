@@ -230,6 +230,82 @@ class="modal">
 
 <div class="modal-content">
 
+
+<div id="editModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Edit Participant</h2>
+
+        <form id="editParticipantForm">
+
+            <div class="form-group">
+
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    id="editName"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Phone</label>
+
+                <input
+                    type="text"
+                    id="editPhone"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Department</label>
+
+                <select id="editDepartment">
+
+                    <option>Computer Science</option>
+                    <option>Information Technology</option>
+                    <option>Mechanical</option>
+                    <option>Civil</option>
+                    <option>Electrical</option>
+                    <option>Commerce</option>
+                    <option>Arts</option>
+
+                </select>
+
+            </div>
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    id="closeEditModal"
+                    class="btn secondary-btn">
+
+                    Cancel
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn primary-btn">
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>    
+
 <h2>
 
 Delete Participant?
