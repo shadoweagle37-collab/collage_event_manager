@@ -2,244 +2,1740 @@
 <html lang="en">
 
 <head>
+
+    <!-- =========================================
+                BASIC META
+    ========================================== -->
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>College Event Management System</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <title>
+        EventHub | College Event Management System
+    </title>
 
-    <!-- Font Awesome -->
+    <meta name="description"
+          content="EventHub is a modern College Event Management System that helps students discover, register and participate in college events with an intuitive dashboard and seamless experience.">
+
+    <meta name="keywords"
+          content="College Events, EventHub, Event Management, Student Portal, Registration, Dashboard">
+
+    <meta name="author"
+          content="EventHub">
+
+    <meta name="theme-color"
+          content="#6C63FF">
+
+    <meta name="color-scheme"
+          content="light dark">
+
+    <!-- =========================================
+                OPEN GRAPH
+    ========================================== -->
+
+    <meta property="og:title"
+          content="EventHub">
+
+    <meta property="og:description"
+          content="Modern College Event Management System">
+
+    <meta property="og:type"
+          content="website">
+
+    <meta property="og:image"
+          content="assets/images/preview.png">
+
+    <!-- =========================================
+                FAVICON
+    ========================================== -->
+
+    <link rel="icon"
+          href="assets/images/favicon.png">
+
+    <!-- =========================================
+                GOOGLE FONT
+    ========================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- =========================================
+                FONT AWESOME
+    ========================================== -->
+
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="responsive.css">
+    <!-- =========================================
+                CSS
+    ========================================== -->
+
+    <link rel="stylesheet"
+          href="style.css">
+
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+<!-- =========================================
+                PAGE LOADER
+========================================== -->
 
-    <header class="navbar">
+<div class="loader-wrapper"
+     id="loader">
 
-        <div class="logo">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>College Events</span>
+    <div class="loader">
+
+        <div class="loader-ring"></div>
+
+        <div class="loader-logo">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
         </div>
 
-        <nav>
+    </div>
+
+    <h2>
+
+        EventHub
+
+    </h2>
+
+    <p>
+
+        College Event Management System
+
+    </p>
+
+</div>
+
+
+<!-- =========================================
+                NAVBAR
+========================================== -->
+
+<header class="navbar">
+
+    <div class="container navbar-container">
+
+        <!-- Logo -->
+
+        <a href="index.html"
+           class="logo"
+           aria-label="EventHub Home">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+            </div>
+
+            <div class="logo-text">
+
+                <span class="brand">
+
+                    EventHub
+
+                </span>
+
+                <small>
+
+                    College Event Management System
+
+                </small>
+
+            </div>
+
+        </a>
+
+
+        <!-- Navigation -->
+
+        <nav
+            class="nav-menu"
+            id="navMenu"
+            aria-label="Primary Navigation">
 
             <ul class="nav-links">
 
-                <li><a href="index.html" class="active">Home</a></li>
+                <li>
 
-                <li><a href="events.html">Events</a></li>
+                    <a href="index.html"
+                       class="active">
 
-                <li><a href="register.html">Register</a></li>
+                        Home
 
-                <li><a href="dashboard.html">Dashboard</a></li>
+                    </a>
 
-                <li><a href="participants.html">Participants</a></li>
+                </li>
 
-                <li><a href="#contact">Contact</a></li>
+                <li>
+
+                    <a href="events.html">
+
+                        Events
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="register.html">
+
+                        Register
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="participants.html">
+
+                        Participants
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="dashboard.html">
+
+                        Dashboard
+
+                    </a>
+
+                </li>
 
             </ul>
 
         </nav>
 
-        <button id="darkModeBtn" aria-label="Dark Mode">
-            <i class="fa-solid fa-moon"></i>
-        </button>
 
-    </header>
+        <!-- Right Side -->
 
-    <!-- ================= HERO ================= -->
+        <div class="nav-actions">
 
-    <section class="hero">
+            <!-- Theme -->
 
-        <div class="hero-content">
+            <button
+                id="darkModeBtn"
+                class="theme-btn"
+                aria-label="Toggle Dark Mode">
+
+                <i class="fa-solid fa-moon"></i>
+
+            </button>
+
+            <!-- CTA -->
+
+            <a href="register.html"
+               class="btn nav-btn">
+
+                Get Started
+
+            </a>
+
+            <!-- Mobile -->
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open Navigation">
+
+                <span></span>
+
+                <span></span>
+
+                <span></span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================
+                MAIN CONTENT
+========================================== -->
+
+<main>
+    <!-- ==========================================================
+                        HERO SECTION
+=========================================================== -->
+
+<section class="hero" id="home">
+
+    <!-- Decorative Background -->
+
+    <div class="hero-bg"></div>
+
+    <div class="hero-grid"></div>
+
+    <div class="hero-noise"></div>
+
+    <div class="container hero-container">
+
+        <!-- =====================================
+                    HERO LEFT
+        ====================================== -->
+
+        <div class="hero-left">
+
+            <!-- Hero Badge -->
+
+            <div class="hero-badge">
+
+                <i class="fa-solid fa-award"></i>
+
+                <span>
+
+                    College Fest 2026 Registration Now Open
+
+                </span>
+
+            </div>
+
+            <!-- Heading -->
 
             <h1>
-                College Event
-                <span>Management System</span>
+
+                The Future of
+
+                <span>
+
+                    College Event
+
+                </span>
+
+                Management
+
             </h1>
 
+            <!-- Description -->
+
             <p>
-                Register, Explore and Participate in exciting college events
-                through one modern portal.
+
+                EventHub simplifies event planning, student registrations,
+
+                participation tracking and college activities through one
+
+                intelligent platform built for modern campuses.
+
             </p>
+
+            <!-- CTA -->
 
             <div class="hero-buttons">
 
-                <a href="events.html" class="btn primary-btn">
-                    Explore Events
+                <a href="register.html"
+
+                   class="btn primary-btn">
+
+                    Register Now
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
                 </a>
 
-                <a href="register.html" class="btn secondary-btn">
-                    Register Now
+                <a href="events.html"
+
+                   class="btn secondary-btn">
+
+                    Explore Events
+
                 </a>
+
+            </div>
+
+            <!-- Hero Statistics -->
+
+            <div class="hero-stats">
+
+                <article class="hero-stat">
+
+                    <h2>
+
+                        <span class="counter"
+
+                              data-target="2500">
+
+                            0
+
+                        </span>
+
+                        +
+
+                    </h2>
+
+                    <p>
+
+                        Active Students
+
+                    </p>
+
+                </article>
+
+                <article class="hero-stat">
+
+                    <h2>
+
+                        <span class="counter"
+
+                              data-target="120">
+
+                            0
+
+                        </span>
+
+                        +
+
+                    </h2>
+
+                    <p>
+
+                        College Events
+
+                    </p>
+
+                </article>
+
+                <article class="hero-stat">
+
+                    <h2>
+
+                        <span class="counter"
+
+                              data-target="98">
+
+                            0
+
+                        </span>
+
+                        %
+
+                    </h2>
+
+                    <p>
+
+                        Success Rate
+
+                    </p>
+
+                </article>
+
+                <article class="hero-stat">
+
+                    <h2>
+
+                        <span class="counter"
+
+                              data-target="35">
+
+                            0
+
+                        </span>
+
+                        +
+
+                    </h2>
+
+                    <p>
+
+                        Partner Colleges
+
+                    </p>
+
+                </article>
+
+            </div>
+
+            <!-- Trusted -->
+
+            <div class="hero-trusted">
+
+                <span>
+
+                    Trusted by Students Across Colleges
+
+                </span>
+
+                <div class="trusted-icons">
+
+                    <i class="fa-solid fa-graduation-cap"></i>
+
+                    <i class="fa-solid fa-medal"></i>
+
+                    <i class="fa-solid fa-users"></i>
+
+                    <i class="fa-solid fa-building-columns"></i>
+
+                </div>
 
             </div>
 
         </div>
 
-    </section>
+        <!-- =====================================
+                    HERO RIGHT
+        ====================================== -->
 
-    <!-- ================= STATS ================= -->
+        <div class="hero-right">
 
-    <section class="stats">
+            <!-- Dashboard -->
 
-        <div class="stat-card">
+            <div class="dashboard-preview glass">
 
-            <i class="fa-solid fa-calendar-days"></i>
+                <!-- Dashboard Header -->
 
-            <h2 id="totalEvents">0</h2>
+                <div class="dashboard-top">
 
-            <p>Total Events</p>
+                    <div class="dashboard-title">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        <div>
+
+                            <strong>
+
+                                Event Dashboard
+
+                            </strong>
+
+                            <small>
+
+                                Live Analytics
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="status online">
+
+                        ● Live
+
+                    </span>
+
+                </div>
+
+                <!-- Analytics -->
+
+                <div class="dashboard-cards">
+
+                    <div class="dash-card">
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <h3>
+
+                            2540
+
+                        </h3>
+
+                        <span>
+
+                            Participants
+
+                        </span>
+
+                    </div>
+
+                    <div class="dash-card">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                        <h3>
+
+                            120
+
+                        </h3>
+
+                        <span>
+
+                            Events
+
+                        </span>
+
+                    </div>
+
+                    <div class="dash-card">
+
+                        <i class="fa-solid fa-trophy"></i>
+
+                        <h3>
+
+                            18
+
+                        </h3>
+
+                        <span>
+
+                            Competitions
+
+                        </span>
+
+                    </div>
+
+                    <div class="dash-card">
+
+                        <i class="fa-solid fa-star"></i>
+
+                        <h3>
+
+                            4.9
+
+                        </h3>
+
+                        <span>
+
+                            Student Rating
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- Progress -->
+
+                <div class="dashboard-progress">
+
+                    <span>
+
+                        Registration Progress
+
+                    </span>
+
+                    <div class="progress">
+
+                        <div class="progress-fill"></div>
+
+                             </div>
+                </div>
+
+                <!-- ===============================
+                        RECENT ACTIVITY
+                ================================ -->
+
+                <div class="dashboard-activity">
+
+                    <div class="activity-item">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <div>
+
+                            <strong>
+
+                                Coding Challenge
+
+                            </strong>
+
+                            <span>
+
+                                Registration Open
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <i class="fa-solid fa-user-plus"></i>
+
+                        <div>
+
+                            <strong>
+
+                                250 New Participants
+
+                            </strong>
+
+                            <span>
+
+                                Last 24 Hours
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <i class="fa-solid fa-trophy"></i>
+
+                        <div>
+
+                            <strong>
+
+                                Winners Announced
+
+                            </strong>
+
+                            <span>
+
+                                Photography Contest
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =====================================
+                    FLOATING CARDS
+            ====================================== -->
+
+            <div class="floating-card card-one glass">
+
+                <div class="floating-icon">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>
+
+                        25 New Registrations
+
+                    </h4>
+
+                    <span>
+
+                        Just Now
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="floating-card card-two glass">
+
+                <div class="floating-icon">
+
+                    <i class="fa-solid fa-certificate"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>
+
+                        Certificates Ready
+
+                    </h4>
+
+                    <span>
+
+                        Download Available
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="floating-card card-three glass">
+
+                <div class="floating-icon">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>
+
+                        Tech Fest 2026
+
+                    </h4>
+
+                    <span>
+
+                        Starts Tomorrow
+
+                    </span>
+
+                </div>
+
+            </div>
 
         </div>
 
-        <div class="stat-card">
+    </div>
 
-            <i class="fa-solid fa-users"></i>
+    <!-- =====================================
+                SCROLL INDICATOR
+    ====================================== -->
 
-            <h2 id="totalParticipants">0</h2>
+    <div class="scroll-indicator">
 
-            <p>Participants</p>
+        <span>
 
-        </div>
+            Scroll to Explore
 
-        <div class="stat-card">
+        </span>
 
-            <i class="fa-solid fa-chair"></i>
+        <div class="scroll-mouse">
 
-            <h2 id="availableSeats">0</h2>
-
-            <p>Available Seats</p>
-
-        </div>
-
-    </section>
-
-    <!-- ================= FEATURED EVENTS ================= -->
-
-    <section class="featured">
-
-        <h2>Upcoming Events</h2>
-
-        <div id="featuredEvents" class="event-grid">
-
-            <!-- Event Cards will be loaded using JavaScript -->
+            <div class="scroll-wheel"></div>
 
         </div>
 
-    </section>
+    </div>
 
-    <!-- ================= ABOUT ================= -->
+</section>
+<!-- ================= END HERO ================= -->
+            
 
-    <section class="about">
+<!-- ==========================================================
+                        FEATURES
+=========================================================== -->
 
-        <h2>Why Choose Our Platform?</h2>
+<section class="features section" id="features">
 
-        <div class="about-grid">
+    <div class="container">
 
-            <div class="about-card">
+        <div class="section-header">
+
+            <span class="section-tag">
+
+                Why EventHub
+
+            </span>
+
+            <h2>
+
+                Everything You Need To Manage
+                <span>College Events</span>
+
+            </h2>
+
+            <p>
+
+                EventHub combines registration, participant management,
+                scheduling and analytics into one intuitive platform.
+
+            </p>
+
+        </div>
+
+        <div class="features-grid">
+
+            <!-- Feature -->
+
+            <article class="feature-card glass">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
+                <h3>
+
+                    Easy Registration
+
+                </h3>
+
+                <p>
+
+                    Students can register for events
+                    within seconds using a clean and
+                    intuitive interface.
+
+                </p>
+
+            </article>
+
+            <!-- Feature -->
+
+            <article class="feature-card glass">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+                <h3>
+
+                    Participant Management
+
+                </h3>
+
+                <p>
+
+                    Keep participant information
+                    organized with smart management
+                    tools.
+
+                </p>
+
+            </article>
+
+            <!-- Feature -->
+
+            <article class="feature-card glass">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                </div>
+
+                <h3>
+
+                    Live Analytics
+
+                </h3>
+
+                <p>
+
+                    View registrations, attendance
+                    and participation statistics
+                    instantly.
+
+                </p>
+
+            </article>
+
+            <!-- Feature -->
+
+            <article class="feature-card glass">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                </div>
+
+                <h3>
+
+                    Secure Platform
+
+                </h3>
+
+                <p>
+
+                    Better validation and secure
+                    data handling for a reliable
+                    experience.
+
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================================
+                    FEATURED EVENTS
+=========================================================== -->
+
+<section class="featured-events section"
+         id="events">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="section-tag">
+
+                Upcoming Events
+
+            </span>
+
+            <h2>
+
+                Explore Featured
+                <span>College Events</span>
+
+            </h2>
+
+            <p>
+
+                Join exciting competitions,
+                workshops and cultural festivals
+                happening across campus.
+
+            </p>
+
+        </div>
+
+        <!-- Search -->
+
+        <div class="event-toolbar">
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+
+                    type="text"
+
+                    id="eventSearch"
+
+                    placeholder="Search events...">
+
+            </div>
+
+            <a href="events.html"
+
+               class="btn secondary-btn">
+
+                View All Events
+
+            </a>
+
+        </div>
+
+        <!-- Dynamic Events -->
+
+        <div class="events-grid"
+
+             id="featuredEvents">
+
+            <!-- JavaScript will load event cards -->
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+                    WHY CHOOSE EVENTHUB
+=========================================================== -->
+
+<section class="why-us section" id="why-us">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="section-tag">
+
+                Why Choose EventHub
+
+            </span>
+
+            <h2>
+
+                Built For Students,
+                <span>Designed For Colleges</span>
+
+            </h2>
+
+            <p>
+
+                EventHub provides an intuitive experience for students,
+                organizers and administrators while simplifying every
+                stage of event management.
+
+            </p>
+
+        </div>
+
+        <div class="why-grid">
+
+            <article class="why-card glass">
 
                 <i class="fa-solid fa-bolt"></i>
 
                 <h3>Fast Registration</h3>
 
                 <p>
-                    Register for college events within seconds.
+
+                    Register for any college event within seconds.
+
                 </p>
+
+            </article>
+
+            <article class="why-card glass">
+
+                <i class="fa-solid fa-user-shield"></i>
+
+                <h3>Secure Platform</h3>
+
+                <p>
+
+                    Better validation and secure participant records.
+
+                </p>
+
+            </article>
+
+            <article class="why-card glass">
+
+                <i class="fa-solid fa-mobile-screen"></i>
+
+                <h3>Responsive Design</h3>
+
+                <p>
+
+                    Works beautifully on desktop,
+                    tablet and mobile devices.
+
+                </p>
+
+            </article>
+
+            <article class="why-card glass">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <h3>Smart Analytics</h3>
+
+                <p>
+
+                    Real-time statistics and participation reports.
+
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================================
+                    HOW IT WORKS
+=========================================================== -->
+
+<section class="workflow section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="section-tag">
+
+                How It Works
+
+            </span>
+
+            <h2>
+
+                Join An Event
+                <span>In Three Easy Steps</span>
+
+            </h2>
+
+        </div>
+
+        <div class="workflow-grid">
+
+            <article class="step-card glass">
+
+                <div class="step-number">
+
+                    01
+
+                </div>
+
+                <h3>
+
+                    Explore Events
+
+                </h3>
+
+                <p>
+
+                    Browse all available events,
+                    workshops and competitions.
+
+                </p>
+
+            </article>
+
+            <article class="step-card glass">
+
+                <div class="step-number">
+
+                    02
+
+                </div>
+
+                <h3>
+
+                    Register
+
+                </h3>
+
+                <p>
+
+                    Complete the registration
+                    form with secure validation.
+
+                </p>
+
+            </article>
+
+            <article class="step-card glass">
+
+                <div class="step-number">
+
+                    03
+
+                </div>
+
+                <h3>
+
+                    Participate
+
+                </h3>
+
+                <p>
+
+                    Attend the event and track
+                    your participation through
+                    your dashboard.
+
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================================
+                    TESTIMONIALS
+=========================================================== -->
+
+<section class="testimonials section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="section-tag">
+
+                Testimonials
+
+            </span>
+
+            <h2>
+
+                What Students
+                <span>Are Saying</span>
+
+            </h2>
+
+        </div>
+
+        <div class="testimonial-grid">
+
+            <article class="testimonial-card glass">
+
+                <div class="testimonial-stars">
+
+                    ★★★★★
+
+                </div>
+
+                <p>
+
+                    EventHub made registration
+                    effortless and the dashboard
+                    was incredibly easy to use.
+
+                </p>
+
+                <div class="testimonial-user">
+
+                    <img
+                    src="assets/images/avatar1.jpg"
+                    alt="Student">
+
+                    <div>
+
+                        <strong>
+
+                            Rahul Sharma
+
+                        </strong>
+
+                        <span>
+
+                            Computer Science
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            <article class="testimonial-card glass">
+
+                <div class="testimonial-stars">
+
+                    ★★★★★
+
+                </div>
+
+                <p>
+
+                    The interface feels modern,
+                    responsive and much better
+                    than traditional registration
+                    systems.
+
+                </p>
+
+                <div class="testimonial-user">
+
+                    <img
+                    src="assets/images/avatar2.jpg"
+                    alt="Student">
+
+                    <div>
+
+                        <strong>
+
+                            Priya Patel
+
+                        </strong>
+
+                        <span>
+
+                            BCA Student
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            <article class="testimonial-card glass">
+
+                <div class="testimonial-stars">
+
+                    ★★★★★
+
+                </div>
+
+                <p>
+
+                    I could register and manage
+                    all my events from one place.
+                    Highly recommended.
+
+                </p>
+
+                <div class="testimonial-user">
+
+                    <img
+                    src="assets/images/avatar3.jpg"
+                    alt="Student">
+
+                    <div>
+
+                        <strong>
+
+                            Aman Verma
+
+                        </strong>
+
+                        <span>
+
+                            Engineering
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================================
+                    CALL TO ACTION
+=========================================================== -->
+
+<section class="cta section">
+
+    <div class="container">
+
+        <div class="cta-card glass">
+
+            <h2>
+
+                Ready To Join
+                Your Next Event?
+
+            </h2>
+
+            <p>
+
+                Discover exciting workshops,
+                hackathons, cultural programs
+                and competitions today.
+
+            </p>
+
+            <a href="register.html"
+               class="btn primary-btn">
+
+                Register Today
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+                        FOOTER
+=========================================================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <!-- Brand -->
+
+            <div class="footer-column">
+
+                <a href="index.html"
+                   class="footer-logo">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                    <span>
+
+                        EventHub
+
+                    </span>
+
+                </a>
+
+                <p>
+
+                    A modern College Event Management
+                    System built to simplify registrations,
+                    event participation and campus
+                    activities.
+
+                </p>
+
+                <div class="footer-social">
+
+                    <a href="#">
+
+                        <i class="fab fa-facebook-f"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-instagram"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-linkedin-in"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-github"></i>
+
+                    </a>
+
+                </div>
 
             </div>
 
-            <div class="about-card">
+            <!-- Quick Links -->
 
-                <i class="fa-solid fa-layer-group"></i>
+            <div class="footer-column">
 
-                <h3>Organized Events</h3>
+                <h3>
 
-                <p>
-                    Easily browse all technical, sports and cultural events.
-                </p>
+                    Quick Links
+
+                </h3>
+
+                <ul>
+
+                    <li>
+
+                        <a href="index.html">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="events.html">
+
+                            Events
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="register.html">
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="participants.html">
+
+                            Participants
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="dashboard.html">
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                </ul>
 
             </div>
 
-            <div class="about-card">
+            <!-- Resources -->
 
-                <i class="fa-solid fa-shield-heart"></i>
+            <div class="footer-column">
 
-                <h3>Secure Storage</h3>
+                <h3>
 
-                <p>
-                    Data is stored locally for frontend simulation.
-                </p>
+                    Resources
+
+                </h3>
+
+                <ul>
+
+                    <li>
+
+                        <a href="#features">
+
+                            Features
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#why-us">
+
+                            Why EventHub
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#events">
+
+                            Featured Events
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            Privacy Policy
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            Terms & Conditions
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- Contact -->
+
+            <div class="footer-column">
+
+                <h3>
+
+                    Contact
+
+                </h3>
+
+                <ul class="footer-contact">
+
+                    <li>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        Guru Ghasidas University
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        eventhub@college.edu
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        +91 98765 43210
+
+                    </li>
+
+                </ul>
 
             </div>
 
         </div>
 
-    </section>
+        <!-- Footer Bottom -->
 
-    <!-- ================= CONTACT ================= -->
+        <div class="footer-bottom">
 
-    <section id="contact" class="contact">
+            <p>
 
-        <h2>Contact</h2>
+                © 2026 EventHub —
+                College Event Management System.
+                All Rights Reserved.
 
-        <p>ABC College of Technology</p>
-
-        <p>Email : events@college.edu</p>
-
-        <p>Phone : +91 9876543210</p>
-
-    </section>
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer>
-
-        <div class="social-icons">
-
-            <a href="#"><i class="fab fa-facebook"></i></a>
-
-            <a href="#"><i class="fab fa-instagram"></i></a>
-
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-
-            <a href="#"><i class="fab fa-github"></i></a>
+            </p>
 
         </div>
 
-        <p>
-            © 2026 College Event Management System.
-            All Rights Reserved.
-        </p>
+    </div>
 
-    </footer>
+</footer>
 
-    <!-- ================= BACK TO TOP ================= -->
 
-    <button id="backToTop" aria-label="Back To Top">
 
-        <i class="fa-solid fa-arrow-up"></i>
+<!-- =========================================
+            BACK TO TOP
+========================================== -->
 
-    </button>
+<button
+    id="backToTop"
+    class="back-to-top"
+    aria-label="Back To Top">
 
-    <!-- Main JavaScript -->
+    <i class="fa-solid fa-arrow-up"></i>
 
-    <script src="storage.js"></script>
-    <script src="app.js"></script>
+</button>
+
+
+
+</main>
+
+
+
+<!-- =========================================
+                JAVASCRIPT
+========================================== -->
+
+<script src="eventData.js"></script>
+<script src="storage.js"></script>
+<script src="app.js"></script>
+
 
 </body>
 
 </html>
+

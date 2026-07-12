@@ -1,418 +1,746 @@
+console.log("Dashboard JS Loaded");
+
 /*
 ==========================================================
-College Event Management System
-File: dashboard.js
+                EVENTHUB DASHBOARD
+==========================================================
 
 Purpose:
-- Dashboard Statistics
-- Progress Bar
-- Canvas Chart
-- Recent Events
-- Recent Registrations
+• Dashboard Statistics
+• Hero Insights
+• Registration Analytics
+• Quick Insights
+• Recent Registrations
+• Popular Events
+• Activity Timeline
+• Date & Time
+
 ==========================================================
 */
 
-// ==========================================
-// DOM Elements
-// ==========================================
+/*=========================================================
+                DASHBOARD VARIABLES
+=========================================================*/
 
-const totalEventsCard =
-document.getElementById("totalEventsCard");
+const participants = Storage.getParticipants();
 
-const totalParticipantsCard =
-document.getElementById("totalParticipantsCard");
+const events = Storage.getEvents();
 
-const todayEventsCard =
-document.getElementById("todayEventsCard");
+const totalParticipants =
+    document.getElementById("totalParticipants");
 
-const upcomingEventsCard =
-document.getElementById("upcomingEventsCard");
+const totalEvents =
+    document.getElementById("totalEvents");
 
-const availableSeatsCard =
-document.getElementById("availableSeatsCard");
+const mostPopularEvent =
+    document.getElementById("mostPopularEvent");
 
-const filledSeatsCard =
-document.getElementById("filledSeatsCard");
+const upcomingEvents =
+    document.getElementById("upcomingEvents");
 
-const seatProgress =
-document.getElementById("seatProgress");
+const todayRegistrations =
+    document.getElementById("todayRegistrations");
 
-const seatPercentage =
-document.getElementById("seatPercentage");
+const activeParticipants =
+    document.getElementById("activeParticipants");
 
-const recentEvents =
-document.getElementById("recentEvents");
+const liveEvents =
+    document.getElementById("liveEvents");
 
-const recentParticipants =
-document.getElementById("recentParticipants");
+const latestStudent =
+    document.getElementById("latestStudent");
 
-// ==========================================
-// Animated Counter
-// ==========================================
+const topDepartment =
+    document.getElementById("topDepartment");
 
-function animateCounter(element, target){
+const mostActiveYear =
+    document.getElementById("mostActiveYear");
 
-    let current = 0;
+const lastRegistration =
+    document.getElementById("lastRegistration");
 
-    const step = Math.max(1, Math.ceil(target / 50));
+/*=========================================================
+                DASHBOARD STATISTICS
+=========================================================*/
 
-    const timer = setInterval(()=>{
+function loadDashboardStats() {
 
-        current += step;
+    totalParticipants.textContent =
+        participants.length;
 
-        if(current >= target){
+    totalEvents.textContent =
+        events.length;
 
-            current = target;
+    /*-----------------------------------
+        Upcoming Events
+    -----------------------------------*/
 
-            clearInterval(timer);
+    const today = new Date();
 
-        }
+    const upcoming = events.filter(event => {
 
-        element.textContent = current;
+        return new Date(event.date) >= today;
 
-    },20);
+    });
 
-}
+    upcomingEvents.textContent =
+        upcoming.length;
 
-// ==========================================
-// Dashboard Statistics
-// ==========================================
+    /*-----------------------------------
+        Most Popular Event
+    -----------------------------------*/
 
-function loadDashboardStats(){
+    const eventCount = {};
 
-    const events = getEvents();
+    participants.forEach(participant => {
 
-    const participants = getParticipants();
+        eventCount[participant.eventId] =
+            (eventCount[participant.eventId] || 0) + 1;
 
-    const today = new Date().toISOString().split("T")[0];
+    });
 
-    let availableSeats = 0;
+    let popular = "--";
 
-    let maxSeats = 0;
+    let highest = 0;
 
-    let todayEvents = 0;
+    events.forEach(event => {
 
-    let upcomingEvents = 0;
+        const total =
+            eventCount[event.id] || 0;
 
-    events.forEach(event=>{
+        if (total > highest) {
 
-        availableSeats += event.availableSeats;
+            highest = total;
 
-        maxSeats += event.maxSeats;
-
-        if(event.date === today){
-
-            todayEvents++;
-
-        }
-
-        if(new Date(event.date) >= new Date(today)){
-
-            upcomingEvents++;
+            popular = event.title;
 
         }
 
     });
 
-    const filledSeats = maxSeats - availableSeats;
-
-    animateCounter(totalEventsCard, events.length);
-
-    animateCounter(totalParticipantsCard, participants.length);
-
-    animateCounter(todayEventsCard, todayEvents);
-
-    animateCounter(upcomingEventsCard, upcomingEvents);
-
-    animateCounter(availableSeatsCard, availableSeats);
-
-    animateCounter(filledSeatsCard, filledSeats);
-
-    const percentage =
-
-    maxSeats === 0
-
-    ? 0
-
-    : Math.round((filledSeats / maxSeats) * 100);
-
-    seatProgress.style.width = percentage + "%";
-
-    seatPercentage.textContent = percentage + "%";
+    mostPopularEvent.textContent =
+        popular;
 
 }
 
-// ==========================================
-// Recent Events
-// ==========================================
+/*=========================================================
+                HERO INSIGHTS
+=========================================================*/
 
-function loadRecentEvents(){
+function loadHeroInsights() {
 
-    const events = getEvents();
+    const participants = Storage.getParticipants();
 
-    recentEvents.innerHTML = "";
+    const events = Storage.getEvents();
 
-    events
+    const today =
+        new Date().toDateString();
 
-    .slice(-5)
+    /* Today's Registrations */
 
-    .reverse()
+    const todayCount = participants.filter(participant => {
 
-    .forEach(event=>{
+        if (!participant.registeredAt) {
 
-        recentEvents.innerHTML += `
+            return false;
 
-        <div class="list-card">
+        }
 
-            <div class="list-info">
-
-                <h4>${event.title}</h4>
-
-                <p>
-
-                    ${event.date}
-                    •
-                    ${event.venue}
-
-                </p>
-
-            </div>
-
-            <span class="badge">
-
-                ${event.category}
-
-            </span>
-
-        </div>
-
-        `;
+        return new Date(participant.registeredAt).toDateString() === today;
 
     });
 
-}
+    todayRegistrations.textContent =
+        todayCount.length;
 
-// ==========================================
-// Recent Participants
-// ==========================================
+    /* Active Participants */
 
-function loadRecentParticipants(){
+    activeParticipants.textContent =
+        participants.length;
 
-    const participants = getParticipants();
+    /* Live Events */
 
-    recentParticipants.innerHTML = "";
+    const live = events.filter(event => {
 
-    participants
-
-    .slice(-5)
-
-    .reverse()
-
-    .forEach(participant=>{
-
-        const event =
-
-        getEvents().find(
-
-        e=>e.id===participant.eventId
-
-        );
-
-        recentParticipants.innerHTML += `
-
-        <div class="list-card">
-
-            <div class="list-info">
-
-                <h4>${participant.name}</h4>
-
-                <p>
-
-                    ${event ? event.title : "Unknown Event"}
-
-                </p>
-
-            </div>
-
-            <span class="badge">
-
-                ${participant.department}
-
-            </span>
-
-        </div>
-
-        `;
+        return new Date(event.date).toDateString() === today;
 
     });
 
+    liveEvents.textContent =
+        live.length;
+
 }
 
-// ==========================================
-// Canvas Chart
-// ==========================================
 
-function drawChart(){
+/*=========================================================
+                QUICK INSIGHTS
+=========================================================*/
 
-    const canvas =
+function loadQuickInsights() {
 
-    document.getElementById("participantsChart");
+    const participants = Storage.getParticipants();
 
-    if(!canvas){
+    if (participants.length === 0) {
+
+        latestStudent.textContent = "--";
+        topDepartment.textContent = "--";
+        mostActiveYear.textContent = "--";
+        lastRegistration.textContent = "--";
 
         return;
 
     }
 
-    const ctx = canvas.getContext("2d");
+    /* Latest Student */
 
-    const events = getEvents();
+    const latest = participants[participants.length - 1];
 
-    const participants = getParticipants();
+    latestStudent.textContent = latest.name;
 
-    const data = events.map(event=>{
+    /* Top Department */
 
-        return participants.filter(
+    const departmentCount = {};
 
-            p=>p.eventId===event.id
+    participants.forEach(participant => {
+
+        departmentCount[participant.department] =
+            (departmentCount[participant.department] || 0) + 1;
+
+    });
+
+    let topDept = "--";
+    let maxDept = 0;
+
+    for (const department in departmentCount) {
+
+        if (departmentCount[department] > maxDept) {
+
+            maxDept = departmentCount[department];
+            topDept = department;
+
+        }
+
+    }
+
+    topDepartment.textContent = topDept;
+
+    /* Most Active Year */
+
+    const yearCount = {};
+
+    participants.forEach(participant => {
+
+        yearCount[participant.year] =
+            (yearCount[participant.year] || 0) + 1;
+
+    });
+
+    let activeYear = "--";
+    let maxYear = 0;
+
+    for (const year in yearCount) {
+
+        if (yearCount[year] > maxYear) {
+
+            maxYear = yearCount[year];
+            activeYear = year;
+
+        }
+
+    }
+
+    mostActiveYear.textContent = activeYear;
+
+    /* Last Registration */
+
+    lastRegistration.textContent =
+        latest.registrationId || "--";
+
+}
+
+/*=========================================================
+                REGISTRATION ANALYTICS
+=========================================================*/
+
+let registrationChart;
+
+function loadRegistrationChart() {
+
+    const participants = Storage.getParticipants();
+
+    const events = Storage.getEvents();
+
+    const canvas =
+        document.getElementById("registrationChart");
+
+    if (!canvas) {
+
+        return;
+
+    }
+
+    const labels = [];
+
+    const data = [];
+
+    const activeEvents = events.filter(event => {
+
+        return participants.some(
+
+            participant => participant.eventId === event.id
+
+        );
+
+    });
+
+    activeEvents.forEach(event => {
+
+        labels.push(event.title);
+
+        const total = participants.filter(
+
+            participant => participant.eventId === event.id
 
         ).length;
 
+        data.push(total);
+
     });
 
-    const labels = events.map(
 
-        e=>e.title
+    if (registrationChart) {
 
-    );
+        registrationChart.destroy();
 
-    const maxValue =
+    }
 
-    Math.max(...data,1);
+    const ctx = canvas.getContext("2d");
 
-    const width = canvas.width;
+    registrationChart = new Chart(ctx, {
 
-    const height = canvas.height;
+        type: "bar",
 
-    const padding = 50;
+        data: {
 
-    const barWidth =
+            labels: labels,
 
-    (width-padding*2)/labels.length-20;
+            datasets: [{
 
-    ctx.clearRect(
+                label: "Participants",
 
-        0,
+                data: data,
 
-        0,
+                borderWidth: 2,
 
-        width,
+                borderRadius: 10,
 
-        height
+                backgroundColor: "#5B6CFF",
 
-    );
+                hoverBackgroundColor: "#4F46E5",
 
-    ctx.font="12px Poppins";
+                barThickness: 35,
 
-    data.forEach((value,index)=>{
 
-        const x =
+            }]
 
-        padding +
+        },
 
-        index*
+        options: {
 
-        (barWidth+20);
 
-        const barHeight =
+            responsive: true,
 
-        (value/maxValue)
+            maintainAspectRatio: false,
 
-        *220;
 
-        const y =
+            animation: {
 
-        height-padding-barHeight;
+                duration: 1200,
 
-        ctx.fillStyle="#4F46E5";
+                easing: "easeOutQuart"
 
-        ctx.fillRect(
+            },
 
-            x,
+            plugins: {
 
-            y,
+                tooltip: {
 
-            barWidth,
+                    callbacks: {
 
-            barHeight
+                        label: function (context) {
+
+                            return "Participants : " + context.raw;
+
+                        }
+
+                    }
+
+                },
+
+                legend: {
+                    display: false
+                }
+
+
+
+            },
+
+            layout: {
+
+                padding: {
+
+                    top: 20,
+
+                    left: 10,
+
+                    right: 10,
+
+                    bottom: 10
+
+                }
+
+            },
+
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        precision: 0,
+
+                        stepSize: 1
+
+                    }
+
+                },
+
+                x: {
+
+                    ticks: {
+
+                        maxRotation: 45,
+
+                        minRotation: 45,
+
+                        autoSkip: false,
+
+                        font: {
+
+                            size: 11
+
+                        }
+
+                    }
+
+                },
+
+
+
+            }
+
+
+
+        }
+
+    });
+
+
+
+}
+
+/*=========================================================
+                RECENT REGISTRATIONS
+=========================================================*/
+
+function loadRecentRegistrations() {
+
+    const participants = Storage.getParticipants();
+
+    const events = Storage.getEvents();
+
+    const container =
+        document.getElementById("recentRegistrations");
+
+    if (!container) {
+
+        return;
+
+    }
+
+    container.innerHTML = "";
+
+    const latest =
+        [...participants].reverse().slice(0, 5);
+
+    latest.forEach(participant => {
+
+        const event = events.find(
+
+            event => event.id === participant.eventId
 
         );
 
-        ctx.fillStyle="#111";
+        container.innerHTML += `
 
-const title =
-labels[index].length > 10
-?
-labels[index].substring(0,10)+"..."
-:
-labels[index];
+<div class="recent-item">
 
-ctx.fillText(
-    title,
-    x,
-    height-25
-);
+    <div class="recent-left">
 
-        ctx.fillText(
+        <div class="recent-avatar">
 
-            value,
+            <i class="fa-solid fa-user"></i>
 
-            x+10,
+        </div>
 
-            y-8
+        <div class="recent-details">
 
-        );
+            <h4>${participant.name}</h4>
+
+            <p>${event ? event.title : "Unknown Event"}</p>
+
+        </div>
+
+    </div>
+
+    <span class="registration-badge">
+
+        ${participant.registrationId}
+
+    </span>
+
+</div>
+
+`;
 
     });
 
 }
 
-// ==========================================
-// Refresh Dashboard
-// ==========================================
 
-window.addEventListener(
+/*=========================================================
+                POPULAR EVENTS
+=========================================================*/
 
-"storage",
+function loadPopularEvents() {
 
-()=>{
+    const participants = Storage.getParticipants();
 
-    initializeDashboard();
+    const events = Storage.getEvents();
+
+    const container =
+        document.getElementById("popularEvents");
+
+    if (!container) {
+
+        return;
+
+    }
+
+    container.innerHTML = "";
+
+    const eventStats = events.map(event => {
+
+        const total = participants.filter(
+
+            participant => participant.eventId === event.id
+
+        ).length;
+
+        return {
+
+            title: event.title,
+
+            total: total
+
+        };
+
+    });
+
+    eventStats.sort((a, b) => b.total - a.total);
+
+    const max = Math.max(
+
+        ...eventStats.map(
+
+            event => event.total
+
+        ),
+
+        1
+
+    );
+
+    eventStats
+        .slice(0, 5)
+        .forEach(event => {
+
+            const percentage =
+
+                (event.total / max) * 100;
+
+            container.innerHTML += `
+
+<div class="event-progress">
+
+    <div class="event-header">
+
+        <div class="event-name">
+
+            <i class="fa-solid fa-trophy"></i>
+
+            <span>${event.title}</span>
+
+        </div>
+
+        <span class="event-count">
+
+            ${event.total}
+
+        </span>
+
+    </div>
+
+    <div class="event-bar">
+
+        <div
+        class="event-fill"
+        style="width:${percentage}%">
+
+        </div>
+
+    </div>
+
+</div>
+
+`;
+
+        });
 
 }
 
-);
 
-// ==========================================
-// Initialize
-// ==========================================
+/*=========================================================
+                RECENT ACTIVITY
+=========================================================*/
 
-function initializeDashboard(){
+function loadActivityTimeline() {
+
+    const participants = Storage.getParticipants();
+
+    const events = Storage.getEvents();
+
+    const container =
+        document.getElementById("activityTimeline");
+
+    if (!container) {
+
+        return;
+
+    }
+
+    container.innerHTML = "";
+
+    const activities = [];
+
+    participants.forEach(participant => {
+
+        const event = events.find(
+
+            event => event.id === participant.eventId
+
+        );
+
+        activities.push({
+
+            type: "registration",
+
+            name: participant.name,
+
+            event: event ? event.title : "Unknown Event",
+
+            date: participant.registrationDate || ""
+
+        });
+
+    });
+
+    activities.reverse();
+
+    activities.slice(0, 4).forEach(activity => {
+
+        container.innerHTML += `
+
+<div class="activity-item">
+
+    <div class="activity-icon">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+    </div>
+
+    <div class="activity-content">
+
+        <div class="activity-title">
+
+            <strong>${activity.name}</strong>
+
+            <span>
+
+                registered for
+
+                <b>${activity.event}</b>
+
+            </span>
+
+        </div>
+
+        <small>
+
+            ${activity.date || "Recently"}
+
+        </small>
+
+    </div>
+
+</div>
+
+`;
+
+    });
+
+}
+
+
+/*=========================================================
+                INITIALIZATION
+=========================================================*/
+
+function initializeDashboard() {
 
     loadDashboardStats();
 
-    loadRecentEvents();
+    loadHeroInsights();
 
-    loadRecentParticipants();
+    loadQuickInsights();
 
-    drawChart();
+    loadRegistrationChart();
+
+    loadRecentRegistrations();
+
+    loadPopularEvents();
+
+    loadActivityTimeline();
 
 }
 
 document.addEventListener(
 
-"DOMContentLoaded",
+    "DOMContentLoaded",
 
-initializeDashboard
+    initializeDashboard
 
 );

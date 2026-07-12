@@ -5,361 +5,844 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Organizer Dashboard | College Event Management System</title>
 
     <!-- Google Font -->
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Font Awesome -->
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- CSS -->
 
-    <link rel="stylesheet"
-          href="style.css">
-
-    <link rel="stylesheet"
-          href="dashboard.css">
-
-    <link rel="stylesheet"
-          href="responsive.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+    <!-- =========================================
+                NAVBAR
+========================================== -->
 
-<header class="navbar">
+    <header class="navbar">
 
-    <div class="logo">
+        <div class="container navbar-container">
 
-        <i class="fa-solid fa-graduation-cap"></i>
+            <!-- Logo -->
 
-        <span>College Events</span>
+            <a href="index.html" class="logo" aria-label="EventHub Home">
+
+                <div class="logo-icon">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
+                <div class="logo-text">
+
+                    <span class="brand">
+
+                        EventHub
+
+                    </span>
+
+                    <small>
+
+                        College Event Management System
+
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Navigation -->
+
+            <nav class="nav-menu" id="navMenu" aria-label="Primary Navigation">
+
+                <ul class="nav-links">
+
+                    <li>
+
+                        <a href="index.html" class="active">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="events.html">
+
+                            Events
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="register.html">
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="participants.html">
+
+                            Participants
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="dashboard.html">
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- Right Side -->
+
+            <div class="nav-actions">
+
+                <!-- Theme -->
+
+                <button id="darkModeBtn" class="theme-btn" aria-label="Toggle Dark Mode">
+
+                    <i class="fa-solid fa-moon"></i>
+
+                </button>
+
+                <!-- CTA -->
+
+                <a href="register.html" class="btn nav-btn">
+
+                    Get Started
+
+                </a>
+
+                <!-- Mobile -->
+
+                <button class="menu-toggle" id="menuToggle" aria-label="Open Navigation">
+
+                    <span></span>
+
+                    <span></span>
+
+                    <span></span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!--==================================================
+                    DASHBOARD HERO
+===================================================-->
+
+    <main class="dashboard-main">
+
+        <section class="dashboard-hero">
+
+            <div class="hero-content">
+
+                <span class="section-tag">
+
+                    Welcome Back 👋
+
+                </span>
+
+                <h1>
+
+                    EventHub Dashboard
+
+                </h1>
+
+                <p>
+
+                    Monitor registrations, manage events, and track real-time insights from one professional dashboard.
+
+                </p>
+
+                <div class="hero-insights">
+
+                    <div class="hero-insight">
+
+                        <i class="fa-solid fa-user-plus"></i>
+
+                        <div>
+
+                            <h4>Today's Registrations</h4>
+
+                            <span id="todayRegistrations">
+
+                                0
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="hero-insight">
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <div>
+
+                            <h4>Active Participants</h4>
+
+                            <span id="activeParticipants">
+
+                                0
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="hero-insight">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                        <div>
+
+                            <h4>Live Events</h4>
+
+                            <span id="liveEvents">
+
+                                0
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                
+            </div>
+
+                <div class="hero-info">
+
+                    <div class="hero-info-card">
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                        <div>
+
+                            <h4>Today's Date</h4>
+
+                            <span id="currentDate">
+
+                                Loading...
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="hero-info-card">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        <div>
+
+                            <h4>Current Time</h4>
+
+                            <span id="currentTime">
+
+                                --:--:--
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </section>
+
+        <!--==================================================
+                    DASHBOARD STATS
+===================================================-->
+
+        <section class="dashboard-stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="totalParticipants">
+
+                        0
+
+                    </h2>
+
+                    <p>Total Participants</p>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="totalEvents">
+
+                        0
+
+                    </h2>
+
+                    <p>Total Events</p>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-trophy"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="mostPopularEvent">
+
+                        --
+
+                    </h2>
+
+                    <p>Most Popular Event</p>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-calendar-day"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="upcomingEvents">
+
+                        0
+
+                    </h2>
+
+                    <p>Upcoming Events</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--==================================================
+                    ANALYTICS
+===================================================-->
+
+<section class="dashboard-analytics">
+
+    <!-- Analytics Chart -->
+
+    <div class="analytics-card">
+
+        <div class="card-header">
+
+            <h2>
+
+                Registration Analytics
+
+            </h2>
+
+        </div>
+
+        <canvas id="registrationChart"></canvas>
 
     </div>
 
-    <nav>
+    <!-- Quick Insights -->
 
-        <ul class="nav-links">
+    <div class="analytics-card insights-card">
 
-            <li><a href="index.html">Home</a></li>
+        <div class="card-header">
 
-            <li><a href="events.html">Events</a></li>
+            <h2>
 
-            <li><a href="register.html">Register</a></li>
+                Quick Insights
 
-            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            </h2>
 
-            <li><a href="participants.html">Participants</a></li>
+        </div>
 
-        </ul>
+        <div class="insight-list">
 
-    </nav>
+            <div class="insight-item">
 
-    <button id="darkModeBtn">
+                <i class="fa-solid fa-user"></i>
 
-        <i class="fa-solid fa-moon"></i>
+                <div>
 
-    </button>
+                    <h4>Latest Student</h4>
 
-</header>
+                    <span id="latestStudent">--</span>
 
-<!-- ================= HERO ================= -->
+                </div>
 
-<section class="hero">
+            </div>
 
-    <div class="hero-content">
+            <div class="insight-item">
 
-        <h1>
+                <i class="fa-solid fa-building-columns"></i>
 
-            Organizer Dashboard
+                <div>
 
-        </h1>
+                    <h4>Top Department</h4>
 
-        <p>
+                    <span id="topDepartment">--</span>
 
-            Monitor events, participants and registrations
-            from one professional dashboard.
+                </div>
 
-        </p>
+            </div>
+
+            <div class="insight-item">
+
+                <i class="fa-solid fa-graduation-cap"></i>
+
+                <div>
+
+                    <h4>Most Active Year</h4>
+
+                    <span id="mostActiveYear">--</span>
+
+                </div>
+
+            </div>
+
+            <div class="insight-item">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <div>
+
+                    <h4>Last Registration</h4>
+
+                    <span id="lastRegistration">--</span>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
 </section>
 
-<!-- ================= STATISTICS ================= -->
+        <!--==================================================
+                    DASHBOARD GRID
+===================================================-->
 
-<section>
+        <section class="dashboard-grid">
 
-<h2>Dashboard Overview</h2>
+            <div class="dashboard-panel">
 
-<div class="dashboard-grid">
+                <div class="card-header">
 
-<div class="dashboard-card">
+                    <h2>
 
-<i class="fa-solid fa-calendar-days"></i>
+                        Recent Registrations
 
-<h3 id="totalEventsCard">0</h3>
+                    </h2>
 
-<p>Total Events</p>
+                </div>
 
-</div>
+                <div id="recentRegistrations">
 
-<div class="dashboard-card">
+                </div>
 
-<i class="fa-solid fa-users"></i>
+            </div>
 
-<h3 id="totalParticipantsCard">0</h3>
+            <div class="dashboard-panel">
 
-<p>Total Participants</p>
+                <div class="card-header">
 
-</div>
+                    <h2>
 
-<div class="dashboard-card">
+                        Popular Events
 
-<i class="fa-solid fa-calendar-check"></i>
+                    </h2>
 
-<h3 id="todayEventsCard">0</h3>
+                </div>
 
-<p>Today's Events</p>
+                <div id="popularEvents">
 
-</div>
+                </div>
 
-<div class="dashboard-card">
+            </div>
 
-<i class="fa-solid fa-clock"></i>
+        </section>
 
-<h3 id="upcomingEventsCard">0</h3>
+        <!--==================================================
+                    ACTIVITY
+===================================================-->
 
-<p>Upcoming Events</p>
+        <section class="dashboard-activity">
 
-</div>
+            <div class="card-header">
 
-<div class="dashboard-card">
+                <h2>
 
-<i class="fa-solid fa-chair"></i>
+                    Recent Activity
 
-<h3 id="availableSeatsCard">0</h3>
+                </h2>
 
-<p>Available Seats</p>
+            </div>
 
-</div>
+            <div id="activityTimeline">
 
-<div class="dashboard-card">
+            </div>
 
-<i class="fa-solid fa-chart-line"></i>
+        </section>
 
-<h3 id="filledSeatsCard">0</h3>
+    </main>
 
-<p>Seats Filled</p>
+    <!--==================================================
+                        FOOTER
+===================================================-->
 
-</div>
+    <footer class="footer">
 
-</div>
+        <div class="container">
 
-</section>
+            <div class="footer-grid">
 
-<!-- ================= PROGRESS ================= -->
+                <!-- Brand -->
 
-<section>
+                <div class="footer-column">
 
-<h2>Registration Progress</h2>
+                    <a href="index.html" class="footer-logo">
 
-<div class="progress-wrapper">
+                        <i class="fa-solid fa-calendar-check"></i>
 
-<div class="progress-box">
+                        <span>
 
-<div class="progress-title">
+                            EventHub
 
-<span>Seat Occupancy</span>
+                        </span>
 
-<span id="seatPercentage">
+                    </a>
 
-0%
+                    <p>
 
-</span>
+                        A modern College Event Management
+                        System built to simplify registrations,
+                        event participation and campus
+                        activities.
 
-</div>
+                    </p>
 
-<div class="progress-bar">
+                    <div class="footer-social">
 
-<div
-id="seatProgress"
-class="progress-fill">
+                        <a href="#">
 
-</div>
+                            <i class="fab fa-facebook-f"></i>
 
-</div>
+                        </a>
 
-</div>
+                        <a href="#">
 
-</div>
+                            <i class="fab fa-instagram"></i>
 
-</section>
+                        </a>
 
-<!-- ================= CHART ================= -->
+                        <a href="#">
 
-<section>
+                            <i class="fab fa-linkedin-in"></i>
 
-<h2>Participants Chart</h2>
+                        </a>
 
-<div class="chart-container">
+                        <a href="#">
 
-<canvas
-id="participantsChart"
-width="800"
-height="350">
+                            <i class="fab fa-github"></i>
 
-</canvas>
+                        </a>
 
-</div>
+                    </div>
 
-</section>
+                </div>
 
-<!-- ================= RECENT EVENTS ================= -->
+                <!-- Quick Links -->
 
-<section>
+                <div class="footer-column">
 
-<h2>Recent Events</h2>
+                    <h3>
 
-<div
-id="recentEvents"
-class="dashboard-list">
+                        Quick Links
 
-<!-- JavaScript -->
+                    </h3>
 
-</div>
+                    <ul>
 
-</section>
+                        <li>
 
-<!-- ================= RECENT REGISTRATIONS ================= -->
+                            <a href="index.html">
 
-<section>
+                                Home
 
-<h2>Recent Registrations</h2>
+                            </a>
 
-<div
-id="recentParticipants"
-class="dashboard-list">
+                        </li>
 
-<!-- JavaScript -->
+                        <li>
 
-</div>
+                            <a href="events.html">
 
-</section>
+                                Events
 
-<!-- ================= QUICK ACTIONS ================= -->
+                            </a>
 
-<section>
+                        </li>
 
-<h2>Quick Actions</h2>
+                        <li>
 
-<div class="action-grid">
+                            <a href="register.html">
 
-<a
-href="events.html"
-class="btn primary-btn">
+                                Register
 
-<i class="fa-solid fa-calendar-plus"></i>
+                            </a>
 
-View Events
+                        </li>
 
-</a>
+                        <li>
 
-<a
-href="register.html"
-class="btn secondary-btn">
+                            <a href="participants.html">
 
-<i class="fa-solid fa-user-plus"></i>
+                                Participants
 
-New Registration
+                            </a>
 
-</a>
+                        </li>
 
-<a
-href="participants.html"
-class="btn primary-btn">
+                        <li>
 
-<i class="fa-solid fa-users"></i>
+                            <a href="dashboard.html">
 
-Manage Participants
+                                Dashboard
 
-</a>
+                            </a>
 
-</div>
+                        </li>
 
-</section>
+                    </ul>
 
-<!-- ================= FOOTER ================= -->
+                </div>
 
-<footer>
+                <!-- Resources -->
 
-<div class="social-icons">
+                <div class="footer-column">
 
-<a href="#">
+                    <h3>
 
-<i class="fab fa-facebook"></i>
+                        Resources
 
-</a>
+                    </h3>
 
-<a href="#">
+                    <ul>
 
-<i class="fab fa-instagram"></i>
+                        <li>
 
-</a>
+                            <a href="#features">
 
-<a href="#">
+                                Features
 
-<i class="fab fa-linkedin"></i>
+                            </a>
 
-</a>
+                        </li>
 
-<a href="#">
+                        <li>
 
-<i class="fab fa-github"></i>
+                            <a href="#why-us">
 
-</a>
+                                Why EventHub
 
-</div>
+                            </a>
 
-<p>
+                        </li>
 
-© 2026 College Event Management System
+                        <li>
 
-</p>
+                            <a href="#events">
 
-</footer>
+                                Featured Events
 
-<button
-id="backToTop">
+                            </a>
 
-<i class="fa-solid fa-arrow-up"></i>
+                        </li>
 
-</button>
+                        <li>
 
-<!-- Scripts -->
+                            <a href="#">
 
-<script src="storage.js"></script>
+                                Privacy Policy
 
-<script src="app.js"></script>
+                            </a>
 
-<script src="dashboard.js"></script>
+                        </li>
+
+                        <li>
+
+                            <a href="#">
+
+                                Terms & Conditions
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!-- Contact -->
+
+                <div class="footer-column">
+
+                    <h3>
+
+                        Contact
+
+                    </h3>
+
+                    <ul class="footer-contact">
+
+                        <li>
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            Guru Ghasidas University
+
+                        </li>
+
+                        <li>
+
+                            <i class="fa-solid fa-envelope"></i>
+
+                            eventhub@college.edu
+
+                        </li>
+
+                        <li>
+
+                            <i class="fa-solid fa-phone"></i>
+
+                            +91 98765 43210
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom -->
+
+            <div class="footer-bottom">
+
+                <p>
+
+                    © 2026 EventHub —
+                    College Event Management System.
+                    All Rights Reserved.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!--==================================================
+                TOAST NOTIFICATION
+===================================================-->
+
+    <div id="toast" class="toast">
+
+        <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+
+        <span id="toastMessage"></span>
+
+        <div class="toast-progress"></div>
+
+    </div>
+
+    <!-- Scripts -->
+
+    <script src="storage.js"></script>
+
+    <script src="app.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="dashboard.js"></script>
 
 </body>
 

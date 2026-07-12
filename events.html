@@ -8,9 +8,20 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Events | College Event Management System</title>
+    <meta name="description"
+          content="Browse upcoming college events, workshops, hackathons, cultural festivals and sports competitions with EventHub.">
 
-    <!-- Google Font -->
+    <meta name="keywords"
+          content="College Events, EventHub, Workshops, Hackathon, Cultural Fest">
+
+    <meta name="author"
+          content="Somesh Rathore">
+
+    <title>
+        Events | EventHub - College Event Management System
+    </title>
+
+    <!-- Google Fonts -->
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
@@ -19,7 +30,7 @@
           href="https://fonts.gstatic.com"
           crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet">
 
     <!-- Font Awesome -->
@@ -27,296 +38,1170 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- CSS -->
+    <!-- Main CSS -->
 
     <link rel="stylesheet"
           href="style.css">
-
-    <link rel="stylesheet"
-          href="responsive.css">
 
 </head>
 
 <body>
 
-<!-- =========================
-     NAVBAR
-========================== -->
+
+
+<!-- ==========================================================
+                        LOADER
+=========================================================== -->
+
+<div
+    class="loader-wrapper"
+    id="loader">
+
+    <div class="loader">
+
+        <div class="loader-ring"></div>
+
+        <div class="loader-logo">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+        </div>
+
+    </div>
+
+    <h2>EventHub</h2>
+
+    <p>
+
+        Loading Events...
+
+    </p>
+
+</div>
+
+
+
+<!-- ==========================================================
+                        NAVBAR
+=========================================================== -->
 
 <header class="navbar">
 
-    <div class="logo">
+    <div class="container navbar-container">
 
-        <i class="fa-solid fa-graduation-cap"></i>
+        <a
+            href="index.html"
+            class="logo">
 
-        <span>College Events</span>
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+            </div>
+
+            <div class="logo-text">
+
+                <span class="brand">
+
+                    EventHub
+
+                </span>
+
+                <small>
+
+                    College Event Management
+
+                </small>
+
+            </div>
+
+        </a>
+
+
+
+        <nav
+            class="nav-menu"
+            id="navMenu">
+
+            <ul class="nav-links">
+
+                <li>
+
+                    <a href="index.html">
+
+                        Home
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a
+                        href="events.html"
+                        class="active">
+
+                        Events
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="register.html">
+
+                        Register
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="participants.html">
+
+                        Participants
+
+                    </a>
+
+                </li>
+
+                
+                <li>
+
+                    <a href="dashboard.html">
+
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+
+            </ul>
+
+        </nav>
+
+
+
+        <div class="nav-actions">
+
+            <button
+                class="theme-btn"
+                id="darkModeBtn">
+
+                <i class="fa-solid fa-moon"></i>
+
+            </button>
+
+            <a
+                href="register.html"
+                class="btn nav-btn">
+
+                Register Now
+
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+        </div>
 
     </div>
-
-    <nav>
-
-        <ul class="nav-links">
-
-            <li><a href="index.html">Home</a></li>
-
-            <li><a href="events.html" class="active">Events</a></li>
-
-            <li><a href="register.html">Register</a></li>
-
-            <li><a href="dashboard.html">Dashboard</a></li>
-
-            <li><a href="participants.html">Participants</a></li>
-
-            <li><a href="index.html#contact">Contact</a></li>
-
-        </ul>
-
-    </nav>
-
-    <button id="darkModeBtn">
-
-        <i class="fa-solid fa-moon"></i>
-
-    </button>
 
 </header>
 
-<!-- =========================
-     PAGE HERO
-========================== -->
 
-<section class="hero">
 
-    <div class="hero-content">
+<!-- ==========================================================
+                    EVENTS HERO
+=========================================================== -->
 
-        <h1>
+<section class="events-hero">
 
-            Discover Amazing
+    <div class="container">
 
-            <span>College Events</span>
+        <div class="events-hero-content">
 
-        </h1>
+            <span class="section-tag">
 
-        <p>
+                <i class="fa-solid fa-calendar-days"></i>
 
-            Explore workshops, hackathons, cultural festivals,
-            sports tournaments, coding competitions and much more.
+                Campus Events 2026
 
-        </p>
+            </span>
+
+            <h1>
+
+                Discover Amazing
+
+                <span class="text-gradient">
+
+                    College Events
+
+                </span>
+
+            </h1>
+
+            <p>
+
+                Explore workshops, coding competitions,
+                hackathons, seminars, sports tournaments,
+                cultural festivals and many more exciting
+                opportunities happening across the campus.
+
+            </p>
+
+
+
+            <div class="breadcrumb">
+
+                <a href="index.html">
+
+                    Home
+
+                </a>
+
+                <i class="fa-solid fa-angle-right"></i>
+
+                <span>
+
+                    Events
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Hero Statistics -->
+
+        <div class="events-hero-stats">
+
+            <div class="hero-stat glass">
+
+                <h3
+                    class="counter"
+                    data-target="35">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Total Events
+
+                </span>
+
+            </div>
+
+            <div class="hero-stat glass">
+
+                <h3
+                    class="counter"
+                    data-target="12">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Technical
+
+                </span>
+
+            </div>
+
+            <div class="hero-stat glass">
+
+                <h3
+                    class="counter"
+                    data-target="850">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Participants
+
+                </span>
+
+            </div>
+
+            <div class="hero-stat glass">
+
+                <h3
+                    class="counter"
+                    data-target="15">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Upcoming
+
+                </span>
+
+            </div>
+
+        </div>
 
     </div>
 
 </section>
 
-<!-- =========================
-     SEARCH & FILTER
-========================== -->
+<!-- ==========================================================
+                    EVENTS FILTER DASHBOARD
+=========================================================== -->
 
-<section class="search-section">
+<section class="section">
 
-    <h2>Find Your Event</h2>
+    <div class="container">
 
-    <div class="filter-container">
+        <div class="events-filter-panel glass">
 
-        <!-- Search -->
+            <!-- Search -->
 
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Search event by name...">
+            <div class="search-box">
 
-        <!-- Category -->
+                <i class="fa-solid fa-search"></i>
 
-        <select id="categoryFilter">
+                <input
+                    type="text"
+                    id="eventSearch"
+                    placeholder="Search by event, venue, category or description...">
 
-            <option value="all">
+            </div>
 
-                All Categories
 
-            </option>
 
-            <option value="Technical">
+            <!-- Category -->
 
-                Technical
+            <div class="filter-group">
 
-            </option>
+                <label>
 
-            <option value="Workshop">
+                    Category
 
-                Workshop
+                </label>
 
-            </option>
+                <select id="categoryFilter">
 
-            <option value="Sports">
+                    <option value="all">
 
-                Sports
+                        All Categories
 
-            </option>
+                    </option>
 
-            <option value="Cultural">
+                </select>
 
-                Cultural
+            </div>
 
-            </option>
 
-        </select>
 
-        <!-- Status -->
+            <!-- Status -->
 
-        <select id="statusFilter">
+            <div class="filter-group">
 
-            <option value="all">
+                <label>
 
-                All Events
+                    Status
 
-            </option>
+                </label>
 
-            <option value="upcoming">
+                <select id="statusFilter">
 
-                Upcoming
+                    <option value="all">
 
-            </option>
+                        All Events
 
-            <option value="completed">
+                    </option>
 
-                Completed
+                    <option value="upcoming">
 
-            </option>
+                        Upcoming
 
-        </select>
+                    </option>
 
-        <!-- Sort -->
+                    <option value="ongoing">
 
-        <select id="sortBy">
+                        Ongoing
 
-            <option value="default">
+                    </option>
 
-                Sort By
+                    <option value="completed">
 
-            </option>
+                        Completed
 
-            <option value="date">
+                    </option>
 
-                Date
+                </select>
 
-            </option>
+            </div>
 
-            <option value="name">
 
-                Name
 
-            </option>
+            <!-- Price -->
 
-            <option value="seats">
+            <div class="filter-group">
 
-                Available Seats
+                <label>
 
-            </option>
+                    Price
 
-        </select>
+                </label>
+
+                <select id="priceFilter">
+
+                    <option value="all">
+
+                        All
+
+                    </option>
+
+                    <option value="free">
+
+                        Free
+
+                    </option>
+
+                    <option value="paid">
+
+                        Paid
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Sort -->
+
+            <div class="filter-group">
+
+                <label>
+
+                    Sort By
+
+                </label>
+
+                <select id="sortFilter">
+
+                    <option value="latest">
+
+                        Latest
+
+                    </option>
+
+                    <option value="oldest">
+
+                        Oldest
+
+                    </option>
+
+                    <option value="name">
+
+                        Name (A–Z)
+
+                    </option>
+
+                    <option value="popular">
+
+                        Most Popular
+
+                    </option>
+
+                    <option value="seats">
+
+                        Seats Available
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Reset -->
+
+            <button
+                class="btn secondary-btn"
+                id="resetFilters">
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                Reset
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ==========================================================
+                        LIVE EVENT SUMMARY
+        =========================================================== -->
+
+        <div class="events-summary">
+
+            <div class="summary-card glass">
+
+                <h3 id="totalEvents">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Total Events
+
+                </span>
+
+            </div>
+
+            <div class="summary-card glass">
+
+                <h3 id="technicalCount">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Technical
+
+                </span>
+
+            </div>
+
+            <div class="summary-card glass">
+
+                <h3 id="workshopCount">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Workshops
+
+                </span>
+
+            </div>
+
+            <div class="summary-card glass">
+
+                <h3 id="culturalCount">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Cultural
+
+                </span>
+
+            </div>
+
+            <div class="summary-card glass">
+
+                <h3 id="sportsCount">
+
+                    0
+
+                </h3>
+
+                <span>
+
+                    Sports
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==========================================================
+                        RESULT BAR
+        =========================================================== -->
+
+        <div class="result-bar">
+
+            <div>
+
+                <h2>
+
+                    Explore Events
+
+                </h2>
+
+                <p id="resultCount">
+
+                    Showing 0 Events
+
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
 
 </section>
 
-<!-- =========================
-     EVENTS
-========================== -->
+<!-- ==========================================================
+                        EVENTS SECTION
+=========================================================== -->
 
-<section>
+<section class="section">
 
-    <h2>Available Events</h2>
+    <div class="container">
 
-    <div id="eventsContainer"
-         class="event-grid">
+        <!-- Event Grid -->
 
-        <!-- JavaScript will load event cards here -->
+        <div
+            class="events-grid"
+            id="eventsContainer">
+
+            <!-- Event cards will be generated by events.js -->
+
+        </div>
+
+
+
+        <!-- ==========================================================
+                            EMPTY STATE
+        =========================================================== -->
+
+        <div
+            class="no-events glass"
+            id="emptyState"
+            style="display:none;">
+
+            <div class="empty-icon">
+
+                <i class="fa-solid fa-calendar-xmark"></i>
+
+            </div>
+
+            <h2>
+
+                No Events Found
+
+            </h2>
+
+            <p>
+
+                No events match your current search or filters.
+
+                Try changing the filters or resetting them.
+
+            </p>
+
+            <button
+                class="btn"
+                id="emptyResetBtn">
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                Reset Filters
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ==========================================================
+                            LOAD MORE
+        =========================================================== -->
+
+        <div class="load-more-wrapper">
+
+            <button
+                class="btn secondary-btn"
+                id="loadMoreBtn">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Load More Events
+
+            </button>
+
+        </div>
 
     </div>
 
 </section>
 
-<!-- =========================
-     EMPTY STATE
-========================== -->
 
-<section
-        id="emptyState"
-        style="display:none; text-align:center;">
 
-    <i class="fa-solid fa-calendar-xmark"
-       style="font-size:80px;
-              color:#888;"></i>
+<!-- ==========================================================
+                    UPCOMING FEATURED EVENT
+=========================================================== -->
 
-    <h2>
+<section class="section">
 
-        No Events Found
+    <div class="container">
 
-    </h2>
+        <div class="featured-event glass">
 
-    <p>
+            <div class="featured-content">
 
-        Try changing the search or filter.
+                <span class="section-tag">
 
-    </p>
+                    ⭐ Featured Event
 
-</section>
+                </span>
 
-<!-- =========================
-     FOOTER
-========================== -->
+                <h2>
 
-<footer>
+                    Annual Tech Fest 2026
 
-    <div class="social-icons">
+                </h2>
 
-        <a href="#">
+                <p>
 
-            <i class="fab fa-facebook"></i>
+                    Participate in one of the biggest technical festivals
+                    of the year featuring coding competitions,
+                    AI workshops, robotics, gaming tournaments,
+                    guest lectures and exciting prizes.
 
-        </a>
+                </p>
 
-        <a href="#">
 
-            <i class="fab fa-instagram"></i>
 
-        </a>
+                <div class="featured-info">
 
-        <a href="#">
+                    <span>
 
-            <i class="fab fa-linkedin"></i>
+                        <i class="fa-solid fa-calendar"></i>
 
-        </a>
+                        25 September 2026
 
-        <a href="#">
+                    </span>
 
-            <i class="fab fa-github"></i>
+                    <span>
 
-        </a>
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        University Auditorium
+
+                    </span>
+
+                    <span>
+
+                        <i class="fa-solid fa-users"></i>
+
+                        500+ Participants
+
+                    </span>
+
+                </div>
+
+
+
+                <a
+                    href="register.html"
+                    class="btn">
+
+                    Register Now
+
+                </a>
+
+            </div>
+
+
+
+            <div class="featured-image">
+
+                <img
+                    src="assets/images/featured-event.jpg"
+                    alt="Featured Event">
+
+            </div>
+
+        </div>
 
     </div>
 
-    <p>
+</section>
 
-        © 2026 College Event Management System
+<!-- ==========================================================
+                    NEWSLETTER
+=========================================================== -->
 
-    </p>
+<section class="section newsletter-section">
+
+    <div class="container">
+
+        <div class="newsletter-card glass">
+
+            <div class="newsletter-content">
+
+                <span class="section-tag">
+
+                    Stay Updated
+
+                </span>
+
+                <h2>
+
+                    Never Miss Another Event
+
+                </h2>
+
+                <p>
+
+                    Subscribe to receive notifications about upcoming
+                    workshops, competitions, seminars, hackathons and
+                    cultural festivals.
+
+                </p>
+
+            </div>
+
+            <form
+                class="newsletter-form"
+                id="newsletterForm">
+
+                <input
+                    type="email"
+                    id="newsletterEmail"
+                    placeholder="Enter your email address"
+                    required>
+
+                <button
+                    type="submit"
+                    class="btn">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Subscribe
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================================
+                        FOOTER
+=========================================================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <!-- Company -->
+
+            <div class="footer-column">
+
+                <div class="footer-logo">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                    <span>
+
+                        EventHub
+
+                    </span>
+
+                </div>
+
+                <p>
+
+                    A modern College Event Management System
+                    designed to simplify event registration,
+                    participation and management.
+
+                </p>
+
+                <div class="footer-social">
+
+                    <a href="#">
+
+                        <i class="fab fa-facebook-f"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-instagram"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-linkedin-in"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-github"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Quick Links -->
+
+            <div class="footer-column">
+
+                <h3>
+
+                    Quick Links
+
+                </h3>
+
+                <ul>
+
+                    <li>
+
+                        <a href="index.html">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="events.html">
+
+                            Events
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="register.html">
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="dashboard.html">
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="participants.html">
+
+                            Participants
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- Event Categories -->
+
+            <div class="footer-column">
+
+                <h3>
+
+                    Categories
+
+                </h3>
+
+                <ul>
+
+                    <li>
+
+                        <a href="#">
+
+                            Technical
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            Workshops
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            Cultural
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            Sports
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            Seminars
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- Contact -->
+
+            <div class="footer-column">
+
+                <h3>
+
+                    Contact
+
+                </h3>
+
+                <ul class="footer-contact">
+
+                    <li>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        Guru Ghasidas University
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        +91 XXXXX XXXXX
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        eventhub@college.edu
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="footer-bottom">
+
+            <p>
+
+                © 2026 EventHub | College Event Management System
+
+                Designed & Developed by
+
+                <strong>Somesh Rathore</strong>
+
+            </p>
+
+        </div>
+
+    </div>
 
 </footer>
 
-<!-- =========================
-     BACK TO TOP
-========================== -->
 
-<button id="backToTop">
+
+<!-- ==========================================================
+                    BACK TO TOP
+=========================================================== -->
+
+<button
+    class="back-to-top"
+    id="backToTop">
 
     <i class="fa-solid fa-arrow-up"></i>
 
 </button>
 
-<!-- =========================
-     JAVASCRIPT
-========================== -->
+
+
+<!-- ==========================================================
+                    JAVASCRIPT
+=========================================================== -->
+
+<script src="eventData.js"></script>
 
 <script src="storage.js"></script>
 

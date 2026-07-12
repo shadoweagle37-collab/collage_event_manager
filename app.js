@@ -1,270 +1,409 @@
-/*
-==========================================================
-College Event Management System
-File: app.js
+/*=========================================================
+                    EVENTHUB V2
+            COLLEGE EVENT MANAGEMENT SYSTEM
+                    APP.JS
+=========================================================*/
 
-Purpose:
-- Home page functionality
-- Display statistics
-- Featured events
-- Dark mode
-- Back to top
-==========================================================
-*/
+"use strict";
 
-// =========================================
-// Select Elements
-// =========================================
+/*=========================================================
+                    DOM ELEMENTS
+=========================================================*/
 
-const totalEventsElement = document.getElementById("totalEvents");
-const totalParticipantsElement = document.getElementById("totalParticipants");
-const availableSeatsElement = document.getElementById("availableSeats");
+const body = document.body;
 
-const featuredEventsContainer =
-document.getElementById("featuredEvents");
+const loader = document.getElementById("loader");
 
-const darkModeBtn =
-document.getElementById("darkModeBtn");
+const navbar = document.querySelector(".navbar");
 
-const backToTop =
-document.getElementById("backToTop");
+const menuToggle = document.getElementById("menuToggle");
+
+const navMenu = document.getElementById("navMenu");
+
+const darkModeBtn = document.getElementById("darkModeBtn");
+
+const backToTop = document.getElementById("backToTop");
+
+const counters = document.querySelectorAll(".counter");
+
+const eventSearch = document.getElementById("eventSearch");
+
+const featuredEvents = document.getElementById("featuredEvents");
 
 
-// =========================================
-// Counter Animation
-// =========================================
 
-function animateCounter(element, target){
+/*=========================================================
+                    LOADER
+=========================================================*/
 
-    let count = 0;
+function hideLoader(){
 
-    const speed = Math.max(1, Math.floor(target / 60));
+    if(!loader) return;
 
-    const timer = setInterval(()=>{
+    loader.classList.add("hidden");
 
-        count += speed;
+    setTimeout(()=>{
 
-        if(count >= target){
+        loader.style.display="none";
 
-            count = target;
+    },600);
 
-            clearInterval(timer);
+}
+
+window.addEventListener("load",hideLoader);
+
+
+
+/*=========================================================
+                    UTILITIES
+=========================================================*/
+
+const $ = selector => document.querySelector(selector);
+
+const $$ = selector => document.querySelectorAll(selector);
+
+
+
+/*=========================================================
+                SAFE EVENT LISTENER
+=========================================================*/
+
+function on(element,event,callback){
+
+    if(element){
+
+        element.addEventListener(event,callback);
+
+    }
+
+}
+
+
+
+/*=========================================================
+                APP INITIALIZATION
+=========================================================*/
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    console.log("%cEventHub Loaded Successfully",
+        "color:#6C63FF;font-size:16px;font-weight:bold;");
+
+});
+
+/*=========================================================
+                STICKY NAVBAR
+=========================================================*/
+
+function handleNavbar(){
+
+    if(!navbar) return;
+
+    if(window.scrollY > 80){
+
+        navbar.classList.add("scrolled");
+
+    }else{
+
+        navbar.classList.remove("scrolled");
+
+    }
+
+}
+
+
+
+
+
+/*=========================================================
+                MOBILE MENU
+=========================================================*/
+
+function toggleMenu(){
+
+    if(!navMenu || !menuToggle) return;
+
+    navMenu.classList.toggle("active");
+
+    menuToggle.classList.toggle("active");
+
+    document.body.classList.toggle("menu-open");
+
+}
+
+on(menuToggle,"click",toggleMenu);
+
+
+
+/*=========================================================
+                CLOSE MENU
+=========================================================*/
+
+function closeMenu(){
+
+    if(!navMenu || !menuToggle) return;
+
+    navMenu.classList.remove("active");
+
+    menuToggle.classList.remove("active");
+
+    document.body.classList.remove("menu-open");
+
+}
+
+
+
+/*=========================================================
+        CLOSE MENU WHEN LINK IS CLICKED
+=========================================================*/
+
+$$(".nav-links a").forEach(link=>{
+
+    on(link,"click",closeMenu);
+
+});
+
+
+
+/*=========================================================
+        CLICK OUTSIDE TO CLOSE MENU
+=========================================================*/
+
+document.addEventListener("click",(event)=>{
+
+    if(!navMenu || !menuToggle) return;
+
+    if(
+        navMenu.classList.contains("active") &&
+        !navMenu.contains(event.target) &&
+        !menuToggle.contains(event.target)
+    ){
+
+        closeMenu();
+
+    }
+
+});
+
+
+
+/*=========================================================
+            ESC KEY CLOSE MENU
+=========================================================*/
+
+document.addEventListener("keydown",(event)=>{
+
+    if(event.key==="Escape"){
+
+        closeMenu();
+
+    }
+
+});
+
+
+
+/*=========================================================
+                DARK MODE
+=========================================================*/
+
+const THEME_KEY="eventhub-theme";
+
+
+
+function applyTheme(theme){
+
+    if(theme==="dark"){
+
+        body.classList.add("dark");
+
+        if(darkModeBtn){
+
+            darkModeBtn.innerHTML=
+            '<i class="fa-solid fa-sun"></i>';
 
         }
 
-        element.textContent = count;
+    }else{
 
-    },20);
+        body.classList.remove("dark");
 
-}
+        if(darkModeBtn){
 
+            darkModeBtn.innerHTML=
+            '<i class="fa-solid fa-moon"></i>';
 
-// =========================================
-// Load Statistics
-// =========================================
+        }
 
-function loadStatistics(){
-
-    const events = getEvents();
-
-    const participants = getParticipants();
-
-    const totalSeats = events.reduce((sum,event)=>{
-
-        return sum + event.availableSeats;
-
-    },0);
-
-    animateCounter(totalEventsElement,events.length);
-
-    animateCounter(
-        totalParticipantsElement,
-        participants.length
-    );
-
-    animateCounter(
-        availableSeatsElement,
-        totalSeats
-    );
+    }
 
 }
 
 
-// =========================================
-// Create Event Card
-// =========================================
 
-function createEventCard(event){
+function loadTheme(){
 
-    return `
+    const savedTheme=
 
-    <div class="event-card fade-up">
+        localStorage.getItem(THEME_KEY) || "light";
 
-        <img
-        src="${event.image}"
-        alt="${event.title}"
-        class="event-image">
-
-        <div class="event-content">
-
-            <span class="event-category">
-
-                ${event.category}
-
-            </span>
-
-            <h3>
-
-                ${event.title}
-
-            </h3>
-
-            <p>
-
-                ${event.description}
-
-            </p>
-
-            <ul>
-
-                <li>
-                    <i class="fa-solid fa-calendar"></i>
-                    ${event.date}
-                </li>
-
-                <li>
-                    <i class="fa-solid fa-clock"></i>
-                    ${event.time}
-                </li>
-
-                <li>
-                    <i class="fa-solid fa-location-dot"></i>
-                    ${event.venue}
-                </li>
-
-                <li>
-
-                    <i class="fa-solid fa-chair"></i>
-
-                    Seats :
-                    ${event.availableSeats}
-
-                </li>
-
-            </ul>
-
-            <a
-            href="register.html"
-            class="btn primary-btn">
-
-                Register
-
-            </a>
-
-        </div>
-
-    </div>
-
-    `;
+    applyTheme(savedTheme);
 
 }
 
 
-// =========================================
-// Featured Events
-// =========================================
 
-function loadFeaturedEvents(){
+function toggleTheme(){
 
-    const events = getEvents();
+    const isDark=
 
-    featuredEventsContainer.innerHTML="";
+        body.classList.contains("dark");
 
-    events
+    const newTheme=
 
-    .slice(0,3)
+        isDark ? "light" : "dark";
 
-    .forEach(event=>{
+    applyTheme(newTheme);
 
-        featuredEventsContainer.innerHTML +=
+    localStorage.setItem(THEME_KEY,newTheme);
 
-        createEventCard(event);
+}
+
+
+
+on(darkModeBtn,"click",toggleTheme);
+
+loadTheme();
+
+
+
+/*=========================================================
+            ACTIVE NAVIGATION LINK
+=========================================================*/
+
+const currentPage=
+
+window.location.pathname.split("/").pop() || "index.html";
+
+
+
+$$(".nav-links a").forEach(link=>{
+
+    const href=link.getAttribute("href");
+
+    if(href===currentPage){
+
+        link.classList.add("active");
+
+    }else{
+
+        link.classList.remove("active");
+
+    }
+
+});
+
+/*=========================================================
+                ANIMATED COUNTERS
+=========================================================*/
+
+function animateCounter(counter){
+
+    const target = Number(counter.dataset.target);
+
+    const duration = 1800;
+
+    const start = 0;
+
+    let startTime = null;
+
+    function update(timestamp){
+
+        if(!startTime) startTime = timestamp;
+
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+
+        const value = Math.floor(progress * (target - start) + start);
+
+        counter.textContent = value.toLocaleString();
+
+        if(progress < 1){
+
+            requestAnimationFrame(update);
+
+        }else{
+
+            counter.textContent = target.toLocaleString();
+
+        }
+
+    }
+
+    requestAnimationFrame(update);
+
+}
+
+
+
+function initCounters(){
+
+    if(!counters.length) return;
+
+    const observer = new IntersectionObserver((entries, obs)=>{
+
+        entries.forEach(entry=>{
+
+            if(entry.isIntersecting){
+
+                animateCounter(entry.target);
+
+                obs.unobserve(entry.target);
+
+            }
+
+        });
+
+    },{
+
+        threshold:.6
+
+    });
+
+    counters.forEach(counter=>{
+
+        observer.observe(counter);
 
     });
 
 }
 
+initCounters();
 
-// =========================================
-// Dark Mode
-// =========================================
 
-function loadTheme(){
 
-    const theme =
+/*=========================================================
+                BACK TO TOP
+=========================================================*/
 
-    localStorage.getItem("theme");
+function handleBackToTop(){
 
-    if(theme==="dark"){
+    if(!backToTop) return;
 
-        document.body.classList.add("dark");
+    if(window.scrollY > 500){
 
-        darkModeBtn.innerHTML=
+        backToTop.classList.add("show");
 
-        '<i class="fa-solid fa-sun"></i>';
+    }else{
+
+        backToTop.classList.remove("show");
 
     }
+
+
 
 }
 
-darkModeBtn.addEventListener("click",()=>{
-
-    document.body.classList.toggle("dark");
-
-    if(document.body.classList.contains("dark")){
-
-        localStorage.setItem("theme","dark");
-
-        darkModeBtn.innerHTML=
-
-        '<i class="fa-solid fa-sun"></i>';
-
-    }
-
-    else{
-
-        localStorage.setItem("theme","light");
-
-        darkModeBtn.innerHTML=
-
-        '<i class="fa-solid fa-moon"></i>';
-
-    }
-
-});
-
-
-// =========================================
-// Back To Top
-// =========================================
-
-window.addEventListener("scroll",()=>{
-
-    if(window.scrollY>350){
-
-        backToTop.style.display="block";
-
-    }
-
-    else{
-
-        backToTop.style.display="none";
-
-    }
-
-});
-
-backToTop.addEventListener("click",()=>{
+on(backToTop,"click",()=>{
 
     window.scrollTo({
 
@@ -277,113 +416,484 @@ backToTop.addEventListener("click",()=>{
 });
 
 
-// =========================================
-// Navbar Shadow
-// =========================================
 
-window.addEventListener("scroll",()=>{
+/*=========================================================
+            SCROLL REVEAL ANIMATION
+=========================================================*/
 
-    const navbar =
+const revealItems=document.querySelectorAll(
 
-    document.querySelector(".navbar");
+`
 
-    if(window.scrollY>40){
+.section-header,
 
-        navbar.style.boxShadow=
+.feature-card,
 
-        "0 8px 20px rgba(0,0,0,.15)";
+.event-card,
 
-    }
+.why-card,
 
-    else{
+.step-card,
 
-        navbar.style.boxShadow=
+.testimonial-card,
 
-        "none";
+.cta-card,
 
-    }
+.footer-column,
 
-});
+.hero-stat
+
+`
+
+);
 
 
-// =========================================
-// Toast Notification
-// =========================================
 
-function showToast(message,color="#22C55E"){
+function revealOnScroll(){
 
-    const toast=document.createElement("div");
+    const observer=new IntersectionObserver(
 
-    toast.className="toast";
+        entries=>{
 
-    toast.textContent=message;
+            entries.forEach(entry=>{
 
-    toast.style.background=color;
+                if(entry.isIntersecting){
 
-    document.body.appendChild(toast);
+                    entry.target.classList.add("revealed");
 
-    setTimeout(()=>{
+                    observer.unobserve(entry.target);
 
-        toast.classList.add("show");
+                }
 
-    },100);
+            });
 
-    setTimeout(()=>{
+        },
 
-        toast.remove();
+        {
 
-    },3000);
+            threshold:.15
+
+        }
+
+    );
+
+
+
+    revealItems.forEach(item=>{
+
+        observer.observe(item);
+
+    });
 
 }
 
+revealOnScroll();
 
-// =========================================
-// Scroll Animation
-// =========================================
 
-const observer =
 
-new IntersectionObserver(entries=>{
+/*=========================================================
+                PROGRESS BAR
+=========================================================*/
 
-    entries.forEach(entry=>{
+const progressFill=document.querySelector(".progress-fill");
 
-        if(entry.isIntersecting){
 
-            entry.target.classList.add("fade-up");
+
+function animateProgress(){
+
+    if(!progressFill) return;
+
+
+
+    const observer=new IntersectionObserver(
+
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                if(entry.isIntersecting){
+
+                    progressFill.style.width="82%";
+
+                    observer.unobserve(progressFill);
+
+                }
+
+            });
+
+        },
+
+        {
+
+            threshold:.5
 
         }
+
+    );
+
+
+
+    observer.observe(progressFill);
+
+}
+
+animateProgress();
+
+
+
+/*=========================================================
+            HERO FLOATING EFFECT
+=========================================================*/
+
+const floatingCards=document.querySelectorAll(".floating-card");
+
+
+
+window.addEventListener("mousemove",(e)=>{
+
+    const x=(e.clientX/window.innerWidth-.5)*12;
+
+    const y=(e.clientY/window.innerHeight-.5)*12;
+
+
+
+    floatingCards.forEach((card,index)=>{
+
+        const speed=(index+1)*0.6;
+
+        card.style.transform=
+
+        `translate(${x*speed}px,${y*speed}px)`;
 
     });
 
 });
 
-document
+/*=========================================================
+                FEATURED EVENTS DATA
+=========================================================*/
 
-.querySelectorAll("section")
+const featuredEventList = Storage.getEvents();
 
-.forEach(section=>{
 
-    observer.observe(section);
+/*=========================================================
+                CREATE EVENT CARD
+=========================================================*/
+
+function createEventCard(event){
+
+    return `
+
+    <article class="event-card">
+
+        <div class="event-image">
+
+            <img
+                src="${event.image}"
+                alt="${event.title}">
+
+            <span class="event-badge">
+
+                ${event.category}
+
+            </span>
+
+        </div>
+
+        <div class="event-content">
+
+            <h3>${event.title}</h3>
+
+            <p>
+
+                Join this exciting event and
+                showcase your talent.
+
+            </p>
+
+            <div class="event-meta">
+
+                <span>
+
+                    <i class="fa-solid fa-calendar"></i>
+
+                    ${event.date}
+
+                </span>
+
+                <span>
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    ${event.location}
+
+                </span>
+
+            </div>
+
+            <div class="event-footer">
+
+                <span class="event-price">
+
+                    ${event.price}
+
+                </span>
+
+                <a
+                    href="register.html"
+                    class="event-btn">
+
+                    Register
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </article>
+
+    `;
+
+}
+
+
+
+/*=========================================================
+                RENDER EVENTS
+=========================================================*/
+
+function renderEvents(list){
+
+    if(!featuredEvents) return;
+
+    if(list.length===0){
+
+        featuredEvents.innerHTML=`
+
+        <div class="no-events">
+
+            <i class="fa-solid fa-face-frown"></i>
+
+            <h3>No Events Found</h3>
+
+            <p>
+
+                Try another search keyword.
+
+            </p>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+    featuredEvents.innerHTML=
+
+        list.map(createEventCard).join("");
+
+}
+
+
+
+/*=========================================================
+                SEARCH EVENTS
+=========================================================*/
+
+on(eventSearch,"input",(e)=>{
+
+    const keyword=
+
+        e.target.value.toLowerCase().trim();
+
+    const filtered =
+
+    featuredEventList.filter(event =>
+
+            event.title.toLowerCase().includes(keyword) ||
+
+            event.category.toLowerCase().includes(keyword)
+
+        );
+
+    renderEvents(filtered);
+
+});
+
+/*=========================================================
+                SMOOTH SCROLL
+=========================================================*/
+
+$$('.nav-links a[href^="#"]').forEach(link=>{
+
+    on(link,"click",e=>{
+
+        e.preventDefault();
+
+        const target=document.querySelector(
+
+            link.getAttribute("href")
+
+        );
+
+        if(!target) return;
+
+        target.scrollIntoView({
+
+            behavior:"smooth",
+
+            block:"start"
+
+        });
+
+        closeMenu();
+
+    });
 
 });
 
 
-// =========================================
-// Initialize
-// =========================================
 
-document.addEventListener(
+/*=========================================================
+                ACTIVE SECTION
+=========================================================*/
 
-"DOMContentLoaded",
+const sections=document.querySelectorAll("section[id]");
 
-()=>{
+function updateActiveSection(){
 
-    loadTheme();
+    const scrollPos=window.scrollY+140;
 
-    loadStatistics();
+    sections.forEach(section=>{
 
-    loadFeaturedEvents();
+        const top=section.offsetTop;
+
+        const height=section.offsetHeight;
+
+        const id=section.getAttribute("id");
+
+        const navLink=document.querySelector(
+
+            `.nav-links a[href="#${id}"]`
+
+        );
+
+        if(!navLink) return;
+
+        if(scrollPos>=top && scrollPos<top+height){
+
+            navLink.classList.add("active");
+
+        }else{
+
+            navLink.classList.remove("active");
+
+        }
+
+    });
 
 }
 
-);
+
+
+/*=========================================================
+                LAZY IMAGE LOADING
+=========================================================*/
+
+const lazyImages=document.querySelectorAll("img[data-src]");
+
+function initLazyImages(){
+
+    if(!lazyImages.length) return;
+
+    const observer=new IntersectionObserver(
+
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                if(!entry.isIntersecting) return;
+
+                const img=entry.target;
+
+                img.src=img.dataset.src;
+
+                img.removeAttribute("data-src");
+
+                observer.unobserve(img);
+
+            });
+
+        },
+
+        {
+
+            rootMargin:"100px"
+
+        }
+
+    );
+
+    lazyImages.forEach(img=>{
+
+        observer.observe(img);
+
+    });
+
+}
+
+
+
+/*=========================================================
+                SCROLL HANDLER
+=========================================================*/
+
+function handleScroll(){
+
+    handleNavbar();
+
+    handleBackToTop();
+
+    updateActiveSection();
+
+}
+
+window.addEventListener("scroll",handleScroll);
+
+
+
+/*=========================================================
+                INITIALIZATION
+=========================================================*/
+
+function initializeApp() {
+
+    loadTheme();
+
+    initCounters();
+
+    revealOnScroll();
+
+    animateProgress();
+
+    initLazyImages();
+
+    renderEvents(featuredEventList);
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+
+    on(menuToggle, "click", toggleMenu);
+
+    on(darkModeBtn, "click", toggleTheme);
+
+}
+/*=========================================================
+                START APPLICATION
+=========================================================*/
+
+initializeApp();

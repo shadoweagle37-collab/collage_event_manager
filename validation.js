@@ -1,311 +1,504 @@
-/*
-==========================================================
-College Event Management System
-File: validation.js
+/*=========================================================
+        EVENTHUB - VALIDATION MODULE
+        Version 2.0
+=========================================================*/
 
-Purpose:
-Reusable validation functions
-==========================================================
-*/
+"use strict";
 
-// ==========================================
-// Show Error
-// ==========================================
+/*=========================================================
+                VALIDATION OBJECT
+=========================================================*/
 
-function showError(input, message) {
+const Validation = {
 
-    input.classList.remove("valid");
-    input.classList.add("invalid");
+    /*=====================================================
+                    CONSTANTS
+    =====================================================*/
 
-    const error = document.getElementById(input.id + "Error");
+    NAME_MIN_LENGTH: 3,
 
-    if (error) {
-        error.textContent = message;
+    NAME_MAX_LENGTH: 50,
+
+    PHONE_LENGTH: 10,
+
+
+
+    /*=====================================================
+                SANITIZE TEXT
+    =====================================================*/
+
+    sanitizeText(text){
+
+        return String(text)
+
+            .trim()
+
+            .replace(/\s+/g," ");
+
+    },
+
+
+
+    /*=====================================================
+                IS EMPTY
+    =====================================================*/
+
+    isEmpty(value){
+
+        return this.sanitizeText(value)==="";
+
+    },
+
+
+
+    /*=====================================================
+                SET ERROR
+    =====================================================*/
+
+    setError(errors,field,message){
+
+        errors[field]=message;
+
+    },
+
+
+
+    /*=====================================================
+                EMAIL FORMAT
+    =====================================================*/
+
+    isValidEmail(email){
+
+        const pattern=
+
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+        return pattern.test(
+
+            this.sanitizeText(email)
+
+        );
+
+    },
+
+
+
+    /*=====================================================
+                PHONE FORMAT
+    =====================================================*/
+
+    isValidPhone(phone){
+
+        const cleaned=
+
+            phone.replace(/\D/g,"");
+
+        return /^[6-9]\d{9}$/.test(cleaned);
+
+    },
+
+        /*=====================================================
+                    NAME
+    =====================================================*/
+
+    validateName(name){
+
+        name = this.sanitizeText(name);
+
+        if(this.isEmpty(name)){
+
+            return "Full name is required.";
+
+        }
+
+        if(name.length < this.NAME_MIN_LENGTH){
+
+            return `Name must contain at least ${this.NAME_MIN_LENGTH} characters.`;
+
+        }
+
+        if(name.length > this.NAME_MAX_LENGTH){
+
+            return `Name cannot exceed ${this.NAME_MAX_LENGTH} characters.`;
+
+        }
+
+        if(!/^[A-Za-z\s]+$/.test(name)){
+
+            return "Name can contain only letters and spaces.";
+
+        }
+
+        return "";
+
+    },
+
+
+
+    /*=====================================================
+                    EMAIL
+    =====================================================*/
+
+    validateEmail(email){
+
+        email = this.sanitizeText(email);
+
+        if(this.isEmpty(email)){
+
+            return "Email address is required.";
+
+        }
+
+        if(!this.isValidEmail(email)){
+
+            return "Enter a valid email address.";
+
+        }
+
+        return "";
+
+    },
+
+
+
+    /*=====================================================
+                    PHONE
+    =====================================================*/
+
+    validatePhone(phone){
+
+        phone = phone.replace(/\D/g,"");
+
+        if(phone.length===0){
+
+            return "Phone number is required.";
+
+        }
+
+        if(!this.isValidPhone(phone)){
+
+            return "Enter a valid 10-digit Indian mobile number.";
+
+        }
+
+        return "";
+
+    },
+
+
+
+    /*=====================================================
+                DEPARTMENT
+    =====================================================*/
+
+    validateDepartment(department){
+
+        department = this.sanitizeText(department);
+
+        if(
+
+            department==="" ||
+
+            department==="Select Department"
+
+        ){
+
+            return "Please select your department.";
+
+        }
+
+        return "";
+
+    },
+
+
+
+    /*=====================================================
+                    YEAR
+    =====================================================*/
+
+    validateYear(year){
+
+        const validYears=[
+
+            "First Year",
+
+            "Second Year",
+
+            "Third Year",
+
+            "Fourth Year"
+
+        ];
+
+        if(!validYears.includes(year)){
+
+            return "Please select your academic year.";
+
+        }
+
+        return "";
+
+    },
+
+
+
+    /*=====================================================
+                    GENDER
+    =====================================================*/
+
+    validateGender(gender){
+
+        const validGender=[
+
+            "Male",
+
+            "Female",
+
+            "Other"
+
+        ];
+
+        if(!validGender.includes(gender)){
+
+            return "Please select your gender.";
+
+        }
+
+        return "";
+
+    },
+
+
+
+    /*=====================================================
+                    EVENT
+    =====================================================*/
+
+    validateEvent(eventId){
+
+        if(
+
+            eventId===null ||
+
+            eventId==="" ||
+
+            Number(eventId)<=0
+
+        ){
+
+            return "Please select an event.";
+
+        }
+
+        const event = Storage.getEvents().find(
+
+            item => item.id === Number(eventId)
+
+        );
+
+        if(!event){
+
+            return "Selected event does not exist.";
+
+        }
+
+        if(
+
+            event.registrationOpen===false
+
+        ){
+
+            return "Registration for this event is closed.";
+
+        }
+
+        if(
+
+            event.availableSeats<=0
+
+        ){
+
+            return "No seats are available for this event.";
+
+        }
+
+        return "";
+
+    },
+
+
+
+    /*=====================================================
+                TERMS
+    =====================================================*/
+
+    validateTerms(accepted){
+
+        if(!accepted){
+
+            return "You must accept the Terms & Conditions.";
+
+        }
+
+        return "";
+
+    },
+
+        /*=====================================================
+                REGISTRATION FORM
+    =====================================================*/
+
+    validateRegistration(formData){
+
+        const errors = {};
+
+        const cleanData = {
+
+            name: this.sanitizeText(formData.name),
+
+            email: this.sanitizeText(formData.email).toLowerCase(),
+
+            phone: formData.phone.replace(/\D/g,""),
+
+            department: this.sanitizeText(formData.department),
+
+            year: this.sanitizeText(formData.year),
+
+            gender: this.sanitizeText(formData.gender),
+
+            eventId: Number(formData.eventId),
+
+            terms: formData.terms
+
+        };
+
+
+
+        let error;
+
+
+
+        error = this.validateName(cleanData.name);
+
+        if(error){
+
+            this.setError(errors,"name",error);
+
+        }
+
+
+
+        error = this.validateEmail(cleanData.email);
+
+        if(error){
+
+            this.setError(errors,"email",error);
+
+        }
+
+
+
+        error = this.validatePhone(cleanData.phone);
+
+        if(error){
+
+            this.setError(errors,"phone",error);
+
+        }
+
+
+
+        error = this.validateDepartment(cleanData.department);
+
+        if(error){
+
+            this.setError(errors,"department",error);
+
+        }
+
+
+
+        error = this.validateYear(cleanData.year);
+
+        if(error){
+
+            this.setError(errors,"year",error);
+
+        }
+
+
+
+        error = this.validateGender(cleanData.gender);
+
+        if(error){
+
+            this.setError(errors,"gender",error);
+
+        }
+
+
+
+        error = this.validateEvent(cleanData.eventId);
+
+        if(error){
+
+            this.setError(errors,"eventId",error);
+
+        }
+
+
+
+        error = this.validateTerms(cleanData.terms);
+
+        if(error){
+
+            this.setError(errors,"terms",error);
+
+        }
+
+
+
+        if(
+
+            !errors.email &&
+
+            !errors.eventId &&
+
+            Storage.isDuplicateRegistration(
+
+                cleanData.email,
+
+                cleanData.eventId
+
+            )
+
+        ){
+
+            this.setError(
+
+                errors,
+
+                "duplicate",
+
+                "You have already registered for this event using this email."
+
+            );
+
+        }
+
+
+
+        return{
+
+            valid:Object.keys(errors).length===0,
+
+            errors,
+
+            data:cleanData
+
+        };
+
     }
 
-}
-
-// ==========================================
-// Show Success
-// ==========================================
-
-function showSuccess(input) {
-
-    input.classList.remove("invalid");
-    input.classList.add("valid");
-
-    const error = document.getElementById(input.id + "Error");
-
-    if (error) {
-        error.textContent = "";
-    }
-
-}
-
-// ==========================================
-// Name Validation
-// ==========================================
-
-function validateName(input) {
-
-    const value = input.value.trim();
-
-    const regex = /^[A-Za-z ]{3,}$/;
-
-    if (value === "") {
-
-        showError(input, "Name is required.");
-
-        return false;
-
-    }
-
-    if (!regex.test(value)) {
-
-        showError(input, "Minimum 3 letters. Alphabets only.");
-
-        return false;
-
-    }
-
-    showSuccess(input);
-
-    return true;
-
-}
-
-// ==========================================
-// Email Validation
-// ==========================================
-
-function validateEmail(input) {
-
-    const value = input.value.trim();
-
-    const regex =
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (value === "") {
-
-        showError(input, "Email is required.");
-
-        return false;
-
-    }
-
-    if (!regex.test(value)) {
-
-        showError(input, "Enter a valid email.");
-
-        return false;
-
-    }
-
-    showSuccess(input);
-
-    return true;
-
-}
-
-// ==========================================
-// Phone Validation
-// ==========================================
-
-function validatePhone(input) {
-
-    const value = input.value.trim();
-
-    const regex = /^[0-9]{10}$/;
-
-    if (value === "") {
-
-        showError(input, "Phone number is required.");
-
-        return false;
-
-    }
-
-    if (!regex.test(value)) {
-
-        showError(input, "Phone must contain exactly 10 digits.");
-
-        return false;
-
-    }
-
-    showSuccess(input);
-
-    return true;
-
-}
-
-// ==========================================
-// Select Validation
-// ==========================================
-
-function validateSelect(input, message = "Please select an option.") {
-
-    if (input.value === "") {
-
-        showError(input, message);
-
-        return false;
-
-    }
-
-    showSuccess(input);
-
-    return true;
-
-}
-
-// ==========================================
-// Textarea Validation
-// ==========================================
-
-function validateAddress(input) {
-
-    const value = input.value.trim();
-
-    if (value.length < 10) {
-
-        showError(input, "Address must contain at least 10 characters.");
-
-        return false;
-
-    }
-
-    showSuccess(input);
-
-    return true;
-
-}
-
-// ==========================================
-// Roll Number
-// ==========================================
-
-function validateRoll(input) {
-
-    if (input.value.trim() === "") {
-
-        showError(input, "Roll Number is required.");
-
-        return false;
-
-    }
-
-    showSuccess(input);
-
-    return true;
-
-}
-
-// ==========================================
-// Gender Validation
-// ==========================================
-
-function validateGender() {
-
-    const gender =
-    document.querySelector(
-        'input[name="gender"]:checked'
-    );
-
-    const error =
-    document.getElementById("genderError");
-
-    if (!gender) {
-
-        error.textContent =
-        "Please select gender.";
-
-        return false;
-
-    }
-
-    error.textContent = "";
-
-    return true;
-
-}
-
-// ==========================================
-// Terms Validation
-// ==========================================
-
-function validateTerms() {
-
-    const checkbox =
-    document.getElementById("terms");
-
-    const error =
-    document.getElementById("termsError");
-
-    if (!checkbox.checked) {
-
-        error.textContent =
-        "You must accept the Terms & Conditions.";
-
-        return false;
-
-    }
-
-    error.textContent = "";
-
-    return true;
-
-}
-
-// ==========================================
-// Real-Time Validation
-// ==========================================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    document.getElementById("name")
-        .addEventListener("input", function () {
-            validateName(this);
-        });
-
-    document.getElementById("email")
-        .addEventListener("input", function () {
-            validateEmail(this);
-        });
-
-    document.getElementById("phone")
-        .addEventListener("input", function () {
-            validatePhone(this);
-        });
-
-    document.getElementById("department")
-        .addEventListener("change", function () {
-            validateSelect(this);
-        });
-
-    document.getElementById("year")
-        .addEventListener("change", function () {
-            validateSelect(this);
-        });
-
-    document.getElementById("event")
-        .addEventListener("change", function () {
-            validateSelect(this);
-        });
-
-    document.getElementById("address")
-        .addEventListener("input", function () {
-            validateAddress(this);
-        });
-
-    document.getElementById("roll")
-        .addEventListener("input", function () {
-            validateRoll(this);
-        });
-
-    document.getElementById("emergency")
-        .addEventListener("input", function () {
-            validatePhone(this);
-        });
-
-});
+};

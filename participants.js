@@ -1,94 +1,1491 @@
-/*
-==========================================================
-College Event Management System
-File: participants.js
+/*=========================================================
+                EVENTHUB PARTICIPANTS PAGE
+=========================================================*/
 
-Purpose
-- Display participants
-- Search
-- Filter
-- Sort
-- Edit/Delete (Part 2)
-- CSV Export (Part 2)
-==========================================================
-*/
+/*=========================================================
+                GLOBAL VARIABLES
+=========================================================*/
 
-// ======================================
-// DOM ELEMENTS
-// ======================================
+let participants = [];
+let filteredParticipants = [];
+let selectedParticipant = null;
 
-const participantTable =
-document.getElementById("participantTable");
 
-const searchName =
-document.getElementById("searchName");
+/*=========================================================
+                DOM ELEMENTS
+=========================================================*/
 
-const searchDepartment =
-document.getElementById("searchDepartment");
+const tableBody = document.getElementById("participantsTableBody");
 
-const searchEvent =
-document.getElementById("searchEvent");
+const emptyState = document.getElementById("emptyState");
 
-const sortParticipant =
-document.getElementById("sortParticipant");
+const participantCount = document.getElementById("participantCount");
 
-const confirmModal =
-document.getElementById("confirmModal");
+const searchInput = document.getElementById("participantSearch");
 
-const confirmDelete =
-document.getElementById("confirmDelete");
+const eventFilter = document.getElementById("eventFilter");
 
-const cancelDelete =
-document.getElementById("cancelDelete");
+const departmentFilter = document.getElementById("departmentFilter");
 
-const downloadCSV =
-document.getElementById("downloadCSV");
+const yearFilter = document.getElementById("yearFilter");
 
-// ======================================
-// DATA
-// ======================================
+const genderFilter = document.getElementById("genderFilter");
 
-let participants = getParticipants();
 
-let events = getEvents();
+/* Statistics */
 
-let deleteId = null;
+const totalParticipants = document.getElementById("totalParticipants");
 
-// ======================================
-// EVENT NAME
-// ======================================
+const activeEvents = document.getElementById("activeEvents");
 
-function getEventName(id){
+const filledSeats = document.getElementById("filledSeats");
 
-    const event = events.find(
+const totalEvents = document.getElementById("totalEvents");
 
-        e => e.id == id
 
-    );
+/* Insights */
 
-    return event
-        ? event.title
-        : "Unknown";
+const popularEvent = document.getElementById("popularEvent");
+
+const popularCount = document.getElementById("popularCount");
+
+const activeDepartment = document.getElementById("activeDepartment");
+
+const departmentCount = document.getElementById("departmentCount");
+
+const lastDate = document.getElementById("lastDate");
+
+const lastTime = document.getElementById("lastTime");
+
+const averageParticipants = document.getElementById("averageParticipants");
+
+
+/*=========================================================
+                PARTICIPANT MODAL
+=========================================================*/
+
+const participantModal = document.getElementById("participantModal");
+
+const closeParticipantModal = document.getElementById("closeParticipantModal");
+
+const closeModalBtn = document.getElementById("closeModalBtn");
+
+const viewRegistrationId = document.getElementById("viewRegistrationId");
+
+const viewStudentName = document.getElementById("viewStudentName");
+
+const viewEmail = document.getElementById("viewEmail");
+
+const viewPhone = document.getElementById("viewPhone");
+
+const viewDepartment = document.getElementById("viewDepartment");
+
+const viewYear = document.getElementById("viewYear");
+
+const viewGender = document.getElementById("viewGender");
+
+const viewEvent = document.getElementById("viewEvent");
+
+const viewVenue = document.getElementById("viewVenue");
+
+const viewEventDate = document.getElementById("viewEventDate");
+
+const viewEventTime = document.getElementById("viewEventTime");
+
+const viewRegistrationDate = document.getElementById("viewRegistrationDate");
+
+
+/*=========================================================
+                DELETE MODAL
+=========================================================*/
+
+const deleteParticipantModal =
+    document.getElementById("deleteParticipantModal");
+
+const deleteParticipantName =
+    document.getElementById("deleteParticipantName");
+
+const deleteParticipantEvent =
+    document.getElementById("deleteParticipantEvent");
+
+const cancelDeleteParticipant =
+    document.getElementById("cancelDeleteParticipant");
+
+const confirmDeleteParticipant =
+    document.getElementById("confirmDeleteParticipant");
+
+const printParticipantsBtn =
+    document.getElementById("printParticipants");  
+    
+    
+
+    /*=========================================================
+                TOAST NOTIFICATION
+=========================================================*/
+
+const toast = document.getElementById("toast");
+
+const toastMessage = document.getElementById("toastMessage");
+
+const toastIcon = document.getElementById("toastIcon");
+
+let toastTimer;
+
+function showToast(message, type = "success") {
+
+    clearTimeout(toastTimer);
+
+    toast.className = "toast";
+
+    toast.classList.add(type);
+
+    if(type === "success"){
+
+        toastIcon.className = "fa-solid fa-circle-check";
+
+    }
+
+    else if(type === "error"){
+
+        toastIcon.className = "fa-solid fa-circle-xmark";
+
+    }
+
+    else{
+
+        toastIcon.className = "fa-solid fa-circle-exclamation";
+
+    }
+
+    toastMessage.textContent = message;
+
+    void toast.offsetWidth;
+
+    toast.classList.add("show");
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },3000);
 
 }
 
-// ======================================
-// CREATE TABLE ROW
-// ======================================
+/*=========================================================
+                LOAD PARTICIPANTS
+=========================================================*/
 
-function createRow(participant){
+function loadParticipants() {
 
-    return `
+    participants = Storage.getParticipants();
+
+    filteredParticipants = [...participants];
+
+    populateEventFilter();
+
+    renderParticipantsTable();
+
+    updateStatistics();
+
+    updateInsights();
+
+}
+
+/*=========================================================
+                RENDER PARTICIPANTS TABLE
+=========================================================*/
+
+function renderParticipantsTable() {
+
+    tableBody.innerHTML = "";
+
+    if (filteredParticipants.length === 0) {
+
+        emptyState.style.display = "block";
+
+        participantCount.textContent = "0 Participants";
+
+        return;
+
+    }
+
+    emptyState.style.display = "none";
+
+    participantCount.textContent =
+        `${filteredParticipants.length} Participants`;
+
+    filteredParticipants.forEach((participant, index) => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+<td>${index + 1}</td>
+
+<td>
+
+    <div class="student-cell">
+
+        <div class="student-name">
+
+            ${participant.name}
+
+        </div>
+
+        <div class="student-id">
+
+            ${participant.registrationId}
+
+        </div>
+
+        <div class="student-email">
+
+            ${participant.email}
+
+        </div>
+
+    </div>
+
+</td>
+
+<td>
+
+    ${getEventName(participant.eventId)}
+
+</td>
+
+<td>
+
+    ${participant.department}
+
+</td>
+
+<td>
+
+    ${participant.year}
+
+</td>
+
+<td>
+
+    <span class="status-badge registered">
+
+        Registered
+
+    </span>
+
+</td>
+
+<td>
+
+    <div class="action-buttons">
+
+        <button class="action-btn view-btn"
+                data-id="${participant.id}"
+                title="View">
+
+            <i class="fa-solid fa-eye"></i>
+
+        </button>
+
+        <button class="action-btn print-btn"
+                data-id="${participant.id}"
+                title="Print">
+
+            <i class="fa-solid fa-print"></i>
+
+        </button>
+
+        <button class="action-btn delete-btn"
+                data-id="${participant.id}"
+                title="Delete">
+
+            <i class="fa-solid fa-trash"></i>
+
+        </button>
+
+    </div>
+
+</td>
+
+`;
+        tableBody.appendChild(row);
+
+    });
+
+}
+
+/*=========================================================
+                SEARCH PARTICIPANTS
+=========================================================*/
+
+function searchParticipants() {
+
+    applyFilters();
+
+}
+
+/*=========================================================
+                APPLY FILTERS
+=========================================================*/
+
+function applyFilters() {
+
+    const keyword = searchInput.value
+        .trim()
+        .toLowerCase();
+
+    const selectedEvent = eventFilter.value;
+
+    const selectedDepartment = departmentFilter.value;
+
+    const selectedYear = yearFilter.value;
+
+    const selectedGender = genderFilter.value;
+
+
+    filteredParticipants = participants.filter(participant => {
+
+        const eventName = getEventName(
+            participant.eventId
+        ).toLowerCase();
+
+        const matchesSearch =
+
+            keyword === ""
+
+            ||
+
+            participant.registrationId
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            participant.name
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            participant.email
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            participant.phone
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            participant.department
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            eventName.includes(keyword);
+
+
+        const matchesEvent =
+
+            selectedEvent === ""
+
+            ||
+
+            String(participant.eventId) === selectedEvent;
+
+
+        const matchesDepartment =
+
+            selectedDepartment === ""
+
+            ||
+
+            participant.department === selectedDepartment;
+
+
+        const matchesYear =
+
+            selectedYear === ""
+
+            ||
+
+            participant.year === selectedYear;
+
+
+        const matchesGender =
+
+            selectedGender === ""
+
+            ||
+
+            participant.gender === selectedGender;
+
+
+        return (
+
+            matchesSearch
+
+            &&
+
+            matchesEvent
+
+            &&
+
+            matchesDepartment
+
+            &&
+
+            matchesYear
+
+            &&
+
+            matchesGender
+
+        );
+
+    });
+
+    renderParticipantsTable();
+
+}
+
+/*=========================================================
+                RESET FILTERS
+=========================================================*/
+
+function resetFilters() {
+
+    searchInput.value = "";
+
+    eventFilter.value = "";
+
+    departmentFilter.value = "";
+
+    yearFilter.value = "";
+
+    genderFilter.value = "";
+
+    applyFilters();
+
+}
+
+
+/*=========================================================
+                GET EVENT NAME
+=========================================================*/
+
+function getEventName(eventId) {
+
+    const event = Storage
+        .getEvents()
+        .find(event => Number(event.id) === Number(eventId));
+
+    return event ? event.title : "Deleted Event";
+
+}
+
+
+/*=========================================================
+                POPULATE EVENT FILTER
+=========================================================*/
+
+function populateEventFilter() {
+
+    const events = Storage.getEvents();
+
+    eventFilter.innerHTML = `
+        <option value="">All Events</option>
+    `;
+
+    events.forEach(event => {
+
+        eventFilter.innerHTML += `
+            <option value="${event.id}">
+                ${event.title}
+            </option>
+        `;
+
+    });
+
+}
+
+/*=========================================================
+                FORMAT DATE
+=========================================================*/
+
+function formatDate(date) {
+
+    if (!date) return "--";
+
+    return new Date(date).toLocaleDateString("en-IN", {
+
+        day: "2-digit",
+
+        month: "short",
+
+        year: "numeric"
+
+    });
+
+}
+
+
+/*=========================================================
+                GET PARTICIPANT BY ID
+=========================================================*/
+
+function getParticipantById(id) {
+
+    return participants.find(
+
+        participant =>
+
+            String(participant.id) === String(id)
+
+    );
+
+}
+
+
+/*=========================================================
+                UPDATE STATISTICS
+=========================================================*/
+
+function updateStatistics() {
+
+    const events = Storage.getEvents();
+
+    const participants = Storage.getParticipants();
+
+
+    /*==========================================
+                TOTAL PARTICIPANTS
+    ==========================================*/
+
+    totalParticipants.textContent =
+        participants.length;
+
+
+    /*==========================================
+                ACTIVE EVENTS
+    ==========================================*/
+
+    const activeEventCount = events.filter(
+
+        event => event.availableSeats > 0
+
+    ).length;
+
+    activeEvents.textContent =
+        activeEventCount;
+
+
+    /*==========================================
+                REGISTERED EVENTS
+    ==========================================*/
+
+    const registeredEvents = new Set(
+
+        participants.map(
+
+            participant => participant.eventId
+
+        )
+
+    );
+
+    totalEvents.textContent =
+        registeredEvents.size;
+
+
+    /*==========================================
+                SEATS FILLED
+    ==========================================*/
+
+    const totalSeats = events.reduce(
+
+        (sum, event) =>
+
+            sum + Number(event.totalSeats),
+
+        0
+
+    );
+
+    const availableSeats = events.reduce(
+
+        (sum, event) =>
+
+            sum + Number(event.availableSeats),
+
+        0
+
+    );
+
+    const occupiedSeats =
+        totalSeats - availableSeats;
+
+    filledSeats.textContent =
+        `${occupiedSeats} / ${totalSeats}`;
+
+}
+
+/*=========================================================
+                UPDATE PARTICIPANTS INSIGHTS
+=========================================================*/
+
+function updateInsights() {
+
+    const participants = Storage.getParticipants();
+
+    const events = Storage.getEvents();
+
+    /*==========================================
+            NO PARTICIPANTS
+    ==========================================*/
+
+    if (participants.length === 0) {
+
+        popularEvent.textContent = "--";
+        popularCount.textContent = "No registrations";
+
+        activeDepartment.textContent = "--";
+        departmentCount.textContent = "No students";
+
+        lastDate.textContent = "--";
+        lastTime.textContent = "--";
+
+        averageParticipants.textContent = "0";
+
+        return;
+
+    }
+
+    /*==========================================
+            MOST POPULAR EVENT
+    ==========================================*/
+
+    const eventCounter = {};
+
+    participants.forEach(participant => {
+
+        eventCounter[participant.eventId] =
+            (eventCounter[participant.eventId] || 0) + 1;
+
+    });
+
+    const mostPopularEventId = Object.keys(eventCounter).reduce(
+
+        (a, b) =>
+
+            eventCounter[a] > eventCounter[b]
+
+                ? a
+
+                : b
+
+    );
+
+    const event = events.find(
+
+        item => Number(item.id) === Number(mostPopularEventId)
+
+    );
+
+    popularEvent.textContent =
+        event ? event.title : "Unknown Event";
+
+    popularCount.textContent =
+        `${eventCounter[mostPopularEventId]} Participants`;
+
+
+
+    /*==========================================
+            MOST ACTIVE DEPARTMENT
+    ==========================================*/
+
+    const departmentCounter = {};
+
+    participants.forEach(participant => {
+
+        departmentCounter[participant.department] =
+
+            (departmentCounter[participant.department] || 0) + 1;
+
+    });
+
+    const topDepartment = Object.keys(departmentCounter).reduce(
+
+        (a, b) =>
+
+            departmentCounter[a] > departmentCounter[b]
+
+                ? a
+
+                : b
+
+    );
+
+    activeDepartment.textContent = topDepartment;
+
+    departmentCount.textContent =
+        `${departmentCounter[topDepartment]} Students`;
+
+
+
+    /*==========================================
+            LAST REGISTRATION DATE
+    ==========================================*/
+
+    const latestParticipant = [...participants].sort(
+
+        (a, b) =>
+
+            new Date(b.registeredAt) -
+
+            new Date(a.registeredAt)
+
+    )[0];
+
+    const latestDate = new Date(latestParticipant.registeredAt);
+
+    lastDate.textContent =
+        latestDate.toLocaleDateString("en-IN", {
+
+            day: "2-digit",
+
+            month: "long",
+
+            year: "numeric"
+
+        });
+
+    lastTime.textContent =
+        latestDate.toLocaleTimeString("en-IN", {
+
+            hour: "2-digit",
+
+            minute: "2-digit"
+
+        });
+
+
+
+    /*==========================================
+        AVERAGE PARTICIPANTS / EVENT
+    ==========================================*/
+
+    const average =
+
+        participants.length /
+
+        Math.max(events.length, 1);
+
+    averageParticipants.textContent =
+        `${average.toFixed(1)} Students`;
+
+}
+
+
+/*=========================================================
+                TABLE ACTIONS
+=========================================================*/
+
+tableBody.addEventListener("click", handleTableActions);
+
+function handleTableActions(event) {
+
+    const button = event.target.closest("button");
+
+    if (!button) return;
+
+    const participantId = button.dataset.id;
+
+    if (button.classList.contains("view-btn")) {
+
+        openParticipantModal(participantId);
+
+    }
+
+    else if (button.classList.contains("print-btn")) {
+
+        printParticipant(participantId);
+
+    }
+
+    else if (button.classList.contains("delete-btn")) {
+
+        deleteParticipant(participantId);
+
+    }
+
+}
+
+/*=========================================================
+                OPEN PARTICIPANT MODAL
+=========================================================*/
+
+function openParticipantModal(id) {
+
+    const participant = getParticipantById(id);
+
+    if (!participant) return;
+
+    const event = Storage
+        .getEvents()
+        .find(e => Number(e.id) === Number(participant.eventId));
+
+    viewRegistrationId.textContent = participant.registrationId;
+
+    viewStudentName.textContent = participant.name;
+
+    viewEmail.textContent = participant.email;
+
+    viewPhone.textContent = participant.phone;
+
+    viewDepartment.textContent = participant.department;
+
+    viewYear.textContent = participant.year;
+
+    viewGender.textContent = participant.gender;
+
+    viewEvent.textContent = event ? event.title : "Deleted Event";
+
+    viewVenue.textContent = event ? event.venue : "--";
+
+    viewEventDate.textContent = event
+        ? formatDate(event.date)
+        : "--";
+
+    viewEventTime.textContent = event
+        ? event.time
+        : "--";
+
+    viewRegistrationDate.textContent =
+        formatDate(participant.registeredAt);
+
+    participantModal.classList.add("active");
+
+}
+
+
+/*=========================================================
+                PRINT PARTICIPANT
+=========================================================*/
+
+function printParticipant(id) {
+
+    console.log("Print clicked:", id);
+
+    const participant = getParticipantById(id);
+
+    console.log("Participant:", participant);
+
+}
+
+/*=========================================================
+                DELETE PARTICIPANT
+=========================================================*/
+
+function deleteParticipant(id) {
+
+    selectedParticipant = getParticipantById(id);
+
+    if (!selectedParticipant) return;
+
+    deleteParticipantName.textContent =
+        selectedParticipant.name;
+
+    deleteParticipantEvent.textContent =
+        getEventName(selectedParticipant.eventId);
+
+    deleteParticipantModal.classList.add("active");
+
+}
+
+/*=========================================================
+            CLOSE PARTICIPANT MODAL
+=========================================================*/
+
+function closeParticipantDetails() {
+
+    participantModal.classList.remove("active");
+
+}
+
+
+document.addEventListener("keydown", (event) => {
+
+    if (event.key !== "Escape") return;
+
+    if (participantModal.classList.contains("active")) {
+
+        closeParticipantDetails();
+
+    }
+
+    if (deleteParticipantModal.classList.contains("active")) {
+
+        closeDeleteModal();
+
+    }
+
+});
+
+
+/*=========================================================
+                CLOSE DELETE MODAL
+=========================================================*/
+
+function closeDeleteModal() {
+
+    deleteParticipantModal.classList.remove("active");
+
+    selectedParticipant = null;
+
+}
+
+/*=========================================================
+                CONFIRM DELETE PARTICIPANT
+=========================================================*/
+
+function confirmDelete() {
+
+    if (!selectedParticipant) return;
+
+    Storage.deleteParticipant(selectedParticipant.id);
+
+    closeDeleteModal();
+
+    loadParticipants();
+
+    showToast("Participant deleted successfully.");
+
+}
+
+
+/*=========================================================
+                PRINT PARTICIPANT
+=========================================================*/
+
+function printParticipant(id) {
+
+    const participant = getParticipantById(id);
+
+    if (!participant) return;
+
+    const eventName = getEventName(
+    participant.eventId
+);
+
+const printWindow = window.open(
+    "",
+    "_blank",
+    "width=900,height=700"
+);
+
+const registrationDate = formatDate(
+    participant.registeredAt || participant.registeredOn || participant.registrationDate
+);
+
+const printDate = new Date().toLocaleString();
+
+printWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>EventHub Registration Slip</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial,Helvetica,sans-serif;
+
+    background:#F8FAFC;
+
+    padding:40px;
+
+    color:#1E293B;
+
+}
+
+.container{
+
+    max-width:800px;
+
+    margin:auto;
+
+    background:#FFFFFF;
+
+    border:2px solid #4F46E5;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.12);
+
+}
+
+.header{
+
+    background:#4F46E5;
+
+    color:#FFFFFF;
+
+    padding:30px;
+
+    text-align:center;
+
+}
+
+.header h1{
+
+    font-size:34px;
+
+    margin-bottom:8px;
+
+}
+
+.header p{
+
+    font-size:16px;
+
+}
+
+.content{
+
+    padding:35px;
+
+}
+
+.row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:14px 0;
+
+    border-bottom:1px solid #E2E8F0;
+
+}
+
+.label{
+
+    font-weight:bold;
+
+}
+
+.footer{
+
+    padding:25px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    color:#64748B;
+
+}
+
+@media print{
+
+    body{
+
+        background:white;
+
+        padding:0;
+
+    }
+
+    .container{
+
+        border:none;
+
+        box-shadow:none;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1 style="letter-spacing:1px;">
+
+🎓 EVENTHUB
+
+</h1>
+
+<p>
+
+College Event Management System
+
+</p>
+
+<p style="
+margin-top:10px;
+font-size:15px;
+opacity:.9;
+">
+
+Participant Registration Slip
+
+</p>
+
+</div>
+
+<div class="content">
+
+<div class="row">
+
+<span class="label">Registration ID</span>
+
+<span>${participant.registrationId}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Student Name</span>
+
+<span>${participant.name}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Email</span>
+
+<span>${participant.email}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Phone</span>
+
+<span>${participant.phone}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Department</span>
+
+<span>${participant.department}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Year</span>
+
+<span>${participant.year}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Gender</span>
+
+<span>${participant.gender}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Event</span>
+
+<span>${eventName}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Registration Date</span>
+
+<span>${registrationDate}</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">Status</span>
+
+<span style="
+background:#DCFCE7;
+color:#15803D;
+padding:6px 16px;
+border-radius:30px;
+font-weight:600;
+">
+
+Registered
+
+</span>
+
+</div>
+
+</div>
+
+<hr style="
+margin:30px 35px;
+border:none;
+border-top:1px dashed #CBD5E1;
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+padding:0 35px 30px;
+margin-top:30px;
+">
+
+    <div style="text-align:center;">
+
+        <div style="
+        width:180px;
+        border-top:1px solid #1E293B;
+        margin-bottom:8px;
+        "></div>
+
+        <strong>Participant Signature</strong>
+
+    </div>
+
+    <div style="text-align:center;">
+
+        <div style="
+        width:180px;
+        border-top:1px solid #1E293B;
+        margin-bottom:8px;
+        "></div>
+
+        <strong>Event Coordinator</strong>
+
+    </div>
+
+</div>
+
+<div class="footer">
+
+<p>
+
+Generated by <strong>EventHub</strong>
+
+</p>
+
+<p>
+
+College Event Management System
+
+</p>
+
+<p>
+
+Guru Ghasidas Vishwavidyalaya
+
+</p>
+
+<br>
+
+<p>
+
+Printed on:
+
+<strong>${printDate}</strong>
+
+</p>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+`);
+
+printWindow.document.close();
+
+printWindow.focus();
+
+printWindow.print();
+
+printWindow.close();
+
+showToast("Registration slip sent to printer.");
+
+}
+
+
+/*=========================================================
+                EXPORT PARTICIPANTS CSV
+=========================================================*/
+
+function exportParticipantsCSV() {
+
+    if (filteredParticipants.length === 0) {
+
+        showToast("No participants available to export.","warning");
+
+        return;
+
+    }
+
+    const headers = [
+
+    "Registration ID",
+
+    "Name",
+
+    "Email",
+
+    "Phone",
+
+    "Department",
+
+    "Year",
+
+    "Gender",
+
+    "Event",
+
+    "Registration Date"
+
+];
+
+const rows = filteredParticipants.map(participant => [
+
+    participant.registrationId,
+
+    participant.name,
+
+    participant.email,
+
+    participant.phone,
+
+    participant.department,
+
+    participant.year,
+
+    participant.gender,
+
+    getEventName(participant.eventId),
+
+    formatDate(
+        participant.registeredAt ||
+        participant.registeredOn
+    )
+
+
+    
+]);
+
+
+const csvContent = [
+
+    headers,
+
+    ...rows
+
+]
+
+.map(row =>
+
+    row.map(value => `"${String(value ?? "").replace(/"/g, '""')}"`).join(",")
+
+)
+
+.join("\n");
+
+const blob = new Blob(
+
+    [csvContent],
+
+    {
+
+        type: "text/csv;charset=utf-8;"
+
+    }
+
+);
+
+const link = document.createElement("a");
+
+const url = URL.createObjectURL(blob);
+
+link.href = url;
+
+link.download =
+`participants-${new Date().toISOString().slice(0,10)}.csv`;
+
+document.body.appendChild(link);
+
+link.click();
+
+document.body.removeChild(link);
+
+URL.revokeObjectURL(url);
+
+showToast("CSV exported successfully.");
+
+
+}
+
+
+/*=========================================================
+                PRINT PARTICIPANTS LIST
+=========================================================*/
+
+function printParticipantsList() {
+
+    if (filteredParticipants.length === 0) {
+
+        showToast("No participants available to print.","warning");
+
+        return;
+
+    }
+
+    const rows = filteredParticipants.map((participant, index) => `
 
 <tr>
 
-<td>${participant.id}</td>
+<td>${index + 1}</td>
+
+<td>${participant.registrationId}</td>
 
 <td>${participant.name}</td>
 
-<td>${participant.email}</td>
-
-<td>${participant.phone}</td>
+<td>${getEventName(participant.eventId)}</td>
 
 <td>${participant.department}</td>
 
@@ -96,623 +1493,295 @@ function createRow(participant){
 
 <td>${participant.gender}</td>
 
-<td>${getEventName(participant.eventId)}</td>
-
-<td>${participant.registrationDate}</td>
-
-<td>
-
-<button
-class="btn primary-btn edit-btn"
-data-id="${participant.id}">
-
-<i class="fa-solid fa-pen"></i>
-
-</button>
-
-<button
-class="btn secondary-btn delete-btn"
-data-id="${participant.id}">
-
-<i class="fa-solid fa-trash"></i>
-
-</button>
-
-</td>
-
 </tr>
 
-`;
+`).join("");
+
+const printWindow = window.open(
+    "",
+    "_blank",
+    "width=1200,height=800"
+);
+
+printWindow.document.write(`
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Participants List</title>
+
+<style>
+
+body{
+
+    font-family:Arial,sans-serif;
+
+    padding:40px;
+
+    color:#1E293B;
 
 }
 
-// ======================================
-// RENDER TABLE
-// ======================================
+h1{
 
-function renderTable(list){
+    text-align:center;
 
-    participantTable.innerHTML = "";
+    margin-bottom:10px;
 
-    if(list.length===0){
+}
 
-        participantTable.innerHTML = `
+h2{
+
+    text-align:center;
+
+    color:#64748B;
+
+    margin-bottom:30px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:#4F46E5;
+
+    color:white;
+
+}
+
+th,
+td{
+
+    border:1px solid #CBD5E1;
+
+    padding:12px;
+
+    text-align:left;
+
+}
+
+tr:nth-child(even){
+
+    background:#F8FAFC;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>EVENTHUB</h1>
+
+<h2>Participants List</h2>
+
+<table>
+
+<thead>
 
 <tr>
 
-<td colspan="10"
-style="text-align:center;">
+<th>#</th>
 
-No Participants Found
+<th>Registration ID</th>
 
-</td>
+<th>Name</th>
+
+<th>Event</th>
+
+<th>Department</th>
+
+<th>Year</th>
+
+<th>Gender</th>
 
 </tr>
 
-`;
+</thead>
 
-        return;
+<tbody>
 
-    }
+${rows}
 
-    list.forEach(participant=>{
+</tbody>
 
-        participantTable.innerHTML +=
+</table>
 
-        createRow(participant);
+</body>
 
-    });
+</html>
+`);
 
-    attachActionEvents();
+printWindow.document.close();
+
+printWindow.focus();
+
+printWindow.print();
+
+printWindow.close();
+
+
+showToast("Participants list sent to printer.");
+
 
 }
 
-// ======================================
-// FILTER
-// ======================================
 
-function filterParticipants(){
 
-    let filtered = [...participants];
+/*=========================================================
+                INITIALIZATION
+=========================================================*/
 
-    const name =
+const resetButton = document.getElementById("resetFilters");
 
-    searchName.value
+const exportCSVBtn = document.getElementById("exportCSV");
 
-    .trim()
+document.addEventListener("DOMContentLoaded", () => {
 
-    .toLowerCase();
+    loadParticipants();
 
-    const department =
 
-    searchDepartment.value
+    searchInput.addEventListener(
 
-    .trim()
+        "input",
 
-    .toLowerCase();
+        applyFilters
 
-    const event =
-
-    searchEvent.value
-
-    .trim()
-
-    .toLowerCase();
-
-    if(name){
-
-        filtered = filtered.filter(item=>
-
-            item.name
-
-            .toLowerCase()
-
-            .includes(name)
-
-        );
-
-    }
-
-    if(department){
-
-        filtered = filtered.filter(item=>
-
-            item.department
-
-            .toLowerCase()
-
-            .includes(department)
-
-        );
-
-    }
-
-    if(event){
-
-        filtered = filtered.filter(item=>
-
-            getEventName(item.eventId)
-
-            .toLowerCase()
-
-            .includes(event)
-
-        );
-
-    }
-
-    // --------------------
-    // SORTING
-    // --------------------
-
-    switch(sortParticipant.value){
-
-        case "name":
-
-            filtered.sort((a,b)=>
-
-            a.name.localeCompare(b.name)
-
-            );
-
-            break;
-
-        case "department":
-
-            filtered.sort((a,b)=>
-
-            a.department.localeCompare(
-
-            b.department
-
-            ));
-
-            break;
-
-        case "event":
-
-            filtered.sort((a,b)=>
-
-            getEventName(a.eventId)
-
-            .localeCompare(
-
-            getEventName(b.eventId)
-
-            ));
-
-            break;
-
-        case "date":
-
-            filtered.sort((a,b)=>
-
-            new Date(b.registrationDate)
-
-            -
-
-            new Date(a.registrationDate)
-
-            );
-
-            break;
-
-    }
-
-    renderTable(filtered);
-
-}
-
-// ======================================
-// SEARCH EVENTS
-// ======================================
-
-searchName.addEventListener(
-
-"input",
-
-filterParticipants
-
-);
-
-searchDepartment.addEventListener(
-
-"input",
-
-filterParticipants
-
-);
-
-searchEvent.addEventListener(
-
-"input",
-
-filterParticipants
-
-);
-
-sortParticipant.addEventListener(
-
-"change",
-
-filterParticipants
-
-);
-
-// ======================================
-// ACTION BUTTONS
-// (Functions added in Part 2)
-// ======================================
-
-function attachActionEvents(){
-
-    document
-
-    .querySelectorAll(".edit-btn")
-
-    .forEach(button=>{
-
-        button.addEventListener(
-
-        "click",
-
-        ()=>{
-
-            editParticipant(
-
-            Number(
-
-            button.dataset.id
-
-            ));
-
-        });
-
-    });
-
-    document
-
-    .querySelectorAll(".delete-btn")
-
-    .forEach(button=>{
-
-        button.addEventListener(
-
-        "click",
-
-        ()=>{
-
-            openDeleteModal(
-
-            Number(
-
-            button.dataset.id
-
-            ));
-
-        });
-
-    });
-
-}
-
-// ======================================
-// INITIAL LOAD
-// ======================================
-
-document.addEventListener(
-
-"DOMContentLoaded",
-
-()=>{
-
-    participants = getParticipants();
-
-    events = getEvents();
-
-    renderTable(participants);
-
-});
-/* ==========================================================
-   PARTICIPANT EDIT
-========================================================== */
-
-function editParticipant(id){
-
-    participants = getParticipants();
-
-    const participant = participants.find(p => p.id === id);
-
-    if(!participant){
-
-        showToast("Participant not found.","#EF4444");
-
-        return;
-
-    }
-
-    const newName = prompt(
-        "Edit Name",
-        participant.name
     );
 
-    if(newName === null) return;
 
-    const newPhone = prompt(
-        "Edit Phone",
-        participant.phone
+    eventFilter.addEventListener(
+
+        "change",
+
+        applyFilters
+
     );
 
-    if(newPhone === null) return;
 
-    participant.name = newName.trim();
+    departmentFilter.addEventListener(
 
-    participant.phone = newPhone.trim();
+        "change",
 
-    saveParticipants(participants);
+        applyFilters
 
-    showToast("Participant Updated");
+    );
 
-    filterParticipants();
 
-}
+    yearFilter.addEventListener(
 
-/* ==========================================================
-   DELETE MODAL
-========================================================== */
+        "change",
 
-function openDeleteModal(id){
+        applyFilters
 
-    deleteId = id;
+    );
 
-    confirmModal.style.display = "flex";
 
-}
+    genderFilter.addEventListener(
 
-cancelDelete.addEventListener(
+        "change",
 
-"click",
+        applyFilters
 
-()=>{
+    );
 
-    confirmModal.style.display="none";
+    resetButton.addEventListener(
 
-    deleteId = null;
+    "click",
 
-});
+    resetFilters
 
-window.addEventListener(
+    );
 
-"click",
+   closeParticipantModal.addEventListener(
+    "click",
+    closeParticipantDetails
+);
 
-(e)=>{
+closeModalBtn.addEventListener(
+    "click",
+    closeParticipantDetails
+);
 
-    if(e.target===confirmModal){
+participantModal.addEventListener("click", (event) => {
 
-        confirmModal.style.display="none";
+    if (event.target === participantModal) {
 
-        deleteId=null;
+        closeParticipantDetails();
 
     }
 
 });
 
-/* ==========================================================
-   DELETE PARTICIPANT
-========================================================== */
+/* Cancel Button */
 
-confirmDelete.addEventListener(
+cancelDeleteParticipant.addEventListener(
 
-"click",
+    "click",
 
-()=>{
+    closeDeleteModal
 
-    if(deleteId===null) return;
-
-const participant = participants.find(
-    p => p.id === deleteId
 );
 
-if(participant){
 
-    const events = getEvents();
+/* Click Outside */
 
-    const event = events.find(
-        e => e.id === participant.eventId
-    );
+deleteParticipantModal.addEventListener(
 
-    if(event){
+    "click",
 
-        if(event.availableSeats < event.maxSeats){
+    (event) => {
 
-            event.availableSeats++;
+        if (event.target === deleteParticipantModal) {
 
-            updateEvent(event);
+            closeDeleteModal();
 
         }
 
     }
 
-}
-
-participants = participants.filter(
-    p => p.id !== deleteId
 );
 
-saveParticipants(participants);
+confirmDeleteParticipant.addEventListener(
 
-    showToast(
+    "click",
 
-        "Participant Deleted",
+    confirmDelete
 
-        "#EF4444"
+);
 
-    );
+exportCSVBtn.addEventListener(
 
-    confirmModal.style.display="none";
+    "click",
 
-    deleteId=null;
+    exportParticipantsCSV
 
-    filterParticipants();
+);
 
-});
+exportCSVBtn.addEventListener(
 
-/* ==========================================================
-   CSV EXPORT
-========================================================== */
+    "click",
 
-downloadCSV.addEventListener(
+    exportParticipantsCSV
 
-"click",
+);
 
-()=>{
+printParticipantsBtn.addEventListener(
 
-    participants = getParticipants();
+    "click",
 
-    if(participants.length===0){
+    printParticipantsList
 
-        showToast(
-
-            "No Participants Found",
-
-            "#EF4444"
-
-        );
-
-        return;
-
-    }
-
-    let csv =
-
-`ID,Name,Email,Phone,Department,Year,Gender,Event,Registration Date\n`;
-
-    participants.forEach(item=>{
-
-        csv +=
-
-`${item.id},"${item.name}","${item.email}","${item.phone}","${item.department}","${item.year}","${item.gender}","${getEventName(item.eventId)}","${item.registrationDate}"\n`;
-
-    });
-
-    const blob =
-
-    new Blob(
-
-        [csv],
-
-        {
-
-            type:"text/csv"
-
-        }
-
-    );
-
-    const url =
-
-    URL.createObjectURL(blob);
-
-    const link =
-
-    document.createElement("a");
-
-    link.href = url;
-
-    link.download =
-
-    "participants.csv";
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-    URL.revokeObjectURL(url);
-
-    showToast(
-
-        "CSV Downloaded"
-
-    );
+);
 
 });
-
-/* ==========================================================
-   STORAGE REFRESH
-========================================================== */
-
-window.addEventListener(
-
-"storage",
-
-()=>{
-
-    participants=getParticipants();
-
-    events=getEvents();
-
-    filterParticipants();
-
-});
-
-/* ==========================================================
-   OPTIONAL REFRESH
-========================================================== */
-
-function refreshParticipants(){
-
-    participants=getParticipants();
-
-    events=getEvents();
-
-    filterParticipants();
-
-}
-
-/* ==========================================================
-   INITIALIZE
-========================================================== */
-
-document.addEventListener(
-
-"DOMContentLoaded",
-
-()=>{
-
-    refreshParticipants();
-
-});
-
-/* ==========================================================
-   KEYBOARD SHORTCUT
-========================================================== */
-
-document.addEventListener(
-
-"keydown",
-
-e=>{
-
-    if(
-
-        e.key==="Escape"
-
-        &&
-
-        confirmModal.style.display==="flex"
-
-    ){
-
-        confirmModal.style.display="none";
-
-        deleteId=null;
-
-    }
-
-});
-
-/* ==========================================================
-   END OF FILE
-========================================================== */

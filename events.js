@@ -1,69 +1,230 @@
-/*
-==========================================================
-College Event Management System
-File: events.js
+/*=========================================================
+        EVENTHUB - EVENTS PAGE
+        EVENTS.JS
+=========================================================*/
 
-Purpose:
-- Display all events
-- Live search
-- Category filter
-- Status filter
-- Sorting
-==========================================================
-*/
+"use strict";
 
-// ======================================
-// DOM Elements
-// ======================================
+/*=========================================================
+                    DOM ELEMENTS
+=========================================================*/
 
-const eventsContainer =
-document.getElementById("eventsContainer");
+const eventsContainer = document.getElementById("eventsContainer");
 
-const searchInput =
-document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
 
-const categoryFilter =
-document.getElementById("categoryFilter");
+const statusFilter = document.getElementById("statusFilter");
 
-const statusFilter =
-document.getElementById("statusFilter");
+const priceFilter = document.getElementById("priceFilter");
 
-const sortBy =
-document.getElementById("sortBy");
+const sortFilter = document.getElementById("sortFilter");
 
-const emptyState =
-document.getElementById("emptyState");
+const eventSearch = document.getElementById("eventSearch");
+
+const resetFilters = document.getElementById("resetFilters");
+
+const emptyState = document.getElementById("emptyState");
+
+const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+const featuredEvent = document.querySelector(".featured-event");
+
+const resultCount = document.getElementById("resultCount");
 
 
-// ======================================
-// Get Events
-// ======================================
 
-let events = getEvents();
+/*=========================================================
+                SUMMARY CARDS
+=========================================================*/
+
+const totalEvents = document.getElementById("totalEvents");
+
+const technicalCount = document.getElementById("technicalCount");
+
+const workshopCount = document.getElementById("workshopCount");
+
+const culturalCount = document.getElementById("culturalCount");
+
+const sportsCount = document.getElementById("sportsCount");
 
 
-// ======================================
-// Event Card
-// ======================================
+
+/*=========================================================
+                GLOBAL VARIABLES
+=========================================================*/
+
+let filteredEvents = [...EVENTS];
+
+let visibleEvents = 6;
+
+
+
+/*=========================================================
+                    UTILITIES
+=========================================================*/
+
+function formatFee(fee){
+
+    return fee === 0 ? "Free" : `₹${fee}`;
+
+}
+
+
+
+function seatPercentage(event){
+
+    return Math.round(
+
+        (event.availableSeats / event.totalSeats) * 100
+
+    );
+
+}
+
+
+
+/*=========================================================
+                CATEGORY DROPDOWN
+=========================================================*/
+
+function populateCategories(){
+
+    if(!categoryFilter) return;
+
+    const categories = [
+
+        ...new Set(
+
+            EVENTS.map(event => event.category)
+
+        )
+
+    ].sort();
+
+    categories.forEach(category => {
+
+        const option = document.createElement("option");
+
+        option.value = category;
+
+        option.textContent = category;
+
+        categoryFilter.appendChild(option);
+
+    });
+
+}
+
+
+
+/*=========================================================
+                UPDATE SUMMARY
+=========================================================*/
+
+/*=========================================================
+            UPDATE SUMMARY
+=========================================================*/
+
+function updateSummary(){
+
+    if(!totalEvents) return;
+
+    const counts = {};
+
+    EVENTS.forEach(event=>{
+
+        counts[event.category] =
+
+            (counts[event.category] || 0) + 1;
+
+    });
+
+    totalEvents.textContent = EVENTS.length;
+
+    technicalCount.textContent =
+
+        counts.Technical || 0;
+
+    workshopCount.textContent =
+
+        counts.Workshop || 0;
+
+    culturalCount.textContent =
+
+        counts.Cultural || 0;
+
+    sportsCount.textContent =
+
+        counts.Sports || 0;
+
+}
+
+
+/*=========================================================
+                RESULT COUNTER
+=========================================================*/
+
+function updateResultCount(){
+
+    if(!resultCount) return;
+
+    resultCount.textContent =
+
+    `Showing ${filteredEvents.length} Event${
+
+        filteredEvents.length === 1 ? "" : "s"
+
+    }`;
+
+}
+
+/*=========================================================
+                CREATE EVENT CARD
+=========================================================*/
 
 function createEventCard(event){
 
+    const seatsFilled = seatPercentage(event);
+
+    const priceBadge =
+        event.registrationFee === 0
+        ? "Free"
+        : `₹${event.registrationFee}`;
+
     return `
 
-    <div class="event-card fade-up">
+    <article class="event-card glass">
 
-        <img
-            src="${event.image}"
-            alt="${event.title}"
-            class="event-image">
+        <div class="event-image">
 
-        <div class="event-content">
+            <img
+                src="${event.image}"
+                alt="${event.title}">
 
-            <span class="event-category">
+            <span class="category-badge">
 
                 ${event.category}
 
             </span>
+
+            <span class="price-badge">
+
+                ${priceBadge}
+
+            </span>
+
+            ${
+                event.featured
+                ? `<span class="featured-badge">
+                        <i class="fa-solid fa-star"></i>
+                        Featured
+                   </span>`
+                : ""
+            }
+
+        </div>
+
+        <div class="event-content">
 
             <h3>
 
@@ -77,55 +238,231 @@ function createEventCard(event){
 
             </p>
 
-            <ul>
+            <div class="event-meta">
 
-                <li>
+                <span>
 
                     <i class="fa-solid fa-calendar"></i>
 
                     ${event.date}
 
-                </li>
+                </span>
 
-                <li>
+                <span>
 
                     <i class="fa-solid fa-clock"></i>
 
                     ${event.time}
 
-                </li>
+                </span>
 
-                <li>
+                <span>
 
                     <i class="fa-solid fa-location-dot"></i>
 
                     ${event.venue}
 
-                </li>
+                </span>
 
-                <li>
+            </div>
 
-                    <i class="fa-solid fa-chair"></i>
+            <div class="event-level">
+
+                <strong>Level:</strong>
+
+                ${event.difficulty}
+
+            </div>
+
+            <div class="seat-info">
+
+                <div class="seat-text">
 
                     ${event.availableSeats}
+
                     /
-                    ${event.maxSeats}
 
-                    Seats
+                    ${event.totalSeats}
 
-                </li>
+                    Seats Available
 
-            </ul>
+                </div>
 
-            <a
-                href="register.html?event=${event.id}"
-                class="btn primary-btn">
+                <div class="seat-progress">
 
-                Register
+                    <div
+                        class="seat-progress-fill"
+                        style="width:${seatsFilled}%">
 
-            </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="event-actions">
+                <button
+                    class="favorite-btn"
+                    data-id="${event.id}">
+
+                    <i class="${
+                        isFavorite(event.id)
+                        ? "fa-solid"
+                        : "fa-regular"
+                    } fa-heart"></i>
+
+                </button>
+
+                <a
+                    href="register.html?event=${event.id}"
+                    class="btn">
+
+                    Register Now
+
+                </a>
+
+            </div>
 
         </div>
+
+    </article>
+
+    `;
+
+}
+
+
+
+/*=========================================================
+                RENDER EVENTS
+=========================================================*/
+
+function renderEvents(){
+
+    if(!eventsContainer) return;
+
+    const visible =
+
+        filteredEvents.slice(0,visibleEvents);
+
+    eventsContainer.innerHTML =
+
+        visible.map(createEventCard).join("");
+        initializeFavorites();
+
+    if(emptyState){
+
+        emptyState.style.display =
+
+            filteredEvents.length === 0
+
+            ? "block"
+
+            : "none";
+
+    }
+
+    if(loadMoreBtn){
+
+        loadMoreBtn.style.display =
+
+            filteredEvents.length > visibleEvents
+
+            ? "inline-flex"
+
+            : "none";
+
+    }
+
+    updateResultCount();
+
+}
+
+
+
+/*=========================================================
+                FEATURED EVENT
+=========================================================*/
+
+function renderFeaturedEvent(){
+
+    if(!featuredEvent) return;
+
+    const featured = getFeaturedEvent();
+
+    if(!featured){
+
+        featuredEvent.style.display="none";
+
+        return;
+
+    }
+
+    featuredEvent.innerHTML=`
+
+    <div class="featured-content">
+
+        <span class="section-tag">
+
+            ⭐ Featured Event
+
+        </span>
+
+        <h2>
+
+            ${featured.title}
+
+        </h2>
+
+        <p>
+
+            ${featured.description}
+
+        </p>
+
+        <div class="featured-info">
+
+            <span>
+
+                <i class="fa-solid fa-calendar"></i>
+
+                ${featured.date}
+
+            </span>
+
+            <span>
+
+                <i class="fa-solid fa-clock"></i>
+
+                ${featured.time}
+
+            </span>
+
+            <span>
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                ${featured.venue}
+
+            </span>
+
+        </div>
+
+        <a
+            href="register.html?event=${featured.id}"
+            class="btn">
+
+            Register Now
+
+        </a>
+
+    </div>
+
+    <div class="featured-image">
+
+        <img
+            src="${featured.image}"
+            alt="${featured.title}">
 
     </div>
 
@@ -134,138 +471,158 @@ function createEventCard(event){
 }
 
 
-// ======================================
-// Render Events
-// ======================================
 
-function renderEvents(list){
-
-    eventsContainer.innerHTML="";
-
-    if(list.length===0){
-
-        emptyState.style.display="block";
-
-        return;
-
-    }
-
-    emptyState.style.display="none";
-
-    list.forEach(event=>{
-
-        eventsContainer.innerHTML +=
-
-        createEventCard(event);
-
-    });
-
-}
-
-
-// ======================================
-// Apply Filters
-// ======================================
+/*=========================================================
+                APPLY FILTERS
+=========================================================*/
 
 function applyFilters(){
 
-    let filtered=[...events];
+    filteredEvents = [...EVENTS];
 
-    // -------------------
-    // Search
-    // -------------------
 
-    const keyword=
 
-    searchInput.value
+    /*---------------------------------------
+                SEARCH
+    ---------------------------------------*/
 
-    .trim()
-
-    .toLowerCase();
+    const keyword = eventSearch.value
+        .trim()
+        .toLowerCase();
 
     if(keyword){
 
-        filtered=filtered.filter(event=>
+        filteredEvents = filteredEvents.filter(event =>
 
-            event.title
+            event.title.toLowerCase().includes(keyword) ||
 
-            .toLowerCase()
+            event.description.toLowerCase().includes(keyword) ||
 
-            .includes(keyword)
+            event.category.toLowerCase().includes(keyword) ||
 
-        );
-
-    }
-
-    // -------------------
-    // Category
-    // -------------------
-
-    if(categoryFilter.value!=="all"){
-
-        filtered=
-
-        filtered.filter(event=>
-
-            event.category===
-
-            categoryFilter.value
+            event.venue.toLowerCase().includes(keyword)
 
         );
 
     }
 
-    // -------------------
-    // Status
-    // -------------------
 
-    if(statusFilter.value!=="all"){
 
-        const today=
+    /*---------------------------------------
+                CATEGORY
+    ---------------------------------------*/
 
-        new Date();
+    if(categoryFilter.value !== "all"){
 
-        filtered=
+        filteredEvents = filteredEvents.filter(
 
-        filtered.filter(event=>{
+            event =>
 
-            const eventDate=
+            event.category === categoryFilter.value
 
-            new Date(event.date);
-
-            return statusFilter.value==="upcoming"
-
-            ? eventDate>=today
-
-            : eventDate<today;
-
-        });
+        );
 
     }
 
-    // -------------------
-    // Sorting
-    // -------------------
 
-    switch(sortBy.value){
 
-        case "name":
+    /*---------------------------------------
+                STATUS
+    ---------------------------------------*/
 
-            filtered.sort((a,b)=>
+    if(statusFilter.value !== "all"){
 
-            a.title.localeCompare(b.title)
+        filteredEvents = filteredEvents.filter(
+
+            event =>
+
+            event.status === statusFilter.value
+
+        );
+
+    }
+
+
+
+    /*---------------------------------------
+                PRICE
+    ---------------------------------------*/
+
+    if(priceFilter.value === "free"){
+
+        filteredEvents = filteredEvents.filter(
+
+            event =>
+
+            event.registrationFee === 0
+
+        );
+
+    }
+
+    if(priceFilter.value === "paid"){
+
+        filteredEvents = filteredEvents.filter(
+
+            event =>
+
+            event.registrationFee > 0
+
+        );
+
+    }
+
+
+
+    /*---------------------------------------
+                SORTING
+    ---------------------------------------*/
+
+    switch(sortFilter.value){
+
+        case "latest":
+
+            filteredEvents.sort(
+
+                (a,b)=>
+
+                new Date(b.date)-new Date(a.date)
 
             );
 
             break;
 
-        case "date":
+        case "oldest":
 
-            filtered.sort((a,b)=>
+            filteredEvents.sort(
 
-            new Date(a.date)-
+                (a,b)=>
 
-            new Date(b.date)
+                new Date(a.date)-new Date(b.date)
+
+            );
+
+            break;
+
+        case "name":
+
+            filteredEvents.sort(
+
+                (a,b)=>
+
+                a.title.localeCompare(b.title)
+
+            );
+
+            break;
+
+        case "popular":
+
+            filteredEvents.sort(
+
+                (a,b)=>
+
+                b.popularity-a.popularity
 
             );
 
@@ -273,11 +630,11 @@ function applyFilters(){
 
         case "seats":
 
-            filtered.sort((a,b)=>
+            filteredEvents.sort(
 
-            b.availableSeats-
+                (a,b)=>
 
-            a.availableSeats
+                b.availableSeats-a.availableSeats
 
             );
 
@@ -285,81 +642,264 @@ function applyFilters(){
 
     }
 
-    renderEvents(filtered);
+
+
+    visibleEvents = 6;
+
+    renderEvents();
 
 }
 
+/*=========================================================
+                EVENT LISTENERS
+=========================================================*/
 
-// ======================================
-// Event Listeners
-// ======================================
+on(eventSearch,"input",applyFilters);
 
-searchInput.addEventListener(
+on(categoryFilter,"change",applyFilters);
 
-"input",
+on(statusFilter,"change",applyFilters);
 
-applyFilters
+on(priceFilter,"change",applyFilters);
 
-);
+on(sortFilter,"change",applyFilters);
 
-categoryFilter.addEventListener(
+/*=========================================================
+                RESET FILTERS
+=========================================================*/
 
-"change",
+function resetAllFilters(){
 
-applyFilters
+    eventSearch.value="";
 
-);
+    categoryFilter.value="all";
 
-statusFilter.addEventListener(
+    statusFilter.value="all";
 
-"change",
+    priceFilter.value="all";
 
-applyFilters
-
-);
-
-sortBy.addEventListener(
-
-"change",
-
-applyFilters
-
-);
-
-
-// ======================================
-// Reload Events
-// ======================================
-
-window.addEventListener(
-
-"storage",
-
-()=>{
-
-    events=getEvents();
+    sortFilter.value="latest";
 
     applyFilters();
 
 }
 
+on(resetFilters,"click",resetAllFilters);
+
+on(
+
+    document.getElementById("emptyResetBtn"),
+
+    "click",
+
+    resetAllFilters
+
 );
 
 
-// ======================================
-// Initialize
-// ======================================
+/*=========================================================
+                LOAD MORE
+=========================================================*/
 
-document.addEventListener(
+function loadMoreEvents(){
 
-"DOMContentLoaded",
+    visibleEvents += 6;
 
-()=>{
-
-    events=getEvents();
-
-    renderEvents(events);
+    renderEvents();
 
 }
 
+on(loadMoreBtn,"click",loadMoreEvents);
+
+/*=========================================================
+                FAVORITES
+=========================================================*/
+
+const FAVORITES_KEY = "eventhub-favorites";
+
+
+
+function getFavorites(){
+
+    const favorites = localStorage.getItem(FAVORITES_KEY);
+
+    return favorites ? JSON.parse(favorites) : [];
+
+}
+
+
+
+function saveFavorites(favorites){
+
+    localStorage.setItem(
+
+        FAVORITES_KEY,
+
+        JSON.stringify(favorites)
+
+    );
+
+}
+
+
+
+function isFavorite(eventId){
+
+    return getFavorites().includes(eventId);
+
+}
+
+
+
+function toggleFavorite(eventId){
+
+    let favorites = getFavorites();
+
+    if(favorites.includes(eventId)){
+
+        favorites = favorites.filter(
+
+            id => id !== eventId
+
+        );
+
+    }else{
+
+        favorites.push(eventId);
+
+    }
+
+    saveFavorites(favorites);
+
+    renderEvents();
+
+}
+
+/*=========================================================
+            FAVORITE BUTTON EVENTS
+=========================================================*/
+
+function initializeFavorites(){
+
+    document
+        .querySelectorAll(".favorite-btn")
+        .forEach(button=>{
+
+            button.addEventListener("click",()=>{
+
+                const id = Number(
+
+                    button.dataset.id
+
+                );
+
+                toggleFavorite(id);
+
+            });
+
+        });
+
+}
+
+/*=========================================================
+            DYNAMIC FEATURED EVENT
+=========================================================*/
+
+function getFeaturedEvent(){
+
+    const featuredEvents = EVENTS.filter(
+
+        event => event.featured
+
+    );
+
+    if(featuredEvents.length){
+
+        featuredEvents.sort(
+
+            (a,b)=>b.popularity-a.popularity
+
+        );
+
+        return featuredEvents[0];
+
+    }
+
+    return [...EVENTS].sort(
+
+        (a,b)=>b.popularity-a.popularity
+
+    )[0];
+
+}
+
+
+
+/*=========================================================
+                EVENT STATUS
+=========================================================*/
+
+function getEventStatus(event){
+
+    if(!event.registrationOpen){
+
+        return{
+
+            text:"Closed",
+
+            className:"status-closed"
+
+        };
+
+    }
+
+    const seatsLeft =
+
+        event.availableSeats /
+
+        event.totalSeats;
+
+    if(seatsLeft<=0.20){
+
+        return{
+
+            text:"Almost Full",
+
+            className:"status-warning"
+
+        };
+
+    }
+
+    return{
+
+        text:"Open",
+
+        className:"status-open"
+
+    };
+
+}
+
+/*=========================================================
+                INITIALIZE
+=========================================================*/
+
+function initializeEvents(){
+
+    populateCategories();
+
+    updateSummary();
+
+    renderFeaturedEvent();
+
+    updateResultCount();
+
+    renderEvents();
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initializeEvents
 );

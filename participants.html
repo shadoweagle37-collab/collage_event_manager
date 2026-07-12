@@ -3,397 +3,1382 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <!--==================================================
+                        META
+    ===================================================-->
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Participants | College Event Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
+    <meta name="description" content="Register for college events with EventHub.">
 
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
+    <meta name="keywords" content="College Events, Registration, EventHub">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
+    <title>Participants | EventHub</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!--==================================================
+                    GOOGLE FONTS
+    ===================================================-->
 
-<link rel="stylesheet"
-href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link rel="stylesheet"
-href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="stylesheet"
-href="responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!--==================================================
+                    FONT AWESOME
+    ===================================================-->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!--==================================================
+                        CSS
+    ===================================================-->
+
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<header class="navbar">
 
-<div class="logo">
+    <!-- =========================================
+                PAGE LOADER
+========================================== -->
 
-<i class="fa-solid fa-graduation-cap"></i>
+    <div class="loader-wrapper" id="loader">
 
-<span>College Events</span>
+        <div class="loader">
 
-</div>
+            <div class="loader-ring"></div>
 
-<nav>
+            <div class="loader-logo">
 
-<ul class="nav-links">
-
-<li><a href="index.html">Home</a></li>
-
-<li><a href="events.html">Events</a></li>
-
-<li><a href="register.html">Register</a></li>
-
-<li><a href="dashboard.html">Dashboard</a></li>
-
-<li><a href="participants.html" class="active">
-
-Participants
-
-</a></li>
-
-</ul>
-
-</nav>
-
-<button id="darkModeBtn">
-
-<i class="fa-solid fa-moon"></i>
-
-</button>
-
-</header>
-
-<!-- ========================= -->
-
-<section class="hero">
-
-<div class="hero-content">
-
-<h1>
-
-Participant Management
-
-</h1>
-
-<p>
-
-View, Edit, Search and Export
-registered students.
-
-</p>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-
-<section>
-
-<h2>
-
-Participants
-
-</h2>
-
-<div class="filter-container">
-
-<input
-type="text"
-id="searchName"
-placeholder="Search by Name">
-
-<input
-type="text"
-id="searchDepartment"
-placeholder="Search by Department">
-
-<input
-type="text"
-id="searchEvent"
-placeholder="Search by Event">
-
-<select id="sortParticipant">
-
-<option value="default">
-
-Sort By
-
-</option>
-
-<option value="name">
-
-Name
-
-</option>
-
-<option value="department">
-
-Department
-
-</option>
-
-<option value="event">
-
-Event
-
-</option>
-
-<option value="date">
-
-Registration Date
-
-</option>
-
-</select>
-
-<button
-id="downloadCSV"
-class="btn primary-btn">
-
-<i class="fa-solid fa-download"></i>
-
-Export CSV
-
-</button>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-
-<section>
-
-<div class="table-wrapper">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>ID</th>
-
-<th>Name</th>
-
-<th>Email</th>
-
-<th>Phone</th>
-
-<th>Department</th>
-
-<th>Year</th>
-
-<th>Gender</th>
-
-<th>Event</th>
-
-<th>Date</th>
-
-<th>Actions</th>
-
-</tr>
-
-</thead>
-
-<tbody id="participantTable">
-
-<!-- JavaScript -->
-
-</tbody>
-
-</table>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-
-<div
-id="confirmModal"
-class="modal">
-
-<div class="modal-content">
-
-
-<div id="editModal" class="modal">
-
-    <div class="modal-content">
-
-        <h2>Edit Participant</h2>
-
-        <form id="editParticipantForm">
-
-            <div class="form-group">
-
-                <label>Full Name</label>
-
-                <input
-                    type="text"
-                    id="editName"
-                    required>
+                <i class="fa-solid fa-calendar-check"></i>
 
             </div>
 
-            <div class="form-group">
+        </div>
 
-                <label>Phone</label>
+        <h2>
 
-                <input
-                    type="text"
-                    id="editPhone"
-                    required>
+            EventHub
 
-            </div>
+        </h2>
 
-            <div class="form-group">
+        <p>
 
-                <label>Department</label>
+            Loading Participants...
 
-                <select id="editDepartment">
-
-                    <option>Computer Science</option>
-                    <option>Information Technology</option>
-                    <option>Mechanical</option>
-                    <option>Civil</option>
-                    <option>Electrical</option>
-                    <option>Commerce</option>
-                    <option>Arts</option>
-
-                </select>
-
-            </div>
-
-            <div class="modal-buttons">
-
-                <button
-                    type="button"
-                    id="closeEditModal"
-                    class="btn secondary-btn">
-
-                    Cancel
-
-                </button>
-
-                <button
-                    type="submit"
-                    class="btn primary-btn">
-
-                    Save Changes
-
-                </button>
-
-            </div>
-
-        </form>
+        </p>
 
     </div>
 
-</div>    
+    <!--==================================================
+                        HEADER
+===================================================-->
 
-<h2>
+    <header class="navbar">
 
-Delete Participant?
 
-</h2>
+        <div class="container navbar-container">
 
-<p>
+            <!-- Logo -->
 
-This action cannot be undone.
+            <a href="index.html" class="logo" aria-label="EventHub Home">
 
-</p>
+                <div class="logo-icon">
 
-<div class="modal-buttons">
+                    <i class="fa-solid fa-calendar-check"></i>
 
-<button
-id="cancelDelete"
-class="btn secondary-btn">
+                </div>
 
-Cancel
+                <div class="logo-text">
 
-</button>
+                    <span class="brand">
 
-<button
-id="confirmDelete"
-class="btn primary-btn">
+                        EventHub
 
-Delete
+                    </span>
 
-</button>
+                    <small>
+
+                        College Event Management System
+
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Navigation -->
+
+            <nav class="nav-menu" id="navMenu" aria-label="Primary Navigation">
+
+                <ul class="nav-links">
+
+                    <li>
+
+                        <a href="index.html">
+
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="events.html">
+
+                            Events
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="register.html">
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="participants.html" class="active">
+
+                            Participants
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="dashboard.html">
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- Right Side -->
+
+            <div class="nav-actions">
+
+                <!-- Theme -->
+
+                <button id="darkModeBtn" class="theme-btn" aria-label="Toggle Dark Mode">
+
+                    <i class="fa-solid fa-moon"></i>
+
+                </button>
+
+                <!-- CTA -->
+
+                <a href="register.html" class="btn nav-btn">
+
+                    New Registration
+
+                </a>
+
+                <!-- Mobile -->
+
+                <button class="menu-toggle" id="menuToggle" aria-label="Open Navigation">
+
+                    <span></span>
+
+                    <span></span>
+
+                    <span></span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!--==================================================
+                PARTICIPANTS HERO
+===================================================-->
+
+    <section class="participants-hero">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+
+                <a href="index.html">
+
+                    Home
+
+                </a>
+
+                <span>
+
+                    <i class="fa-solid fa-angle-right"></i>
+
+                </span>
+
+                <span>
+
+                    Participants
+
+                </span>
+
+            </div>
+
+            <div class="participants-hero-content">
+
+                <span class="section-tag">
+
+                    Participant Management
+
+                </span>
+
+                <h1>
+
+                    Registered
+
+                    <span>
+
+                        Participants
+
+                    </span>
+
+                </h1>
+
+                <p>
+
+                    View, search, filter and manage all student registrations
+                    from one centralized dashboard.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--==================================================
+                MAIN CONTENT
+===================================================-->
+
+    <main>
+
+        <!--==================================================
+                PARTICIPANTS SECTION
+    ===================================================-->
+
+        <section class="participants-section">
+
+            <div class="container">
+
+                <!--==================================================
+                                PARTICIPANTS STATISTICS
+                ===================================================-->
+
+                <div class="participants-stats">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
+
+                        <div class="stat-content">
+
+                            <h3 id="totalParticipants">
+
+                                0
+
+                            </h3>
+
+                            <p>
+
+                                Total Participants
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                        </div>
+
+                        <div class="stat-content">
+
+                            <h3 id="activeEvents">
+
+                                0
+
+                            </h3>
+
+                            <p>
+
+                                Active Events
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-chair"></i>
+
+                        </div>
+
+                        <div class="stat-content">
+
+                            <h3 id="filledSeats">
+
+                                0
+
+                            </h3>
+
+                            <p>
+
+                                Seats Filled
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-calendar-check"></i>
+
+                        </div>
+
+                        <div class="stat-content">
+
+                            <h3 id="totalEvents">
+
+                                0
+
+                            </h3>
+
+                            <p>
+
+                                Registered Events
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--==================================================
+            SEARCH & FILTERS
+===================================================-->
+
+                <div class="participants-toolbar">
+
+                    <!--==============================================
+                    SEARCH
+    ===============================================-->
+
+                    <div class="search-box">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input type="text" id="participantSearch"
+                            placeholder="Search by Name, Email or Registration ID...">
+
+                    </div>
+
+                    <!--==============================================
+                    FILTERS
+    ===============================================-->
+
+                    <div class="filter-group">
+
+                        <select id="eventFilter">
+
+                            <option value="">
+
+                                All Events
+
+                            </option>
+
+                        </select>
+
+                        <select id="departmentFilter">
+
+                            <option value="">
+
+                                All Departments
+
+                            </option>
+
+                            <option>B.Sc Computer Science</option>
+
+                            <option>BCA</option>
+
+                            <option>B.Com</option>
+
+                            <option>BBA</option>
+
+                            <option>BA</option>
+
+                            <option>B.Sc Mathematics</option>
+
+                            <option>B.Sc Physics</option>
+
+                            <option>B.Sc Chemistry</option>
+
+                        </select>
+
+                        <select id="yearFilter">
+
+                            <option value="">
+
+                                All Years
+
+                            </option>
+
+                            <option>First Year</option>
+
+                            <option>Second Year</option>
+
+                            <option>Third Year</option>
+
+                            <option>Fourth Year</option>
+
+                        </select>
+
+                        <select id="genderFilter">
+
+                            <option value="">
+
+                                All Gender
+
+                            </option>
+
+                            <option>Male</option>
+
+                            <option>Female</option>
+
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+                    <!--==============================================
+                    ACTION BUTTONS
+    ===============================================-->
+
+                    <div class="toolbar-actions">
+
+                        <button id="resetFilters" class="btn btn-outline">
+
+                            <i class="fa-solid fa-rotate"></i>
+
+                            Reset
+
+                        </button>
+
+                        <button id="exportCSV" class="btn btn-secondary">
+
+                            <i class="fa-solid fa-file-csv"></i>
+
+                            Export CSV
+
+                        </button>
+
+                        <button id="printParticipants" class="btn btn-primary">
+
+                            <i class="fa-solid fa-print"></i>
+
+                            Print List
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!--==================================================
+                PARTICIPANTS TABLE
+===================================================-->
+
+                <div class="participants-table-wrapper">
+
+                    <div class="table-header">
+
+                        <div>
+
+                            <span class="section-tag">
+
+                                Participant Records
+
+                            </span>
+
+                            <h2>
+
+                                Registered Students
+
+                            </h2>
+
+                        </div>
+
+                        <span class="table-count" id="participantCount">
+
+                            0 Participants
+
+                        </span>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="participants-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>#</th>
+
+                                    <th>Student</th>
+
+                                    <th>Event</th>
+
+                                    <th>Department</th>
+
+                                    <th>Year</th>
+
+                                    <th>Status</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="participantsTableBody">
+
+                                <!--==================================
+                    Dynamic Rows
+                ===================================-->
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!--==================================================
+                EMPTY STATE
+===================================================-->
+
+                <div class="empty-state" id="emptyState">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-solid fa-users-slash"></i>
+
+                    </div>
+
+                    <h2>
+
+                        No Participants Found
+
+                    </h2>
+
+                    <p>
+
+                        There are no participant registrations available yet.
+                        Once students register for events, they will appear here.
+
+                    </p>
+
+                    <a href="register.html" class="btn btn-primary">
+
+                        <i class="fa-solid fa-user-plus"></i>
+
+                        Register Participant
+
+                    </a>
+
+                </div>
+
+
+                <!--==================================================
+                VIEW PARTICIPANT MODAL
+===================================================-->
+
+                <div id="participantModal" class="modal-overlay">
+
+                    <div class="participant-modal">
+
+                        <!--==========================================
+                    MODAL HEADER
+        ==========================================-->
+
+                        <div class="modal-header">
+
+                            <div>
+
+                                <span class="section-tag">
+
+                                    Participant Details
+
+                                </span>
+
+                                <h2>
+
+                                    Registration Information
+
+                                </h2>
+
+                            </div>
+
+                            <button id="closeParticipantModal" class="modal-close">
+
+                                <i class="fa-solid fa-xmark"></i>
+
+                            </button>
+
+                        </div>
+
+                        <!--==========================================
+                    MODAL BODY
+        ==========================================-->
+
+                        <div class="participant-details">
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Registration ID
+
+                                </span>
+
+                                <strong id="viewRegistrationId">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Student Name
+
+                                </span>
+
+                                <strong id="viewStudentName">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Email Address
+
+                                </span>
+
+                                <strong id="viewEmail">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Phone Number
+
+                                </span>
+
+                                <strong id="viewPhone">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Department
+
+                                </span>
+
+                                <strong id="viewDepartment">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Academic Year
+
+                                </span>
+
+                                <strong id="viewYear">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Gender
+
+                                </span>
+
+                                <strong id="viewGender">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Registered Event
+
+                                </span>
+
+                                <strong id="viewEvent">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Event Venue
+
+                                </span>
+
+                                <strong id="viewVenue">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Event Date
+
+                                </span>
+
+                                <strong id="viewEventDate">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Event Time
+
+                                </span>
+
+                                <strong id="viewEventTime">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-card">
+
+                                <span>
+
+                                    Registration Date
+
+                                </span>
+
+                                <strong id="viewRegistrationDate">
+
+                                    --
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <!--==========================================
+                    MODAL FOOTER
+        ==========================================-->
+
+                        <div class="modal-actions">
+
+                            <button id="printParticipant" class="btn btn-outline">
+
+                                <i class="fa-solid fa-print"></i>
+
+                                Print
+
+                            </button>
+
+                            <button id="closeModalBtn" class="btn btn-primary">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                Close
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!--==================================================
+            DELETE CONFIRMATION MODAL
+===================================================-->
+
+                <div id="deleteParticipantModal" class="modal-overlay">
+
+                    <div class="delete-modal">
+
+                        <!--==========================================
+                    WARNING ICON
+        ==========================================-->
+
+                        <div class="delete-icon">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        </div>
+
+                        <!--==========================================
+                    CONTENT
+        ==========================================-->
+
+                        <span class="section-tag">
+
+                            Delete Participant
+
+                        </span>
+
+                        <h2>
+
+                            Are you sure?
+
+                        </h2>
+
+                        <p>
+
+                            You are about to permanently remove this participant's
+                            registration record.
+
+                            <br><br>
+
+                            This action cannot be undone.
+
+                        </p>
+
+                        <!--==========================================
+                    PARTICIPANT INFO
+        ==========================================-->
+
+                        <div class="delete-participant-info">
+
+                            <strong id="deleteParticipantName">
+
+                                --
+
+                            </strong>
+
+                            <span id="deleteParticipantEvent">
+
+                                --
+
+                            </span>
+
+                        </div>
+
+                        <!--==========================================
+                    ACTION BUTTONS
+        ==========================================-->
+
+                        <div class="modal-actions">
+
+                            <button id="cancelDeleteParticipant" class="btn btn-outline">
+
+                                <i class="fa-solid fa-xmark"></i>
+
+                                Cancel
+
+                            </button>
+
+                            <button id="confirmDeleteParticipant" class="btn btn-danger">
+
+                                <i class="fa-solid fa-trash"></i>
+
+                                Delete Participant
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+    </main>
+
+
+    <!-- =====================================================
+                    PARTICIPANTS INSIGHTS
+====================================================== -->
+
+    <section class="participants-insights">
+
+        <div class="section-header">
+            <h2><i class="fas fa-chart-line"></i> Participants Insights</h2>
+            <p>Key insights generated from participant registrations.</p>
+        </div>
+
+        <div class="insights-grid">
+
+            <!-- Most Popular Event -->
+
+            <div class="insight-card">
+
+                <div class="insight-icon event">
+                    <i class="fas fa-trophy"></i>
+                </div>
+
+                <h3>Most Popular Event</h3>
+
+                <h4 id="popularEvent">Hackathon 2026</h4>
+
+                <span id="popularCount">42 Participants</span>
+
+            </div>
+
+            <!-- Most Active Department -->
+
+            <div class="insight-card">
+
+                <div class="insight-icon department">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+
+                <h3>Most Active Department</h3>
+
+                <h4 id="activeDepartment">B.Sc Computer Science</h4>
+
+                <span id="departmentCount">31 Students</span>
+
+            </div>
+
+            <!-- Last Registration Date -->
+
+            <div class="insight-card">
+
+                <div class="insight-icon date">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+
+                <h3>Last Registration Date</h3>
+
+                <h4 id="lastDate">05 July 2026</h4>
+
+                <span id="lastTime">04:15 PM</span>
+
+            </div>
+
+            <!-- Average Participants -->
+
+            <div class="insight-card">
+
+                <div class="insight-icon average">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+
+                <h3>Average Participants / Event</h3>
+
+                <h4 id="averageParticipants">24 Students</h4>
+
+                <span>Across All Events</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--==================================================
+                        FOOTER
+===================================================-->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <!-- Brand -->
+
+                <div class="footer-column">
+
+                    <a href="index.html" class="footer-logo">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                        <span>
+
+                            EventHub
+
+                        </span>
+
+                    </a>
+
+                    <p>
+
+                        A modern College Event Management
+                        System built to simplify registrations,
+                        event participation and campus
+                        activities.
+
+                    </p>
+
+                    <div class="footer-social">
+
+                        <a href="#">
+
+                            <i class="fab fa-facebook-f"></i>
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="fab fa-instagram"></i>
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="fab fa-linkedin-in"></i>
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="fab fa-github"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- Quick Links -->
+
+                <div class="footer-column">
+
+                    <h3>
+
+                        Quick Links
+
+                    </h3>
+
+                    <ul>
+
+                        <li>
+
+                            <a href="index.html">
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="events.html">
+
+                                Events
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="register.html">
+
+                                Register
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="participants.html">
+
+                                Participants
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="dashboard.html">
+
+                                Dashboard
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!-- Resources -->
+
+                <div class="footer-column">
+
+                    <h3>
+
+                        Resources
+
+                    </h3>
+
+                    <ul>
+
+                        <li>
+
+                            <a href="#features">
+
+                                Features
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#why-us">
+
+                                Why EventHub
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#events">
+
+                                Featured Events
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#">
+
+                                Privacy Policy
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="#">
+
+                                Terms & Conditions
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!-- Contact -->
+
+                <div class="footer-column">
+
+                    <h3>
+
+                        Contact
+
+                    </h3>
+
+                    <ul class="footer-contact">
+
+                        <li>
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            Guru Ghasidas University
+
+                        </li>
+
+                        <li>
+
+                            <i class="fa-solid fa-envelope"></i>
+
+                            eventhub@college.edu
+
+                        </li>
+
+                        <li>
+
+                            <i class="fa-solid fa-phone"></i>
+
+                            +91 98765 43210
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom -->
+
+            <div class="footer-bottom">
+
+                <p>
+
+                    © 2026 EventHub —
+                    College Event Management System.
+                    All Rights Reserved.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!--==================================================
+                TOAST NOTIFICATION
+===================================================-->
+
+<div id="toast" class="toast">
+
+    <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+
+    <span id="toastMessage"></span>
+
+    <div class="toast-progress"></div>
 
 </div>
 
-</div>
+    <!--==================================================
+                    JAVASCRIPT
+===================================================-->
 
-</div>
+    <script src="eventData.js"></script>
 
-<!-- ========================= -->
+    <script src="storage.js"></script>
 
-<footer>
+    <script src="validation.js"></script>
 
-<div class="social-icons">
+    <script src="app.js"></script>
 
-<a href="#">
-
-<i class="fab fa-facebook"></i>
-
-</a>
-
-<a href="#">
-
-<i class="fab fa-instagram"></i>
-
-</a>
-
-<a href="#">
-
-<i class="fab fa-linkedin"></i>
-
-</a>
-
-<a href="#">
-
-<i class="fab fa-github"></i>
-
-</a>
-
-</div>
-
-<p>
-
-© 2026 College Event Management System
-
-</p>
-
-</footer>
-
-<button
-id="backToTop">
-
-<i class="fa-solid fa-arrow-up"></i>
-
-</button>
-
-<script src="storage.js"></script>
-
-<script src="app.js"></script>
-
-<script src="participants.js"></script>
+    <script src="participants.js"></script>
 
 </body>
 

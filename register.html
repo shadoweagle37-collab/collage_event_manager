@@ -3,256 +3,652 @@
 
 <head>
 
+    <!--==================================================
+                        META
+    ===================================================-->
+
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Register | College Event Management System</title>
+    <meta
+        name="description"
+        content="Register for college events with EventHub.">
 
-    <!-- Google Fonts -->
+    <meta
+        name="keywords"
+        content="College Events, Registration, EventHub">
+
+    <title>Register | EventHub</title>
+
+    <!--==================================================
+                    GOOGLE FONTS
+    ===================================================-->
 
     <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+        href="https://fonts.googleapis.com">
 
     <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+        href="https://fonts.gstatic.com"
+        crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
-    <!-- Font Awesome -->
+    <!--==================================================
+                    FONT AWESOME
+    ===================================================-->
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- CSS -->
+    <!--==================================================
+                        CSS
+    ===================================================-->
 
-    <link rel="stylesheet"
-          href="style.css">
-
-    <link rel="stylesheet"
-          href="responsive.css">
+    <link
+        rel="stylesheet"
+        href="style.css">
 
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+    
+<!-- =========================================
+                PAGE LOADER
+========================================== -->
 
-<header class="navbar">
+<div class="loader-wrapper"
+     id="loader">
 
-    <div class="logo">
+    <div class="loader">
 
-        <i class="fa-solid fa-graduation-cap"></i>
+        <div class="loader-ring"></div>
 
-        <span>College Events</span>
+        <div class="loader-logo">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+        </div>
 
     </div>
 
-    <nav>
+    <h2>
 
-        <ul class="nav-links">
+        EventHub
 
-            <li><a href="index.html">Home</a></li>
+    </h2>
 
-            <li><a href="events.html">Events</a></li>
+    <p>
 
-            <li><a href="register.html" class="active">Register</a></li>
+        Preparing Registration...
 
-            <li><a href="dashboard.html">Dashboard</a></li>
+    </p>
 
-            <li><a href="participants.html">Participants</a></li>
+</div>
 
-            <li><a href="index.html#contact">Contact</a></li>
+<!--==================================================
+                        HEADER
+===================================================-->
 
-        </ul>
+<header class="navbar">
 
-    </nav>
 
-    <button id="darkModeBtn">
+    <div class="container navbar-container">
 
-        <i class="fa-solid fa-moon"></i>
+        <!-- Logo -->
 
-    </button>
+        <a href="index.html"
+           class="logo"
+           aria-label="EventHub Home">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+            </div>
+
+            <div class="logo-text">
+
+                <span class="brand">
+
+                    EventHub
+
+                </span>
+
+                <small>
+
+                    College Event Management System
+
+                </small>
+
+            </div>
+
+        </a>
+
+
+        <!-- Navigation -->
+
+        <nav
+            class="nav-menu"
+            id="navMenu"
+            aria-label="Primary Navigation">
+
+            <ul class="nav-links">
+
+                <li>
+
+                    <a href="index.html">
+
+                        Home
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="events.html">
+
+                        Events
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="register.html" class="active">
+
+                        Register
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="participants.html" >
+
+                        Participants
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="dashboard.html">
+
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+
+        <!-- Right Side -->
+
+        <div class="nav-actions">
+
+            <!-- Theme -->
+
+            <button
+                id="darkModeBtn"
+                class="theme-btn"
+                aria-label="Toggle Dark Mode">
+
+                <i class="fa-solid fa-moon"></i>
+
+            </button>
+
+            <!-- CTA -->
+
+            <a href="register.html"
+               class="btn nav-btn">
+
+                Get Started
+
+            </a>
+
+            <!-- Mobile -->
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open Navigation">
+
+                <span></span>
+
+                <span></span>
+
+                <span></span>
+
+            </button>
+
+        </div>
+
+    </div>
 
 </header>
 
-<!-- ================= HERO ================= -->
+<!--==================================================
+                    REGISTER HERO
+===================================================-->
 
-<section class="hero">
+<section class="register-hero">
 
-    <div class="hero-content">
+    <div class="container">
 
-        <h1>
+        <div class="breadcrumb">
 
-            Event Registration
+            <a href="index.html">
 
-        </h1>
+                Home
 
-        <p>
+            </a>
 
-            Complete the form below to reserve your seat.
+            <span>
 
-        </p>
+                <i class="fa-solid fa-angle-right"></i>
+
+            </span>
+
+            <span>
+
+                Register
+
+            </span>
+
+        </div>
+
+        <div class="register-hero-content">
+
+            <span class="section-tag">
+
+                Student Registration
+
+            </span>
+
+            <h1>
+
+                Register For Your
+
+                <span>
+
+                    Favorite Event
+
+                </span>
+
+            </h1>
+
+            <p>
+
+                Complete the registration form to secure
+                your seat in your favorite college event.
+
+            </p>
+
+        </div>
 
     </div>
 
 </section>
 
-<!-- ================= FORM ================= -->
+<!--==================================================
+                REGISTRATION SECTION
+===================================================-->
 
-<section class="form-section">
+<section class="registration-section">
 
-    <h2 class="form-title">
+    <div class="container">
 
-        Student Registration Form
+        <div class="registration-layout">
 
-    </h2>
+            <!-- Left Side -->
 
-    <form id="registrationForm">
+            <div id="registrationForm">
 
-        <div class="form-grid">
+                <!--==================================================
+                                      REGISTRATION FORM
+                ===================================================-->
 
-            <!-- Full Name -->
+<div class="glass registration-card">
 
-            <div class="form-group">
+    <div class="registration-header">
 
-                <label for="name">
+        <span class="section-tag">
 
-                    Full Name
+            Event Registration
 
-                </label>
+        </span>
 
-                <input
-                    type="text"
-                    id="name"
-                    autocomplete="off">
+        <h2>
 
-                <small class="error"
-                       id="nameError"></small>
+            Student Registration Form
 
-            </div>
+        </h2>
 
-            <!-- Email -->
+        <p>
 
-            <div class="form-group">
+            Fill in all required details to complete your registration.
 
-                <label for="email">
+        </p>
 
-                    Email Address
+    </div>
 
-                </label>
+    <form id="eventRegistrationForm" novalidate>
 
-                <input
-                    type="email"
-                    id="email"
-                    autocomplete="off">
+        <!--==============================
+                PERSONAL INFORMATION
+        ===============================-->
 
-                <small class="error"
-                       id="emailError"></small>
+        <div class="form-section">
 
-            </div>
+            <h3>
 
-            <!-- Phone -->
+                <i class="fa-solid fa-user"></i>
 
-            <div class="form-group">
+                Personal Information
 
-                <label for="phone">
+            </h3>
 
-                    Phone Number
+            <div class="form-grid">
 
-                </label>
+                <!-- Full Name -->
 
-                <input
-                    type="tel"
-                    id="phone">
+                <div class="form-group">
 
-                <small class="error"
-                       id="phoneError"></small>
+                    <label for="fullName">
 
-            </div>
+                        Full Name
 
-            <!-- Department -->
+                        <span>*</span>
 
-            <div class="form-group">
+                    </label>
 
-                <label for="department">
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required>
 
-                    Department
+                    <small class="error-message"></small>
 
-                </label>
+                </div>
 
-                <select id="department">
+                <!-- Email -->
 
-                    <option value="">
+                <div class="form-group">
 
-                        Select Department
+                    <label for="email">
 
-                    </option>
+                        Email Address
 
-                    <option>Computer Science</option>
+                        <span>*</span>
 
-                    <option>Information Technology</option>
+                    </label>
 
-                    <option>Mechanical</option>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="example@gmail.com"
+                        autocomplete="email"
+                        required>
 
-                    <option>Civil</option>
+                    <small class="error-message"></small>
 
-                    <option>Electrical</option>
+                </div>
 
-                    <option>Commerce</option>
+                <!-- Phone -->
 
-                    <option>Arts</option>
+                <div class="form-group">
 
-                </select>
+                    <label for="phone">
 
-                <small class="error"
-                       id="departmentError"></small>
+                        Phone Number
 
-            </div>
+                        <span>*</span>
 
-            <!-- Year -->
+                    </label>
 
-            <div class="form-group">
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        maxlength="10"
+                        placeholder="9876543210"
+                        autocomplete="tel"
+                        required>
 
-                <label for="year">
+                    <small class="error-message"></small>
 
-                    Year
-
-                </label>
-
-                <select id="year">
-
-                    <option value="">Select Year</option>
-
-                    <option>First</option>
-
-                    <option>Second</option>
-
-                    <option>Third</option>
-
-                    <option>Fourth</option>
-
-                </select>
-
-                <small class="error"
-                       id="yearError"></small>
+                </div>
 
             </div>
 
-            <!-- Event -->
+        </div>
+
+        <!--==============================
+                ACADEMIC INFORMATION
+        ===============================-->
+
+        <div class="form-section">
+
+            <h3>
+
+                <i class="fa-solid fa-graduation-cap"></i>
+
+                Academic Information
+
+            </h3>
+
+            <div class="form-grid">
+
+                <!-- Department -->
+
+                <div class="form-group">
+
+                    <label for="department">
+
+                        Department
+
+                        <span>*</span>
+
+                    </label>
+
+                    <select
+                        id="department"
+                        name="department"
+                        required>
+
+                        <option value="">
+
+                            Select Department
+
+                        </option>
+
+                        <option>B.Sc Computer Science</option>
+
+                        <option>BCA</option>
+
+                        <option>B.Com</option>
+
+                        <option>BBA</option>
+
+                        <option>BA</option>
+
+                        <option>B.Sc Mathematics</option>
+
+                        <option>B.Sc Physics</option>
+
+                        <option>B.Sc Chemistry</option>
+
+                    </select>
+
+                    <small class="error-message"></small>
+
+                </div>
+
+                <!-- Year -->
+
+                <div class="form-group">
+
+                    <label for="year">
+
+                        Academic Year
+
+                        <span>*</span>
+
+                    </label>
+
+                    <select
+                        id="year"
+                        name="year"
+                        required>
+
+                        <option value="">
+
+                            Select Year
+
+                        </option>
+
+                        <option>First Year</option>
+
+                        <option>Second Year</option>
+
+                        <option>Third Year</option>
+
+                        <option>Fourth Year</option>
+
+                    </select>
+
+                    <small class="error-message"></small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+                <!--==============================
+                GENDER
+        ===============================-->
+
+        <div class="form-section">
+
+            <h3>
+
+                <i class="fa-solid fa-venus-mars"></i>
+
+                Gender
+
+            </h3>
+
+            <div class="radio-group">
+
+                <label class="radio-card">
+
+                    <input
+                        type="radio"
+                        name="gender"
+                        value="Male"
+                        required>
+
+                    <span>
+
+                        <i class="fa-solid fa-mars"></i>
+
+                        Male
+
+                    </span>
+
+                </label>
+
+                <label class="radio-card">
+
+                    <input
+                        type="radio"
+                        name="gender"
+                        value="Female">
+
+                    <span>
+
+                        <i class="fa-solid fa-venus"></i>
+
+                        Female
+
+                    </span>
+
+                </label>
+
+                <label class="radio-card">
+
+                    <input
+                        type="radio"
+                        name="gender"
+                        value="Other">
+
+                    <span>
+
+                        <i class="fa-solid fa-genderless"></i>
+
+                        Other
+
+                    </span>
+
+                </label>
+
+            </div>
+
+            <small
+                class="error-message"
+                id="genderError"></small>
+
+        </div>
+
+
+
+        <!--==============================
+                EVENT INFORMATION
+        ===============================-->
+
+        <div class="form-section">
+
+            <h3>
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                Event Details
+
+            </h3>
 
             <div class="form-group">
 
-                <label for="event">
+                <label for="eventSelect">
 
                     Select Event
 
+                    <span>*</span>
+
                 </label>
 
-                <select id="event">
+                <select
+                    id="eventSelect"
+                    name="eventId"
+                    required>
 
                     <option value="">
 
@@ -262,196 +658,1004 @@
 
                 </select>
 
-                <small class="error"
-                       id="eventError"></small>
+                <small class="error-message"></small>
 
             </div>
 
-            <!-- Gender -->
+            <div class="form-group">
 
-            <div class="form-group full-width">
+                <label for="notes">
 
-                <label>
-
-                    Gender
-
-                </label>
-
-                <div class="radio-group">
-
-                    <label>
-
-                        <input
-                            type="radio"
-                            name="gender"
-                            value="Male">
-
-                        Male
-
-                    </label>
-
-                    <label>
-
-                        <input
-                            type="radio"
-                            name="gender"
-                            value="Female">
-
-                        Female
-
-                    </label>
-
-                    <label>
-
-                        <input
-                            type="radio"
-                            name="gender"
-                            value="Other">
-
-                        Other
-
-                    </label>
-
-                </div>
-
-                <small class="error"
-                       id="genderError"></small>
-
-            </div>
-
-            <!-- Address -->
-
-            <div class="form-group full-width">
-
-                <label for="address">
-
-                    Address
+                    Additional Notes
 
                 </label>
 
                 <textarea
-                    id="address"></textarea>
 
-                <small class="error"
-                       id="addressError"></small>
+                    id="notes"
 
-            </div>
+                    name="notes"
 
-            <!-- Roll Number -->
+                    rows="5"
 
-            <div class="form-group">
+                    maxlength="300"
 
-                <label for="roll">
+                    placeholder="Any special requirements or message (Optional)">
 
-                    College Roll Number
-
-                </label>
-
-                <input
-                    type="text"
-                    id="roll">
-
-                <small class="error"
-                       id="rollError"></small>
-
-            </div>
-
-            <!-- Emergency Contact -->
-
-            <div class="form-group">
-
-                <label for="emergency">
-
-                    Emergency Contact
-
-                </label>
-
-                <input
-                    type="tel"
-                    id="emergency">
-
-                <small class="error"
-                       id="emergencyError"></small>
-
-            </div>
-
-            <!-- Terms -->
-
-            <div class="form-group full-width">
-
-                <div class="checkbox-group">
-
-                    <input
-                        type="checkbox"
-                        id="terms">
-
-                    <label for="terms">
-
-                        I agree to the Terms &
-                        Conditions
-
-                    </label>
-
-                </div>
-
-                <small class="error"
-                       id="termsError"></small>
+                </textarea>
 
             </div>
 
         </div>
 
-        <button
-            type="submit"
-            class="btn primary-btn submit-btn">
 
-            <i class="fa-solid fa-paper-plane"></i>
 
-            Register Now
+        <!--==============================
+            TERMS & CONDITIONS
+        ===============================-->
 
-        </button>
+        <div class="form-section">
+
+            <label class="checkbox-wrapper">
+
+                <input
+                    type="checkbox"
+                    id="terms"
+                    name="terms">
+
+                <span>
+
+                    I agree to the
+
+                    <a href="#">
+
+                        Terms & Conditions
+
+                    </a>
+
+                    and
+
+                    <a href="#">
+
+                        Privacy Policy
+
+                    </a>
+
+                </span>
+
+            </label>
+
+            <small
+                class="error-message"
+                id="termsError"></small>
+
+        </div>
+
+
+
+        <!--==============================
+                BUTTONS
+        ===============================-->
+
+        <div class="form-actions">
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+                Register Now
+
+            </button>
+
+            <button
+                type="reset"
+                class="btn btn-outline">
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                Reset
+
+            </button>
+
+        </div>
 
     </form>
 
-</section>
+</div>
 
-<!-- ================= FOOTER ================= -->
+            </div>
 
-<footer>
+            <!-- Right Side -->
+<!--==================================================
+                REGISTRATION SIDEBAR
+===================================================-->
 
-    <div class="social-icons">
+<aside id="registrationSidebar">
 
-        <a href="#"><i class="fab fa-facebook"></i></a>
+    <!--==============================
+            EVENT SUMMARY
+    ===============================-->
 
-        <a href="#"><i class="fab fa-instagram"></i></a>
+    <div class="glass sidebar-card">
 
-        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <div class="sidebar-header">
 
-        <a href="#"><i class="fab fa-github"></i></a>
+            <span class="section-tag">
+
+                Selected Event
+
+            </span>
+
+            <h3>
+
+                Event Summary
+
+            </h3>
+
+        </div>
+
+        <div class="event-preview">
+
+            <img
+
+                id="summaryImage"
+
+                src="images/placeholder-event.jpg"
+
+                alt="Selected Event">
+
+        </div>
+
+        <div class="summary-content">
+
+            <h4 id="summaryTitle">
+
+                Select an event
+
+            </h4>
+
+            <p id="summaryDescription">
+
+                Event details will appear here after selecting an event.
+
+            </p>
+
+        </div>
+
+        <ul class="summary-list">
+
+            <li>
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <span>Date</span>
+
+                <strong id="summaryDate">--</strong>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-clock"></i>
+
+                <span>Time</span>
+
+                <strong id="summaryTime">--</strong>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <span>Venue</span>
+
+                <strong id="summaryVenue">--</strong>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-chair"></i>
+
+                <span>Seats Left</span>
+
+                <strong id="summarySeats">--</strong>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-tag"></i>
+
+                <span>Category</span>
+
+                <strong id="summaryCategory">--</strong>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                <span>Fee</span>
+
+                <strong id="summaryPrice">Free</strong>
+
+            </li>
+
+        </ul>
 
     </div>
 
-    <p>
 
-        © 2026 College Event Management System
 
-    </p>
+    <!--==============================
+        REGISTRATION PROGRESS
+    ===============================-->
+
+    <div class="glass sidebar-card">
+
+        <div class="sidebar-header">
+
+            <h3>
+
+                Registration Progress
+
+            </h3>
+
+        </div>
+
+        <div class="progress-wrapper">
+
+            <div class="progress-bar">
+
+                <div
+
+                    id="registrationProgress"
+
+                    class="progress-fill"
+
+                    style="width:0%;">
+
+                </div>
+
+            </div>
+
+            <p>
+
+                <span id="progressText">
+
+                    0%
+
+                </span>
+
+                Completed
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!--==============================
+            QUICK TIPS
+    ===============================-->
+
+    <div class="glass sidebar-card">
+
+        <div class="sidebar-header">
+
+            <h3>
+
+                Registration Tips
+
+            </h3>
+
+        </div>
+
+        <ul class="tips-list">
+
+            <li>
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                Double-check your email address.
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                Use an active mobile number.
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                Seats are allotted on a first-come, first-served basis.
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                Bring your college ID on the event day.
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</aside>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!--==================================================
+                    HELP & FAQ
+===================================================-->
+
+<section class="register-help">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-tag">
+
+                Need Assistance?
+
+            </span>
+
+            <h2>
+
+                Registration Help & Frequently Asked Questions
+
+            </h2>
+
+            <p>
+
+                Find answers to common questions before registering for an event.
+
+            </p>
+
+        </div>
+
+        <div class="help-grid">
+
+            <!-- FAQ -->
+
+            <div class="glass faq-card">
+
+                <h3>
+
+                    <i class="fa-solid fa-circle-question"></i>
+
+                    Frequently Asked Questions
+
+                </h3>
+
+                <div class="faq-list">
+
+                    <div class="faq-item">
+
+                        <h4>
+
+                            Can I register for multiple events?
+
+                        </h4>
+
+                        <p>
+
+                            Yes. You can register for multiple events, but only once for each event using the same email address.
+
+                        </p>
+
+                    </div>
+
+                    <div class="faq-item">
+
+                        <h4>
+
+                            Can I edit my registration later?
+
+                        </h4>
+
+                        <p>
+
+                            No. If you need to make changes, please contact the event organizer before the registration deadline.
+
+                        </p>
+
+                    </div>
+
+                    <div class="faq-item">
+
+                        <h4>
+
+                            How are seats allocated?
+
+                        </h4>
+
+                        <p>
+
+                            Seats are allocated on a first-come, first-served basis until all available seats are filled.
+
+                        </p>
+
+                    </div>
+
+                    <div class="faq-item">
+
+                        <h4>
+
+                            Will I receive a confirmation?
+
+                        </h4>
+
+                        <p>
+
+                            After successful registration, a confirmation message and your Registration ID will be displayed.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Help Card -->
+
+            <div class="glass contact-card">
+
+                <h3>
+
+                    <i class="fa-solid fa-headset"></i>
+
+                    Need More Help?
+
+                </h3>
+
+                <p>
+
+                    If you're experiencing issues during registration, contact the event coordination team.
+
+                </p>
+
+                <div class="contact-info">
+
+                    <div class="contact-item">
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        <div>
+
+                            <strong>Email</strong>
+
+                            <span>
+
+                                eventhub@college.edu
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        <div>
+
+                            <strong>Phone</strong>
+
+                            <span>
+
+                                +91 98765 43210
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        <div>
+
+                            <strong>Office</strong>
+
+                            <span>
+
+                                Student Activity Center
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <a
+                    href="events.html"
+                    class="btn btn-primary">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    Browse Events
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!--==================================================
+            REGISTRATION SUCCESS MODAL
+===================================================-->
+
+<div
+    id="successModal"
+    class="modal-overlay">
+
+    <div class="success-modal">
+
+        <div class="success-icon">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+        <span class="section-tag">
+
+            Registration Successful
+
+        </span>
+
+        <h2>
+
+            You're Successfully Registered!
+
+        </h2>
+
+        <p>
+
+            Your registration has been completed successfully.
+            Please save your registration details.
+
+        </p>
+
+        <div class="registration-details">
+
+            <div class="detail-item">
+
+                <span>
+
+                    Registration ID
+
+                </span>
+
+                <strong id="modalRegistrationId">
+
+                    EVT-2026-0001
+
+                </strong>
+
+            </div>
+
+            <div class="detail-item">
+
+                <span>
+
+                    Student Name
+
+                </span>
+
+                <strong id="modalStudentName">
+
+                    --
+
+                </strong>
+
+            </div>
+
+            <div class="detail-item">
+
+                <span>
+
+                    Event
+
+                </span>
+
+                <strong id="modalEventName">
+
+                    --
+
+                </strong>
+
+            </div>
+
+            <div class="detail-item">
+
+                <span>
+
+                    Registration Date
+
+                </span>
+
+                <strong id="modalRegistrationDate">
+
+                    --
+
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                id="printRegistration"
+                class="btn btn-outline">
+
+                <i class="fa-solid fa-print"></i>
+
+                Print
+
+            </button>
+
+            <button
+                id="registerAnother"
+                class="btn btn-secondary">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Register Another
+
+            </button>
+
+            <a
+                href="index.html"
+                class="btn btn-primary">
+
+                <i class="fa-solid fa-house"></i>
+
+                Home
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!--==================================================
+                PROCESSING OVERLAY
+===================================================-->
+
+<div
+    id="processingOverlay"
+    class="processing-overlay">
+
+    <div class="processing-card">
+
+        <div class="loader-spinner"></div>
+
+        <h3>
+
+            Processing Registration...
+
+        </h3>
+
+        <p>
+
+            Please wait while we reserve your seat.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!--==================================================
+                        FOOTER
+===================================================-->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <!-- Brand -->
+
+            <div class="footer-column">
+
+                <a href="index.html"
+                   class="footer-logo">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                    <span>
+
+                        EventHub
+
+                    </span>
+
+                </a>
+
+                <p>
+
+                    A modern College Event Management
+                    System built to simplify registrations,
+                    event participation and campus
+                    activities.
+
+                </p>
+
+                <div class="footer-social">
+
+                    <a href="#">
+
+                        <i class="fab fa-facebook-f"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-instagram"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-linkedin-in"></i>
+
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-github"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Quick Links -->
+
+            <div class="footer-column">
+
+                <h3>
+
+                    Quick Links
+
+                </h3>
+
+                <ul>
+
+                    <li>
+
+                        <a href="index.html">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="events.html">
+
+                            Events
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="register.html">
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="participants.html">
+
+                            Participants
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="dashboard.html">
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- Resources -->
+
+            <div class="footer-column">
+
+                <h3>
+
+                    Resources
+
+                </h3>
+
+                <ul>
+
+                    <li>
+
+                        <a href="#features">
+
+                            Features
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#why-us">
+
+                            Why EventHub
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#events">
+
+                            Featured Events
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            Privacy Policy
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="#">
+
+                            Terms & Conditions
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- Contact -->
+
+            <div class="footer-column">
+
+                <h3>
+
+                    Contact
+
+                </h3>
+
+                <ul class="footer-contact">
+
+                    <li>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        Guru Ghasidas University
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        eventhub@college.edu
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        +91 98765 43210
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <!-- Footer Bottom -->
+
+        <div class="footer-bottom">
+
+            <p>
+
+                © 2026 EventHub —
+                College Event Management System.
+                All Rights Reserved.
+
+            </p>
+
+        </div>
+
+    </div>
 
 </footer>
 
-<button id="backToTop">
+<!--==================================================
+                    JAVASCRIPT
+===================================================-->
 
-    <i class="fa-solid fa-arrow-up"></i>
-
-</button>
-
-<!-- JavaScript -->
+<script src="eventData.js"></script>
 
 <script src="storage.js"></script>
-<script src="app.js"></script>
+
 <script src="validation.js"></script>
+
+<script src="app.js"></script>
+
 <script src="register.js"></script>
 
 </body>
 
 </html>
+

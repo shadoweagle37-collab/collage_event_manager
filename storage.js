@@ -1,379 +1,599 @@
-/*
-==========================================================
-College Event Management System
-File: storage.js
+/*=========================================================
+        EVENTHUB - STORAGE MODULE
+        Version 2.0
+=========================================================*/
 
-Purpose:
-- Initialize Local Storage
-- Store default events
-- Reusable CRUD functions
-==========================================================
-*/
+"use strict";
 
-// ===============================
-// Local Storage Keys
-// ===============================
+/*=========================================================
+                    STORAGE KEYS
+=========================================================*/
 
-const EVENT_KEY = "college_events";
-const PARTICIPANT_KEY = "college_participants";
+const STORAGE_KEYS = Object.freeze({
 
+    EVENTS: "eventhub-events",
 
-// ===============================
-// Default Events
-// ===============================
+    PARTICIPANTS: "eventhub-participants",
 
-const defaultEvents = [
+    SETTINGS: "eventhub-settings"
 
-{
-    id:1,
-    title:"Hackathon",
-    description:"24-hour coding competition.",
-    image:"images/hackathon.jpg",
-    category:"Technical",
-    date:"2026-07-12",
-    time:"10:00 AM",
-    venue:"Seminar Hall",
-    maxSeats:100,
-    availableSeats:100,
-    registrationDeadline:"2026-07-10"
-},
-
-{
-    id:2,
-    title:"Coding Contest",
-    description:"Competitive programming challenge.",
-    image:"images/coding.jpg",
-    category:"Technical",
-    date:"2026-07-15",
-    time:"09:00 AM",
-    venue:"Computer Lab",
-    maxSeats:80,
-    availableSeats:80,
-    registrationDeadline:"2026-07-13"
-},
-
-{
-    id:3,
-    title:"AI Workshop",
-    description:"Introduction to Artificial Intelligence.",
-    image:"images/ai.jpg",
-    category:"Workshop",
-    date:"2026-07-18",
-    time:"11:00 AM",
-    venue:"Auditorium",
-    maxSeats:120,
-    availableSeats:120,
-    registrationDeadline:"2026-07-16"
-},
-
-{
-    id:4,
-    title:"Web Development Bootcamp",
-    description:"Learn modern web development.",
-    image:"images/web.jpg",
-    category:"Workshop",
-    date:"2026-07-20",
-    time:"10:30 AM",
-    venue:"Lab 2",
-    maxSeats:90,
-    availableSeats:90,
-    registrationDeadline:"2026-07-18"
-},
-
-{
-    id:5,
-    title:"Robotics Competition",
-    description:"Build and demonstrate robots.",
-    image:"images/robotics.jpg",
-    category:"Technical",
-    date:"2026-07-23",
-    time:"09:30 AM",
-    venue:"Innovation Center",
-    maxSeats:60,
-    availableSeats:60,
-    registrationDeadline:"2026-07-21"
-},
-
-{
-    id:6,
-    title:"Debate Competition",
-    description:"Inter-department debate contest.",
-    image:"images/debate.jpg",
-    category:"Cultural",
-    date:"2026-07-25",
-    time:"01:00 PM",
-    venue:"Conference Hall",
-    maxSeats:70,
-    availableSeats:70,
-    registrationDeadline:"2026-07-23"
-},
-
-{
-    id:7,
-    title:"Dance Competition",
-    description:"Solo and group dance performances.",
-    image:"images/dance.jpg",
-    category:"Cultural",
-    date:"2026-07-27",
-    time:"04:00 PM",
-    venue:"Open Stage",
-    maxSeats:150,
-    availableSeats:150,
-    registrationDeadline:"2026-07-25"
-},
-
-{
-    id:8,
-    title:"Football Tournament",
-    description:"Inter-college football championship.",
-    image:"images/football.jpg",
-    category:"Sports",
-    date:"2026-08-02",
-    time:"08:00 AM",
-    venue:"College Ground",
-    maxSeats:200,
-    availableSeats:200,
-    registrationDeadline:"2026-07-30"
-},
-
-{
-    id:9,
-    title:"Photography Contest",
-    description:"Capture your best moments.",
-    image:"images/photo.jpg",
-    category:"Cultural",
-    date:"2026-08-05",
-    time:"11:00 AM",
-    venue:"Art Gallery",
-    maxSeats:50,
-    availableSeats:50,
-    registrationDeadline:"2026-08-03"
-},
-
-{
-    id:10,
-    title:"Quiz Competition",
-    description:"General knowledge and aptitude quiz.",
-    image:"images/quiz.jpg",
-    category:"Technical",
-    date:"2026-08-10",
-    time:"02:00 PM",
-    venue:"Room 301",
-    maxSeats:100,
-    availableSeats:100,
-    registrationDeadline:"2026-08-08"
-}
-
-];
+});
 
 
-// ===============================
-// Initialize Local Storage
-// ===============================
 
-function initializeStorage(){
+/*=========================================================
+                STORAGE OBJECT
+=========================================================*/
 
-    if(!localStorage.getItem(EVENT_KEY)){
+const Storage = {
+
+    /*=====================================================
+                    INITIALIZE DATABASE
+    =====================================================*/
+
+    initialize(){
+
+        this.initializeEvents();
+
+        this.initializeParticipants();
+
+        this.initializeSettings();
+
+    },
+
+
+
+    /*=====================================================
+                    INITIALIZE EVENTS
+    =====================================================*/
+
+    initializeEvents(){
+
+        if(
+
+            !localStorage.getItem(
+
+                STORAGE_KEYS.EVENTS
+
+            )
+
+        ){
+
+            localStorage.setItem(
+
+                STORAGE_KEYS.EVENTS,
+
+                JSON.stringify(EVENTS)
+
+            );
+
+        }
+
+    },
+
+
+
+    /*=====================================================
+                INITIALIZE PARTICIPANTS
+    =====================================================*/
+
+    initializeParticipants(){
+
+        if(
+
+            !localStorage.getItem(
+
+                STORAGE_KEYS.PARTICIPANTS
+
+            )
+
+        ){
+
+            localStorage.setItem(
+
+                STORAGE_KEYS.PARTICIPANTS,
+
+                JSON.stringify([])
+
+            );
+
+        }
+
+    },
+
+
+
+    /*=====================================================
+                    INITIALIZE SETTINGS
+    =====================================================*/
+
+    initializeSettings(){
+
+        if(
+
+            !localStorage.getItem(
+
+                STORAGE_KEYS.SETTINGS
+
+            )
+
+        ){
+
+            localStorage.setItem(
+
+                STORAGE_KEYS.SETTINGS,
+
+                JSON.stringify({
+
+                    theme:"light",
+
+                    version:"2.0"
+
+                })
+
+            );
+
+        }
+
+    },
+
+
+
+    /*=====================================================
+                    EVENTS
+    =====================================================*/
+
+    getEvents(){
+
+        return JSON.parse(
+
+            localStorage.getItem(
+
+                STORAGE_KEYS.EVENTS
+
+            )
+
+        ) || [];
+
+    },
+
+
+
+    saveEvents(events){
 
         localStorage.setItem(
-            EVENT_KEY,
-            JSON.stringify(defaultEvents)
+
+            STORAGE_KEYS.EVENTS,
+
+            JSON.stringify(events)
+
         );
 
-    }
+    },
 
-    if(!localStorage.getItem(PARTICIPANT_KEY)){
+
+
+    /*=====================================================
+                PARTICIPANTS
+    =====================================================*/
+
+    getParticipants(){
+
+        return JSON.parse(
+
+            localStorage.getItem(
+
+                STORAGE_KEYS.PARTICIPANTS
+
+            )
+
+        ) || [];
+
+    },
+
+
+
+    saveParticipants(participants){
 
         localStorage.setItem(
-            PARTICIPANT_KEY,
-            JSON.stringify([])
+
+            STORAGE_KEYS.PARTICIPANTS,
+
+            JSON.stringify(participants)
+
         );
 
+    },
+
+    /*=====================================================
+                    GENERATE ID
+    =====================================================*/
+
+    generateId(collection){
+
+        if(collection.length === 0){
+
+            return 1;
+
+        }
+
+        return Math.max(
+
+            ...collection.map(item => item.id)
+
+        ) + 1;
+
+    },
+
+
+
+    /*=====================================================
+            GENERATE REGISTRATION ID
+    =====================================================*/
+
+    generateRegistrationId(){
+
+        const participants = this.getParticipants();
+
+        const nextNumber = participants.length + 1;
+
+        return `EVT-2026-${String(nextNumber).padStart(4,"0")}`;
+
+    },
+
+
+
+    /*=====================================================
+            DUPLICATE REGISTRATION
+    =====================================================*/
+
+    isDuplicateRegistration(email,eventId){
+
+        const participants = this.getParticipants();
+
+        return participants.some(participant =>
+
+            participant.email.toLowerCase() === email.toLowerCase()
+
+            &&
+
+            Number(participant.eventId) === Number(eventId)
+
+        );
+
+    },
+
+
+
+    /*=====================================================
+                ADD PARTICIPANT
+    =====================================================*/
+
+    addParticipant(participant){
+
+        const participants = this.getParticipants();
+
+        participant.id = this.generateId(participants);
+
+        participant.registrationId =
+
+            this.generateRegistrationId();
+
+        participant.registeredAt =
+
+            new Date().toISOString();
+
+        participant.status = "Registered";
+
+        participants.push(participant);
+
+        this.saveParticipants(participants);
+
+        return participant;
+
+    },
+
+
+
+    /*=====================================================
+            FIND PARTICIPANT
+    =====================================================*/
+
+    findParticipant(id){
+
+        return this.getParticipants().find(
+
+            participant =>
+
+            participant.id === Number(id)
+
+        );
+
+    },
+
+
+
+    /*=====================================================
+            UPDATE PARTICIPANT
+    =====================================================*/
+
+    updateParticipant(updatedParticipant){
+
+        const participants =
+
+            this.getParticipants().map(
+
+                participant =>
+
+                participant.id === updatedParticipant.id
+
+                ? updatedParticipant
+
+                : participant
+
+            );
+
+        this.saveParticipants(participants);
+
+    },
+
+
+
+    /*=====================================================
+            DELETE PARTICIPANT
+    =====================================================*/
+
+    deleteParticipant(id){
+
+        const participants =
+
+            this.getParticipants().filter(
+
+                participant =>
+
+                participant.id !== Number(id)
+
+            );
+
+        this.saveParticipants(participants);
+
+    },
+
+        /*=====================================================
+                    ADD EVENT
+    =====================================================*/
+
+    addEvent(event){
+
+        const events = this.getEvents();
+
+        event.id = this.generateId(events);
+
+        events.push(event);
+
+        this.saveEvents(events);
+
+        return event;
+
+    },
+
+
+
+    /*=====================================================
+                    UPDATE EVENT
+    =====================================================*/
+
+    updateEvent(updatedEvent){
+
+        const events = this.getEvents().map(event =>
+
+            event.id === updatedEvent.id
+
+            ? updatedEvent
+
+            : event
+
+        );
+
+        this.saveEvents(events);
+
+    },
+
+
+
+    /*=====================================================
+                    DELETE EVENT
+    =====================================================*/
+
+    deleteEvent(id){
+
+        const events = this.getEvents().filter(
+
+            event => event.id !== Number(id)
+
+        );
+
+        this.saveEvents(events);
+
+    },
+
+
+
+    /*=====================================================
+                    STATISTICS
+    =====================================================*/
+
+    getStatistics(){
+
+        const events = this.getEvents();
+
+        const participants = this.getParticipants();
+
+        const totalSeats = events.reduce(
+
+            (sum,event)=>sum+event.totalSeats,
+
+            0
+
+        );
+
+        const availableSeats = events.reduce(
+
+            (sum,event)=>sum+event.availableSeats,
+
+            0
+
+        );
+
+        return{
+
+            totalEvents: events.length,
+
+            totalParticipants: participants.length,
+
+            totalSeats,
+
+            availableSeats,
+
+            seatsFilled: totalSeats-availableSeats
+
+        };
+
+    },
+
+
+
+    /*=====================================================
+                EXPORT PARTICIPANTS CSV
+    =====================================================*/
+
+    exportParticipantsCSV(){
+
+        const participants = this.getParticipants();
+
+        if(participants.length===0){
+
+            alert("No participants found.");
+
+            return;
+
+        }
+
+        const headers = [
+
+            "Registration ID",
+
+            "Name",
+
+            "Email",
+
+            "Phone",
+
+            "Department",
+
+            "Year",
+
+            "Gender",
+
+            "Event ID",
+
+            "Status"
+
+        ];
+
+        const rows = participants.map(item=>[
+
+            item.registrationId,
+
+            item.name,
+
+            item.email,
+
+            item.phone,
+
+            item.department,
+
+            item.year,
+
+            item.gender,
+
+            item.eventId,
+
+            item.status
+
+        ]);
+
+        const csv = [
+
+            headers,
+
+            ...rows
+
+        ]
+
+        .map(row=>row.join(","))
+
+        .join("\n");
+
+        const blob = new Blob(
+
+            [csv],
+
+            {type:"text/csv"}
+
+        );
+
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+
+        link.href = url;
+
+        link.download = "participants.csv";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(url);
+
+    },
+
+
+
+    /*=====================================================
+                RESET DATABASE
+    =====================================================*/
+
+    resetDatabase(){
+
+        localStorage.removeItem(
+
+            STORAGE_KEYS.EVENTS
+
+        );
+
+        localStorage.removeItem(
+
+            STORAGE_KEYS.PARTICIPANTS
+
+        );
+
+        localStorage.removeItem(
+
+            STORAGE_KEYS.SETTINGS
+
+        );
+
+        this.initialize();
+
     }
-
 }
 
-
-// ===============================
-// Event Functions
-// ===============================
-
-function getEvents(){
-
-    return JSON.parse(
-        localStorage.getItem(EVENT_KEY)
-    ) || [];
-
-}
-
-function saveEvents(events){
-
-    localStorage.setItem(
-        EVENT_KEY,
-        JSON.stringify(events)
-    );
-
-}
-
-
-// ===============================
-// Participant Functions
-// ===============================
-
-function getParticipants(){
-
-    return JSON.parse(
-        localStorage.getItem(PARTICIPANT_KEY)
-    ) || [];
-
-}
-
-function saveParticipants(participants){
-
-    localStorage.setItem(
-        PARTICIPANT_KEY,
-        JSON.stringify(participants)
-    );
-
-}
-
-
-// ===============================
-// Generate Next ID
-// ===============================
-
-function generateId(array){
-
-    if(array.length===0){
-
-        return 1;
-
-    }
-
-    return Math.max(...array.map(item=>item.id))+1;
-
-}
-
-
-// ===============================
-// Add New Event
-// ===============================
-
-function addEvent(event){
-
-    const events=getEvents();
-
-    event.id=generateId(events);
-
-    events.push(event);
-
-    saveEvents(events);
-
-}
-
-
-// ===============================
-// Update Event
-// ===============================
-
-function updateEvent(updatedEvent){
-
-    const events=getEvents().map(event=>{
-
-        return event.id===updatedEvent.id
-        ? updatedEvent
-        : event;
-
-    });
-
-    saveEvents(events);
-
-}
-
-
-// ===============================
-// Delete Event
-// ===============================
-
-function deleteEvent(id){
-
-    const events=getEvents().filter(event=>event.id!==id);
-
-    saveEvents(events);
-
-}
-
-
-// ===============================
-// Add Participant
-// ===============================
-
-function addParticipant(participant){
-
-    const participants=getParticipants();
-
-    participant.id=generateId(participants);
-
-    participant.registrationDate=
-    new Date().toLocaleDateString();
-
-    participants.push(participant);
-
-    saveParticipants(participants);
-
-}
-
-
-// ===============================
-// Update Participant
-// ===============================
-
-function updateParticipant(updatedParticipant){
-
-    const participants=getParticipants().map(item=>{
-
-        return item.id===updatedParticipant.id
-        ? updatedParticipant
-        : item;
-
-    });
-
-    saveParticipants(participants);
-
-}
-
-
-// ===============================
-// Delete Participant
-// ===============================
-
-function deleteParticipant(id){
-
-    const participants=getParticipants().filter(item=>item.id!==id);
-
-    saveParticipants(participants);
-
-}
-
-
-// ===============================
-// Reset Entire Database
-// (Useful During Development)
-// ===============================
-
-function resetDatabase(){
-
-    localStorage.removeItem(EVENT_KEY);
-
-    localStorage.removeItem(PARTICIPANT_KEY);
-
-    initializeStorage();
-
-}
-
-
-// ===============================
-// Initialize Database
-// ===============================
-
-initializeStorage();
+/*=========================================================
+                INITIALIZE STORAGE
+=========================================================*/
+
+Storage.initialize();
